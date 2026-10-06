@@ -32,6 +32,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `ComplexArrayWrapper::reset()` no longer leaves properties unset, which raised an "Undefined property" warning on the next `get()`
 
 ### Changed
+- Docblocks: import `Exception` where `@throws Exception` is documented and drop the stale `@extends ComplexArrays` annotations, which removes the corresponding Phan baseline entries
 - Parser is no longer passed by reference in the function hook factories
 - Dev dependencies (codesniffer, minus-x, parallel-lint) updated to versions installable on PHP 8.1+
 

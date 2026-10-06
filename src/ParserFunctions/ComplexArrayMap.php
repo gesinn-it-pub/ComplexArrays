@@ -24,14 +24,13 @@ namespace ComplexArrays\ParserFunctions;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayMap
  *
  * Defines the parser function {{#complexarraymap:}}, which allows users to iterate over (sub)arrays.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayMap extends ResultPrinter {
 	public function getName() {

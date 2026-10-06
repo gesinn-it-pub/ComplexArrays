@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayMerge
  *
  * Defines the parser function {{#complexarraymerge:}}, which allows users to merge multiple arrays.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayMerge extends ResultPrinter {
 	public function getName() {

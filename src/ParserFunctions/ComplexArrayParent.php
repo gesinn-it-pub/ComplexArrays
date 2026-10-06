@@ -29,8 +29,6 @@ use Parser;
  * Class ComplexArrayParent.class
  *
  * Defines the parser function {{#complexarrayparent:}}, which returns the parent of the given key.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayParent extends ResultPrinter {
 	public function getName() {

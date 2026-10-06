@@ -23,14 +23,13 @@ namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArraySize
  *
  * Defines the parser function {{#complexarraysize:}}, which allows users to get the size of a (sub)array.
- *
- * @extends ComplexArrays
  */
 class ComplexArraySize extends ResultPrinter {
 	public function getName() {

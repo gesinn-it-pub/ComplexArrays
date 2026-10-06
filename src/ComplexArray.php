@@ -21,6 +21,8 @@
 
 namespace ComplexArrays;
 
+use Exception;
+
 /**
  * Class ComplexArray
  *

@@ -24,14 +24,13 @@ namespace ComplexArrays\ParserFunctions;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArraySearch
  *
  * Defines the parser function {{#complexarraysearch:}}, which allows users to get search in an array.
- *
- * @extends ComplexArrays
  */
 class ComplexArraySearch extends ResultPrinter {
 	public function getName() {

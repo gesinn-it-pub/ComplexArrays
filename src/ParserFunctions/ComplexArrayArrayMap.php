@@ -23,6 +23,7 @@ namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**

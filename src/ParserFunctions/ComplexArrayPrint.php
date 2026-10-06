@@ -23,14 +23,13 @@ namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayPrint
  *
  * Defines the parser function {{#complexarrayprint:}}, which allows users to display an array in a couple of ways.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayPrint extends ResultPrinter {
 	public function getName() {

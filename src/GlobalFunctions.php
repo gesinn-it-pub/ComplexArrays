@@ -21,6 +21,7 @@
 
 namespace ComplexArrays;
 
+use Exception;
 use Html;
 use PPFrame;
 

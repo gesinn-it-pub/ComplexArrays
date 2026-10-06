@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArraySearch
  *
  * Defines the parser function {{#complexarraysearcharray:}}, which allows users to search for a string in the array, and define an array with all the keys of the result.
- *
- * @extends ComplexArrays
  */
 class ComplexArraySearchArray extends ResultPrinter {
 	public function getName() {

@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArraySlice
  *
  * Defines the parser function {{#complexarrayslice:}}, which allows users to slice an array.
- *
- * @extends ComplexArrays
  */
 class ComplexArraySlice extends ResultPrinter {
 	public function getName() {

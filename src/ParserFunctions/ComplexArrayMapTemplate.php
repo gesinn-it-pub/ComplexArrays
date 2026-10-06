@@ -23,14 +23,13 @@ namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayMapTemplate
  *
  * Defines the parser function {{#complexarraymaptemplate:}}, which allows users to map a multidimensional array to a list of templates.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayMapTemplate extends ResultPrinter {
 	public function getName() {

@@ -31,8 +31,6 @@ use Parser;
  * Class ComplexArrayDefinedArrays
  *
  * Defines the parser function {{#complexarraydefinedarrays:}}, which allows users to get a list of defined arrays.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayDefinedArrays extends ResultPrinter {
 	public function getName() {

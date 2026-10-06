@@ -30,8 +30,6 @@ use Parser;
  * Class ComplexArrayReset
  *
  * Defines the parser function {{#complexarrayreset:}}, which allows users to reset all or one array.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayReset extends ResultPrinter {
 	public function getName() {

@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayPushValue
  *
  * Defines the parser function {{#complexarraypushvalue:}}, which allows users to push a value or subarray to the end of a (sub)array.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayPushValue extends ResultPrinter {
 	public function getName() {

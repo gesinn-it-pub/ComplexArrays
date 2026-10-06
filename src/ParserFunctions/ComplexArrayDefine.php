@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayDefine
  *
  * Defines the parser function {{#complexarraydefine:}}, which allows users to define a new array.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayDefine extends ResultPrinter {
 	public function getName() {

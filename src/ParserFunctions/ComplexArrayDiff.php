@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayDiff
  *
  * Defines the parser function {{#complexarraydiff:}}, which calculates the difference between two arrays.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayDiff extends ResultPrinter {
 	/**

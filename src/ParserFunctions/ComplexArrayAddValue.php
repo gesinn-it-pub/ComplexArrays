@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayAddValue
  *
  * Defines the parser function {{#complexarrayaddvalue:}}, which allows users to add values to (sub)arrays.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayAddValue extends ResultPrinter {
 	public function getName() {

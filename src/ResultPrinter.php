@@ -23,8 +23,6 @@ namespace ComplexArrays;
 
 /**
  * Abstract class ResultPrinter
- *
- * @extends ComplexArrays
  */
 abstract class ResultPrinter extends ComplexArrays {
 	/**

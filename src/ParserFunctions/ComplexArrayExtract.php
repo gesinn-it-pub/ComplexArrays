@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayExtract
  *
  * Defines the parser function {{#complexarrayextract:}}, which allows users to create a new array from a subarray.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayExtract extends ResultPrinter {
 	public function getName() {

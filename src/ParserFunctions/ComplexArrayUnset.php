@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArrayUnset.class
  *
  * Unsets a value from an existing array.
- *
- * @extends ComplexArrays
  */
 class ComplexArrayUnset extends ResultPrinter {
 	public function getName() {

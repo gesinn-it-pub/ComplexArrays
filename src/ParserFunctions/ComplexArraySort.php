@@ -25,14 +25,13 @@ use ComplexArrays\ComplexArray;
 use ComplexArrays\ComplexArrays;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
+use Exception;
 use Parser;
 
 /**
  * Class ComplexArraySort
  *
  * Defines the parser function {{#complexarraysort:}}, which allows users to sort arrays.
- *
- * @extends ComplexArrays
  */
 class ComplexArraySort extends ResultPrinter {
 	public function getName() {
