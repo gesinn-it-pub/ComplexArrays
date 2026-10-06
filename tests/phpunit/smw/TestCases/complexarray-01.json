@@ -35,6 +35,10 @@
 			"contents": "{{#ask: [[Example/CA01/2]] |?Has CA01 text |format=complexarray }}"
 		},
 		{
+			"page": "Test/CA01/valuesep",
+			"contents": "{{#ask: [[Example/CA01/2]] |?Has CA01 text |format=complexarray |valuesep=; |name=result }}{{#complexarrayprint:result[0][Has CA01 text]}}"
+		},
+		{
 			"page": "Test/CA01/unnamed-define",
 			"contents": "{{#complexarraydefine:result|{{#ask: [[Example/CA01/2]] |?Has CA01 text |format=complexarray }}}}{{#complexarrayprint:result[0][Has CA01 text]}}"
 		}
@@ -69,6 +73,12 @@
 			"about": "#4 without a name the result is printed as JSON using (( and ))",
 			"subject": "Test/CA01/json",
 			"assert-output": { "to-contain": [ "((\"Has CA01 text\":\"gamma\"" ] }
+		},
+		{
+			"type": "parser",
+			"about": "#6 valuesep is accepted and has no effect",
+			"subject": "Test/CA01/valuesep",
+			"assert-output": { "to-contain": [ "gamma" ], "not-contain": [ "valuesep" ] }
 		},
 		{
 			"type": "parser",

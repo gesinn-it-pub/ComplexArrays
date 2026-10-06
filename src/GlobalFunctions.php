@@ -85,8 +85,7 @@ class GlobalFunctions {
 	 * @return string
 	 */
 	public static function wsonToJson( &$wson ) {
-		$wson = preg_replace( "/(?!\B\"[^\"]*)\(\((?![^\"]*\"\B)/i", "{", $wson );
-		$wson = preg_replace( "/(?!\B\"[^\"]*)\)\)(?![^\"]*\"\B)/i", "}", $wson );
+		$wson = self::replaceOutsideStrings( $wson, [ '((' => '{', '))' => '}' ] );
 
 		return $wson;
 	}
@@ -98,10 +97,58 @@ class GlobalFunctions {
 	 * @return string
 	 */
 	public static function jsonToWson( &$json ) {
-		$json = preg_replace( "/(?!\B\"[^\"]*){(?![^\"]*\"\B)/i", "((", $json );
-		$json = preg_replace( "/(?!\B\"[^\"]*)}(?![^\"]*\"\B)/i", "))", $json );
+		$json = self::replaceOutsideStrings( $json, [ '{' => '((', '}' => '))' ] );
 
 		return $json;
+	}
+
+	/**
+	 * Replace the given tokens, but only where they are not part of a JSON string, so
+	 * text inside of keys and values is never changed.
+	 *
+	 * @param string $text
+	 * @param string[] $replacements Token => replacement
+	 * @return string
+	 */
+	private static function replaceOutsideStrings( string $text, array $replacements ): string {
+		$result = '';
+		$inString = false;
+		$length = strlen( $text );
+
+		for ( $i = 0; $i < $length; $i++ ) {
+			$char = $text[$i];
+
+			if ( $inString ) {
+				$result .= $char;
+
+				if ( $char === '\\' && $i + 1 < $length ) {
+					// An escaped character, such as \" or \\, never ends the string.
+					$result .= $text[++$i];
+				} elseif ( $char === '"' ) {
+					$inString = false;
+				}
+
+				continue;
+			}
+
+			if ( $char === '"' ) {
+				$inString = true;
+				$result .= $char;
+				continue;
+			}
+
+			foreach ( $replacements as $token => $replacement ) {
+				if ( substr_compare( $text, $token, $i, strlen( $token ) ) === 0 ) {
+					$result .= $replacement;
+					$i += strlen( $token ) - 1;
+					continue 2;
+				}
+			}
+
+			$result .= $char;
+		}
+
+		return $result;
 	}
 
 	/**

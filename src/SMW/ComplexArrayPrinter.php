@@ -23,6 +23,7 @@ namespace ComplexArrays\SMW;
 
 use ComplexArrays\ArrayStore;
 use ComplexArrays\ComplexArray;
+use ComplexArrays\GlobalFunctions;
 use SMW\Query\QueryResult;
 use SMW\Query\ResultPrinters\ResultPrinter;
 
@@ -85,10 +86,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 		$rows = $this->buildRows( $queryResult->serializeToArray(), $detailed );
 
 		if ( !$this->params['name'] ) {
-			$json = json_encode( $rows );
-
-			$json = preg_replace( "/(?!\B\"[^\"]*){(?![^\"]*\"\B)/i", "((", $json );
-			return preg_replace( "/(?!\B\"[^\"]*)}(?![^\"]*\"\B)/i", "))", $json );
+			return GlobalFunctions::arrayToMarkup( $rows );
 		}
 
 		// The parser that runs the query, so the array is visible to the rest of the page.
