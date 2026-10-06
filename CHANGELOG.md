@@ -18,6 +18,8 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - Parser tests: add missing `!! end`/`!! Version 2` markers and rename duplicate test names
 - `#complexarraymerge` with the `recursive` option now stores its result
 - `#complexarraypush` with an empty value returns the "Value must not be omitted" error instead of raising a `TypeError`
+- `#complexarraysort` with `keysort` no longer reuses the sort key of a previous call
+- `ComplexArrayWrapper::reset()` no longer leaves properties unset, which raised an "Undefined property" warning on the next `get()`
 
 ### Changed
 - Parser is no longer passed by reference in the function hook factories

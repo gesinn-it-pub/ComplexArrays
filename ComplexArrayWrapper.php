@@ -148,8 +148,8 @@ class ComplexArrayWrapper {
 	 * @return $this
 	 */
 	public function reset() {
-		unset( $this->array_name );
-		unset( $this->indices );
+		$this->array_name = null;
+		$this->indices = [];
 
 		return $this;
 	}

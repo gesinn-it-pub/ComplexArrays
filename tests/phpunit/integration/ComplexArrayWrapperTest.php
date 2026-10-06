@@ -102,4 +102,11 @@ class ComplexArrayWrapperTest extends ComplexArraysIntegrationTestCase {
 
 		$this->assertSame( $wrapper, $wrapper->reset() );
 	}
+
+	public function testGetAfterResetReturnsFalse(): void {
+		$wrapper = ComplexArrayWrapper::newFromVoid()->on( 'example' );
+		$wrapper->set( [ 'a' ] );
+
+		$this->assertFalse( $wrapper->reset()->get() );
+	}
 }

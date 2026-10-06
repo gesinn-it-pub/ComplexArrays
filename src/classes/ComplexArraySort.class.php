@@ -93,13 +93,12 @@ class ComplexArraySort extends ResultPrinter {
 		self::$array      = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[ $array_name ] );
 		self::$array_name = $array_name;
 
+		// The key is static, so it must not survive from a previous call.
+		self::$key = $key !== '' ? $key : null;
+
 		if ( empty( $options ) ) {
 			$result = self::sortArray( "sort" );
 		} else {
-			if ( $key !== '' ) {
-				self::$key = $key;
-			}
-
 			$result = self::sortArray( $options );
 		}
 

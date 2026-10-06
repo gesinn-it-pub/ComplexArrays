@@ -136,4 +136,13 @@ class ComplexArraySortTest extends ComplexArraysIntegrationTestCase {
 	public function testUndefinedArrayPrintsNothing(): void {
 		$this->assertParsesTo( '', '{{#complexarraysort:foobar}}{{#complexarrayprint:foobar}}' );
 	}
+
+	public function testKeysortDoesNotReuseKeyOfPreviousCall(): void {
+		$html = $this->parse(
+			'{{#complexarraydefine:example|[(("a": "b")), (("a": "a"))]}}{{#complexarraysort:example|keysort|a}}'
+				. '{{#complexarraysort:example|keysort}}'
+		);
+
+		$this->assertStringContainsString( 'Key must not be omitted when using keysort', $html );
+	}
 }
