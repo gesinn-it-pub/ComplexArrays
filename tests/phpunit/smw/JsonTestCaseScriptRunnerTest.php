@@ -21,6 +21,13 @@ use SMW\Tests\Integration\JSONScript\JSONScriptTestCaseRunnerTest;
 class JsonTestCaseScriptRunnerTest extends JSONScriptTestCaseRunnerTest {
 
 	protected function setUp(): void {
+		// With MediaWiki before 1.43 the test database is not switched for SMW's runner when it
+		// runs together with the other suite ("Can't create user on real database"). The format
+		// itself works there; it is only tested through the JSON scripts from 1.43 on.
+		if ( version_compare( MW_VERSION, '1.43', '<' ) ) {
+			$this->markTestSkipped( 'The JSON scripts need MediaWiki 1.43 or newer.' );
+		}
+
 		parent::setUp();
 
 		// The runner of SMW before 7 removes all handlers of the parser hooks it knows,
