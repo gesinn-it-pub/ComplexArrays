@@ -57,13 +57,13 @@ class ComplexArrayUnique extends ResultPrinter {
 			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
 		}
 
-        if ( !GlobalFunctions::arrayExists( $array_name ) ) {
-            return '';
-        }
+		if ( !GlobalFunctions::arrayExists( $array_name ) ) {
+			return '';
+		}
 
 		self::arrayUnique( $array_name );
 
-        return '';
+		return '';
 	}
 
 	/**

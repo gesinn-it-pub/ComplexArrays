@@ -191,23 +191,23 @@ class ComplexArrayPrinter extends ResultPrinter {
 		}
 
 		if ( isset( $result[ 'fulltext' ] ) ) {
-		    $this->r[ 'catitle' ] = $result[ 'fulltext' ];
+			$this->r[ 'catitle' ] = $result[ 'fulltext' ];
 		}
 
 		if ( isset( $result[ 'fullurl' ] ) ) {
-		    $this->r[ 'cafullurl' ] = $result[ 'fullurl' ];
+			$this->r[ 'cafullurl' ] = $result[ 'fullurl' ];
 		}
 
 		if ( isset( $result[ 'namespace' ] ) ) {
-		    $this->r[ 'canamespace' ] = $result[ 'namespace' ];
+			$this->r[ 'canamespace' ] = $result[ 'namespace' ];
 		}
 
 		if ( isset( $result[ 'exists' ] ) ) {
-		    $this->r[ 'caexists' ] = $result[ 'exists' ];
+			$this->r[ 'caexists' ] = $result[ 'exists' ];
 		}
 
 		if ( isset( $result[ 'displaytitle' ] ) ) {
-		    $this->r[ 'cadisplaytitle' ] = $result[ 'displaytitle' ];
+			$this->r[ 'cadisplaytitle' ] = $result[ 'displaytitle' ];
 		}
 
 		array_push( $this->return, $this->r );
@@ -233,11 +233,11 @@ class ComplexArrayPrinter extends ResultPrinter {
 	 */
 	private function addPrintout( $key ) {
 		if ( !empty( $this->v ) ) {
-            if ( count( $this->v ) === 1 ) {
-                $this->r[$key] = $this->v[0];
-            } else {
-                $this->r[$key] = $this->v;
-            }
+			if ( count( $this->v ) === 1 ) {
+				$this->r[$key] = $this->v[0];
+			} else {
+				$this->r[$key] = $this->v;
+			}
 		}
 	}
 
@@ -326,7 +326,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 	 * @return string
 	 */
 	private function formatPropertyOfType_txt( $property ) {
-	    return $property;
+		return $property;
 	}
 
 	/**

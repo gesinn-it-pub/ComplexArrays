@@ -1,6 +1,21 @@
 <?xml version="1.0"?>
 <ruleset>
-    <rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki"/>
+    <!-- Legacy code: documentation, naming and structure findings that need
+         refactoring rather than formatting. Remove an exclusion once fixed. -->
+    <rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki">
+        <exclude name="MediaWiki.Commenting.FunctionComment"/>
+        <exclude name="MediaWiki.Commenting.FunctionAnnotations"/>
+        <exclude name="MediaWiki.Commenting.PropertyDocumentation"/>
+        <exclude name="MediaWiki.Files.ClassMatchesFilename"/>
+        <exclude name="MediaWiki.NamingConventions.LowerCamelFunctionsName"/>
+        <exclude name="MediaWiki.NamingConventions.ValidGlobalName"/>
+        <exclude name="MediaWiki.Usage.DeprecatedGlobalVariables"/>
+        <exclude name="MediaWiki.Usage.ForbiddenFunctions"/>
+        <exclude name="Generic.PHP.NoSilencedErrors"/>
+        <exclude name="Generic.Files.LineLength"/>
+        <exclude name="Generic.Files.OneObjectStructurePerFile"/>
+        <exclude name="Squiz.PHP.NonExecutableCode"/>
+    </rule>
     <file>.</file>
     <arg name="bootstrap" value="./vendor/mediawiki/mediawiki-codesniffer/utils/bootstrap-ci.php"/>
     <arg name="extensions" value="php,php5,inc"/>

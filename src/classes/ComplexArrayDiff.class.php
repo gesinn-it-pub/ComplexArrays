@@ -32,7 +32,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	 */
 	private static $new_array;
 
-    public function getName() {
+	public function getName() {
 		return 'complexarraydiff';
 	}
 
@@ -60,14 +60,14 @@ class ComplexArrayDiff extends ResultPrinter {
 		return self::arrayDiff( func_get_args() );
 	}
 
-    /**
-     * Calculate difference between arrays.
-     *
-     * @param $args
-     *
-     * @return array|string
-     * @throws Exception
-     */
+	/**
+	 * Calculate difference between arrays.
+	 *
+	 * @param $args
+	 *
+	 * @return array|string
+	 * @throws Exception
+	 */
 	private static function arrayDiff( $args ) {
 		self::parseFunctionArguments( $args );
 
@@ -77,24 +77,24 @@ class ComplexArrayDiff extends ResultPrinter {
 
 		$arrays = self::pushArrays( $args );
 
-        if ( count( $arrays ) < 2 ) {
-            return GlobalFunctions::error( wfMessage( 'ca-too-little-arrays' ) );
-        }
+		if ( count( $arrays ) < 2 ) {
+			return GlobalFunctions::error( wfMessage( 'ca-too-little-arrays' ) );
+		}
 
-        foreach ( $arrays as $array ) {
-            if ( !is_array( $array ) ) {
-                return '';
-            }
+		foreach ( $arrays as $array ) {
+			if ( !is_array( $array ) ) {
+				return '';
+			}
 
-            if ( !self::isOneDimensionalArray( $array ) ) {
-                return GlobalFunctions::error( wfMessage( 'ca-diff-multidimensional' ) );
-            }
-        }
+			if ( !self::isOneDimensionalArray( $array ) ) {
+				return GlobalFunctions::error( wfMessage( 'ca-diff-multidimensional' ) );
+			}
+		}
 
 		$array_diff = call_user_func_array( 'array_diff_assoc', $arrays );
 
 		if ( is_array( $array_diff ) ) {
-            WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array_diff );
+			WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array_diff );
 		}
 
 		return '';
@@ -145,13 +145,13 @@ class ComplexArrayDiff extends ResultPrinter {
 		self::$new_array = reset( $array );
 	}
 
-    private static function isOneDimensionalArray(array $array) {
-        foreach ( $array as $item ) {
-            if ( is_array( $item ) ) {
-                return false;
-            }
-        }
+	private static function isOneDimensionalArray( array $array ) {
+		foreach ( $array as $item ) {
+			if ( is_array( $item ) ) {
+				return false;
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

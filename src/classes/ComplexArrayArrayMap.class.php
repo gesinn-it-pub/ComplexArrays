@@ -89,18 +89,18 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		return [ self::arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ), 'noparse' => false ];
 	}
 
-    /**
-     * @param $value
-     * @param $variable
-     * @param $formula
-     * @param $delimiter
-     * @param $new_delimiter
-     * @return string
-     */
+	/**
+	 * @param $value
+	 * @param $variable
+	 * @param $formula
+	 * @param $delimiter
+	 * @param $new_delimiter
+	 * @return string
+	 */
 	private static function arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ) {
-        if ( empty( $value ) || empty( $variable ) || empty( $formula ) ) {
-            return '';
-        }
+		if ( empty( $value ) || empty( $variable ) || empty( $formula ) ) {
+			return '';
+		}
 
 		if ( empty( $delimiter ) ) {
 			$delimiter = ',';
@@ -119,8 +119,8 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		self::$new_delimiter = $new_delimiter;
 
 		if ( empty( self::$array ) ) {
-		    return '';
-        }
+			return '';
+		}
 
 		$haystack = self::iterate();
 
@@ -134,7 +134,7 @@ class ComplexArrayArrayMap extends ResultPrinter {
 			$replaced_formula = str_replace( self::$variable, $item, self::$formula );
 
 			if ( $replaced_formula ) {
-                array_push( $haystack, $replaced_formula );
+				array_push( $haystack, $replaced_formula );
 			}
 		}
 
@@ -150,13 +150,13 @@ class ComplexArrayArrayMap extends ResultPrinter {
 
 		if ( $num_items === 0 ) {
 			return "";
-		} else if ( $num_items === 1 ) {
+		} elseif ( $num_items === 1 ) {
 			return array_pop( $haystack );
 		}
 
 		$last_element = array_pop( $haystack );
 		$and = htmlspecialchars( wfMessage( "and" )->plain() );
 
-		return implode(", ", $haystack ) . $and . " " . $last_element;
+		return implode( ", ", $haystack ) . $and . " " . $last_element;
 	}
 }

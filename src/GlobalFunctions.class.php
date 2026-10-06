@@ -27,8 +27,8 @@ require_once 'ComplexArray.class.php';
  * Grandfather class. These functions are available in all other classes.
  */
 class GlobalFunctions {
-	const CA_MARKUP_SIMPLE = 1;
-	const CA_MARKUP_LEGACY = 3;
+	public const CA_MARKUP_SIMPLE = 1;
+	public const CA_MARKUP_LEGACY = 3;
 
 	/**
 	 * Print an error message.
@@ -58,8 +58,8 @@ class GlobalFunctions {
 	public static function isValidJSON( $json ) {
 		$value = json_decode( $json, true );
 
-        // We check whether "$value" is an array, otherwise an integer would also be considered as valid JSON, which
-        // leads to problems.
+		// We check whether "$value" is an array, otherwise an integer would also be considered as valid JSON, which
+		// leads to problems.
 		return json_last_error() == JSON_ERROR_NONE && is_array( $value );
 	}
 
@@ -126,7 +126,7 @@ class GlobalFunctions {
 					$separator = ',';
 				}
 
-				$markup = str_replace( array( "\n", "\r", '\n' ), "", $markup );
+				$markup = str_replace( [ "\n", "\r", '\n' ], "", $markup );
 
 				$array = explode( $separator, $markup );
 				$array = self::trimElements( $array );
@@ -137,20 +137,20 @@ class GlobalFunctions {
 		}
 	}
 
-    /**
-     * @param $markup
-     * @param null $separator
-     * @return int
-     */
+	/**
+	 * @param $markup
+	 * @param null $separator
+	 * @return int
+	 */
 	public static function determineMarkup( $markup, $separator = null ) {
-	    if ( $separator ) {
-	        return self::CA_MARKUP_SIMPLE;
-        }
+		if ( $separator ) {
+			return self::CA_MARKUP_SIMPLE;
+		}
 
 		$json_markup = $markup;
 		self::WSONtoJSON( $json_markup );
 
-        if ( self::isValidJSON( $json_markup ) ) {
+		if ( self::isValidJSON( $json_markup ) ) {
 			return self::CA_MARKUP_LEGACY;
 		}
 
@@ -264,7 +264,7 @@ class GlobalFunctions {
 			}
 
 			// The Wairudokado (transliterated Japanese for wildcard, tribute to the Scope Resolution Operator in PHP)
-            // operator gives users the ability to use wildcards as pointers in an array
+			// operator gives users the ability to use wildcards as pointers in an array
 			if ( self::isWairudokado( $match ) ) {
 				if ( self::isWairudokado( end( $matches ) ) ) {
 					// The Wairudokado operator does not make sense when it's at the end, so just ignore it
@@ -279,9 +279,9 @@ class GlobalFunctions {
 				$array = self::getArrayFromWairudokado( $array, $matches, $index );
 				$wairudokado_helper_object = true;
 			} else {
-			    if ( !is_array( $array ) ) {
-			        return false;
-                }
+				if ( !is_array( $array ) ) {
+					return false;
+				}
 
 				foreach ( $array as $key => $value ) {
 					if ( $key == $match ) {
@@ -372,12 +372,12 @@ class GlobalFunctions {
 		}
 
 		if ( is_numeric( $array_name ) ) {
-		    return false;
-        }
+			return false;
+		}
 
 		if ( ctype_digit( $array_name ) ) {
-		    return false;
-        }
+			return false;
+		}
 
 		return true;
 	}
@@ -416,9 +416,9 @@ class GlobalFunctions {
 			return null;
 		}
 
-        if ( $noparse === null ) {
-            $noparse = '';
-        }
+		if ( $noparse === null ) {
+			$noparse = '';
+		}
 
 		$noparse_arguments = self::formatNoparse( $noparse );
 		$noparse_arguments = array_map( 'trim', $noparse_arguments );
@@ -469,7 +469,7 @@ class GlobalFunctions {
 			$expanded_frame = $frame->expand( $arg );
 
 		} else {
-			$flags = array_reduce( $noparse_arguments, function ( $a, $b ) { return $a | $b;
+			$flags = array_reduce( $noparse_arguments, static function ( $a, $b ) { return $a | $b;
 			}, 0 );
 			$expanded_frame = $frame->expand( $arg, $flags );
 		}
@@ -488,9 +488,10 @@ class GlobalFunctions {
 		return trim( $frame->expand( $arg ) );
 	}
 
-    private static function trimElements( $array ) {
-	    array_walk_recursive( $array, function ( &$value ) { $value = trim( $value ); } );
+	private static function trimElements( $array ) {
+		array_walk_recursive( $array, static function ( &$value ) { $value = trim( $value );
+		} );
 
-	    return $array;
-    }
+		return $array;
+	}
 }

@@ -305,9 +305,9 @@ class ComplexArraySort extends ResultPrinter {
 		}
 
 		foreach ( self::$array as $value ) {
-		    if ( !isset( $value[ self::$key ] ) ) {
-		        return wfMessage( 'ca-sort-invalid-key' );
-            }
+			if ( !isset( $value[ self::$key ] ) ) {
+				return wfMessage( 'ca-sort-invalid-key' );
+			}
 
 			if ( is_array( $value[ self::$key ] ) ) {
 				return wfMessage( 'ca-sort-array-too-deep' );

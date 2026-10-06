@@ -27,7 +27,7 @@
  * @extends WSArrays
  */
 class ComplexArrayPrint extends ResultPrinter {
-    public function getName() {
+	public function getName() {
 		return 'complexarrayprint';
 	}
 
@@ -58,22 +58,22 @@ class ComplexArrayPrint extends ResultPrinter {
 	 */
 	private static $noparse = false;
 
-    /**
-     * @var bool
-     */
-    private static $nowiki = false;
+	/**
+	 * @var bool
+	 */
+	private static $nowiki = false;
 
-    /**
-     * Define all allowed parameters. This parser is hooked with Parser::SFH_OBJECT_ARGS.
-     *
-     * @param Parser $parser
-     * @param mixed $array_name
-     * @param mixed $options
-     * @param mixed $parser_behaviour
-     * @return null|string|array
-     *
-     * @throws Exception
-     */
+	/**
+	 * Define all allowed parameters. This parser is hooked with Parser::SFH_OBJECT_ARGS.
+	 *
+	 * @param Parser $parser
+	 * @param mixed $array_name
+	 * @param mixed $options
+	 * @param mixed $parser_behaviour
+	 * @return null|string|array
+	 *
+	 * @throws Exception
+	 */
 	public static function getResult( Parser $parser, $array_name = null, $options = null, $parser_behaviour = null ) {
 		GlobalFunctions::fetchSemanticArrays();
 
@@ -84,16 +84,16 @@ class ComplexArrayPrint extends ResultPrinter {
 		}
 
 		if ( $parser_behaviour === "true" ) {
-		    // Hack for backwards compatibility
-		    self::$noparse = true;
-		    self::$nowiki  = true;
-        } else {
-            $parser_behaviour_parts = explode( ",", (string)$parser_behaviour );
-            $parser_behaviour_parts = array_map("trim", $parser_behaviour_parts);
+			// Hack for backwards compatibility
+			self::$noparse = true;
+			self::$nowiki  = true;
+		} else {
+			$parser_behaviour_parts = explode( ",", (string)$parser_behaviour );
+			$parser_behaviour_parts = array_map( "trim", $parser_behaviour_parts );
 
-            self::$noparse = in_array( "noparse", $parser_behaviour_parts );
-            self::$nowiki = in_array( "nowiki", $parser_behaviour_parts );
-        }
+			self::$noparse = in_array( "noparse", $parser_behaviour_parts );
+			self::$nowiki = in_array( "nowiki", $parser_behaviour_parts );
+		}
 
 		return self::arrayPrint( $array_name, $options );
 	}
@@ -149,15 +149,15 @@ class ComplexArrayPrint extends ResultPrinter {
 	 * @return array|null|string
 	 */
 	private static function createList() {
-	    if ( !is_array( self::$array ) || count( self::$array ) === 1 && !GlobalFunctions::containsArray( self::$array ) ) {
+		if ( !is_array( self::$array ) || count( self::$array ) === 1 && !GlobalFunctions::containsArray( self::$array ) ) {
 			if ( is_array( self::$array ) ) {
 				$last_el = reset( self::$array );
 				$return  = key( self::$array ) . ": " . $last_el;
 
 				return [ $return, 'noparse' => self::$noparse, 'nowiki' => self::$nowiki ];
 			} else {
-			    // Replace any carraige returns with the empty string
-                // TODO: Figure out where these cr's are coming from
+				// Replace any carraige returns with the empty string
+				// TODO: Figure out where these cr's are coming from
 				return [ str_replace( "\r", "", self::$array ), 'noparse' => self::$noparse, 'nowiki' => self::$nowiki ];
 			}
 		}

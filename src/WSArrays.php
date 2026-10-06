@@ -85,7 +85,7 @@ require_once 'GlobalFunctions.class.php';
  * @extends GlobalFunctions
  */
 class WSArrays extends ComplexArray {
-	const VERSION = '4.0';
+	public const VERSION = '4.0';
 
 	/**
 	 * This variable holds all defined arrays. If an array is defined called "array", the array will be stored in WSArrays::$arrays["array"].

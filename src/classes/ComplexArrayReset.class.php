@@ -41,13 +41,13 @@ class ComplexArrayReset extends ResultPrinter {
 		return 'normal';
 	}
 
-    /**
-     * Define all allowed parameters.
-     *
-     * @param Parser $parser
-     * @param string $array_name
-     * @return string
-     */
+	/**
+	 * Define all allowed parameters.
+	 *
+	 * @param Parser $parser
+	 * @param string $array_name
+	 * @return string
+	 */
 	public static function getResult( Parser $parser, $array_name = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 

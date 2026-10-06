@@ -87,13 +87,13 @@ class ComplexArrayMerge extends ResultPrinter {
 			$array = call_user_func_array( 'array_merge_recursive', $arrays );
 
 			if ( !is_array( $array ) ) {
-                WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
+				WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
 			}
 		} else {
 			$array = call_user_func_array( 'array_merge', $arrays );
 
 			if ( is_array( $array ) ) {
-                WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
+				WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
 			}
 		}
 

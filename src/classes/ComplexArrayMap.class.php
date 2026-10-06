@@ -101,8 +101,8 @@ class ComplexArrayMap extends ResultPrinter {
 		}
 
 		self::$show = isset( $args[4] ) ?
-            filter_var( GlobalFunctions::getValue( $args[4], $frame ), FILTER_VALIDATE_BOOLEAN ) :
-            false;
+			filter_var( GlobalFunctions::getValue( $args[4], $frame ), FILTER_VALIDATE_BOOLEAN ) :
+			false;
 
 		if ( isset( $args[3] ) ) {
 			$sep = GlobalFunctions::getValue( $args[3], $frame );
@@ -123,21 +123,21 @@ class ComplexArrayMap extends ResultPrinter {
 		return [ self::arrayMap( $name, $map_key, $map, $key_replace ), 'noparse' => false ];
 	}
 
-    /**
-     * @param $array_name
-     * @param $map_key
-     * @param $map
-     * @param $key_replace
-     * @return array|string
-     *
-     * @throws Exception
-     */
+	/**
+	 * @param $array_name
+	 * @param $map_key
+	 * @param $map
+	 * @param $key_replace
+	 * @return array|string
+	 *
+	 * @throws Exception
+	 */
 	private static function arrayMap( $array_name, $map_key, $map, $key_replace = false ) {
 		self::$buffer = '';
 
 		if ( empty( $array_name ) || empty( $map_key ) || empty( $map ) ) {
-		    return '';
-        }
+			return '';
+		}
 
 		$base_array = GlobalFunctions::getBaseArrayFromArrayName( $array_name );
 		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
@@ -149,25 +149,25 @@ class ComplexArrayMap extends ResultPrinter {
 		return self::iterate( $array, $map_key, $map, $array_name, $key_replace );
 	}
 
-    /**
-     * @param $array
-     * @param $map_key
-     * @param $map
-     * @param $array_name
-     * @param bool $key_replace
-     * @return string
-     *
-     */
+	/**
+	 * @param $array
+	 * @param $map_key
+	 * @param $map
+	 * @param $array_name
+	 * @param bool $key_replace
+	 * @return string
+	 *
+	 */
 	private static function iterate( $array, $map_key, $map, $array_name, $key_replace = false ) {
 		self::$array = $array_name;
 
 		$buffer = [];
 		foreach ( $array as $array_key => $subarray ) {
-		    $current_map = $key_replace === false ? $map : str_replace( $key_replace, $array_key, $map );
+			$current_map = $key_replace === false ? $map : str_replace( $key_replace, $array_key, $map );
 
 			self::$array_key = $array_key;
 			if ( gettype( $subarray ) !== "array" ) {
-			    $buffer[] = str_replace( $map_key, $subarray, $current_map );
+				$buffer[] = str_replace( $map_key, $subarray, $current_map );
 			} else {
 				$preg_quote = preg_quote( $map_key );
 				$buffer[] = preg_replace_callback( "/($preg_quote((\[[^\[\]]+\])+)?)/", 'ComplexArrayMap::replaceCallback', $current_map );

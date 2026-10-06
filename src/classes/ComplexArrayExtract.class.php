@@ -84,7 +84,7 @@ class ComplexArrayExtract extends ResultPrinter {
 		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
 
 		if ( $array ) {
-            WSArrays::$arrays[ $new_name ] = new ComplexArray( (array)$array );
+			WSArrays::$arrays[ $new_name ] = new ComplexArray( (array)$array );
 		}
 
 		return '';

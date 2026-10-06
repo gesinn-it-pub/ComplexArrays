@@ -49,7 +49,7 @@ class ComplexArrayDefine extends ResultPrinter {
 	 * @param string $args
 	 *
 	 * @throws Exception
-     * @return array|string
+	 * @return array|string
 	 */
 	public static function getResult( Parser $parser, $frame, $args ) {
 		GlobalFunctions::fetchSemanticArrays();
@@ -72,8 +72,8 @@ class ComplexArrayDefine extends ResultPrinter {
 		if ( empty( $array_markup ) ) {
 			WSArrays::$arrays[ $array_name ] = new ComplexArray();
 		} else {
-		    self::arrayDefine( $array_name, $array_markup, $sep );
-        }
+			self::arrayDefine( $array_name, $array_markup, $sep );
+		}
 
 		return '';
 	}
@@ -91,7 +91,7 @@ class ComplexArrayDefine extends ResultPrinter {
 
 		if ( !$array ) {
 			GlobalFunctions::error( wfMessage( 'ca-invalid-markup' ) );
-            return;
+			return;
 		}
 
 		WSArrays::$arrays[$array_name] = new ComplexArray( (array)$array );

@@ -108,14 +108,14 @@ class ComplexArrayUnset extends ResultPrinter {
 				unset( $temp[$keys[$i]] );
 
 				if ( count( $temp ) === 0 ) {
-				    // Remove dangling array
-				    unset( $array[$keys[$i - 1]] );
-                }
+					// Remove dangling array
+					unset( $array[$keys[$i - 1]] );
+				}
 
-                if ( !$isAssoc ) {
-                    // Reset the array indexing and only do this for numbered arrays.
-                    $temp = array_values($temp);
-                }
+				if ( !$isAssoc ) {
+					// Reset the array indexing and only do this for numbered arrays.
+					$temp = array_values( $temp );
+				}
 
 				return;
 			}
@@ -124,17 +124,17 @@ class ComplexArrayUnset extends ResultPrinter {
 		}
 	}
 
-    /**
-     * Check whether an array is associative or sequentially numbered.
-     *
-     * @param array $array
-     * @return bool
-     */
-    private static function isAssoc( $array ) {
-        if ( $array === [] ) {
-            return false;
-        }
+	/**
+	 * Check whether an array is associative or sequentially numbered.
+	 *
+	 * @param array $array
+	 * @return bool
+	 */
+	private static function isAssoc( $array ) {
+		if ( $array === [] ) {
+			return false;
+		}
 
-        return array_keys($array) !== range(0, count($array) - 1);
-    }
+		return array_keys( $array ) !== range( 0, count( $array ) - 1 );
+	}
 }
