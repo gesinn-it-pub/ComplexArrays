@@ -11,18 +11,25 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - GitHub Actions CI based on docker-compose-ci (MediaWiki 1.39 and 1.43)
 - Phan static analysis (`composer phan`, `make composer-phan`); any finding fails CI
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
-- PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays`, the wildcard operator and `ComplexArrayWrapper`; overall line coverage is above 90 %
+- PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays` and the wildcard operator; overall line coverage is above 90 %
 
 ### Changed
-- Modernised extension registration: manifest version 2, PSR-4 autoloading (`AutoloadNamespaces`) with all classes moved into the `ComplexArrays\` namespace (parser functions in `ComplexArrays\ParserFunctions`, files renamed accordingly, `ComplexArrayWrapper` moved to `src/`), and a `ComplexArrays\Hooks` handler class for `ParserFirstCallInit` that registers the parser functions from an explicit list instead of globbing `src/classes`
+- Modernised extension registration: manifest version 2, PSR-4 autoloading (`AutoloadNamespaces`) with all classes moved into the `ComplexArrays\` namespace (parser functions in `ComplexArrays\ParserFunctions`, files renamed accordingly), and a `ComplexArrays\Hooks` handler class for `ParserFirstCallInit` that registers the parser functions from an explicit list instead of globbing `src/classes`
 - Upgraded MediaWiki CodeSniffer to 48.0.2 (the newest release supporting PHP 8.1), removed all PHPCS rule exclusions except the integration-test `@covers` one and fixed the resulting findings: complete docblocks, no error suppression operator, line length, and lower camel case names (`wsonToJson`, `jsonToWson`, `formatPropertyOfType*`); the internal global `$wfDefinedArraysGlobal` is now `$wgComplexArraysDefinedArrays`
 - Renamed the extension from WSArrays to ComplexArrays (extension name, main class `ComplexArrays`, `ComplexArrays.i18n.php`, debug log channel, composer package `gesinn-it/complex-arrays`); parser functions, `ca-*` messages and the `complexarray` result format are unchanged
+- Docblocks: import `Exception` where `@throws Exception` is documented, drop the stale `@extends ComplexArrays` annotations and correct parameter, return and property types
+- `GlobalFunctions::error()` takes a message key and parameters instead of a `Message` object
+- `#complexarrayslice` casts offset and length to integers; an omitted length slices to the end, `0` yields an empty slice
+- Parser is no longer passed by reference in the function hook factories
+- Dev dependencies (codesniffer, minus-x, parallel-lint) updated to versions installable on PHP 8.1+
 
 ### Removed
 - The unused class `ComplexArrayWrapper` and its tests
 - The `$wgEnableResultPrinter` option: the `complexarray` result format is registered whenever Semantic MediaWiki is installed
 - Stale `VERSION` constant of the main class
 - `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
+- Legacy parserTests files (`tests/parser/*.txt`) and their `run.php` runner; the PHPUnit suite is the single test reference
+- Legacy GitLab CI configuration
 
 ### Fixed
 - `#complexarraymap` with a mapping key containing `/` no longer fails with "Unknown modifier": the key is now quoted for use as part of a regular expression including its delimiter
@@ -40,15 +47,3 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `#complexarraymerge` with the `recursive` option now stores its result
 - `#complexarraypush` with an empty value returns the "Value must not be omitted" error instead of raising a `TypeError`
 - `#complexarraysort` with `keysort` no longer reuses the sort key of a previous call
-- `ComplexArrayWrapper::reset()` no longer leaves properties unset, which raised an "Undefined property" warning on the next `get()`
-
-### Changed
-- Docblocks: import `Exception` where `@throws Exception` is documented, drop the stale `@extends ComplexArrays` annotations and correct parameter, return and property types
-- `GlobalFunctions::error()` takes a message key and parameters instead of a `Message` object
-- `#complexarrayslice` casts offset and length to integers; an omitted length slices to the end, `0` yields an empty slice
-- Parser is no longer passed by reference in the function hook factories
-- Dev dependencies (codesniffer, minus-x, parallel-lint) updated to versions installable on PHP 8.1+
-
-### Removed
-- Legacy parserTests files (`tests/parser/*.txt`) and their `run.php` runner; the PHPUnit suite is the single test reference
-- Legacy GitLab CI configuration
