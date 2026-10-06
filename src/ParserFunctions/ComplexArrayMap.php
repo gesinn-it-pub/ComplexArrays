@@ -198,7 +198,7 @@ class ComplexArrayMap extends ResultPrinter {
 			if ( gettype( $subarray ) !== "array" ) {
 				$buffer[] = str_replace( $map_key, $subarray, $current_map );
 			} else {
-				$preg_quote = preg_quote( $map_key );
+				$preg_quote = preg_quote( $map_key, "/" );
 				$buffer[] = preg_replace_callback(
 					"/($preg_quote((\[[^\[\]]+\])+)?)/",
 					function ( $matches ) use ( $parser ) {

@@ -31,6 +31,10 @@ class ComplexArrayMapTest extends ComplexArraysIntegrationTestCase {
 				'[["a", "b"],["d"],["e", "f"]]', '@@@|Hello, @@@[1]!|<br/>|true',
 				'<p>Hello, b!<br />Hello, @@@[1]!<br />Hello, f!' . "\n</p>"
 			],
+			'mapping key containing the regular expression delimiter' => [
+				'[["a", "b"],["c", "d"]]', '/x/|Hello, /x/[0]!|<br/>',
+				'<p>Hello, a!<br />Hello, c!' . "\n</p>"
+			],
 			'non-uniform list without displaying the mapping key' => [
 				'[["a", "b"],["d"],["e", "f"]]', '@@@|Hello, @@@[1]!|<br/>',
 				'<p>Hello, b!<br />Hello,&#160;!<br />Hello, f!' . "\n</p>"
