@@ -9,14 +9,23 @@ wfLoadExtension( 'ComplexArrays' );
 
 // Pre-define arrays (name => array) that are available to all parser functions.
 $wgDefinedArraysGlobal = [ 'colors' => [ 'red', 'green' ] ];
-
-// Register the "complexarray" result format of Semantic MediaWiki (default: false).
-$wgEnableResultPrinter = true;
 ```
 
-The former globals `$wfDefinedArraysGlobal` and `$wfEnableResultPrinter` are deprecated. They are still
-honoured if the corresponding `$wg...` option is not set, and a debug log entry (channel `ComplexArrays`)
-is written. They will be removed in a future release.
+The former global `$wfDefinedArraysGlobal` is deprecated. It is still honoured if
+`$wgDefinedArraysGlobal` is not set, and a debug log entry (channel `ComplexArrays`) is written. It will
+be removed in a future release.
+
+## Semantic MediaWiki
+
+If Semantic MediaWiki 5, 6 or 7 is installed, the result format `complexarray` is available without further
+configuration. The extension does not create or change any files outside of its own directory.
+
+### Upgrading
+
+Earlier versions linked `ComplexArrayPrinter.php` into the directory of Semantic MediaWiki when
+`$wgEnableResultPrinter` was set. This is no longer done, and the option is ignored. Remove the option from
+`LocalSettings.php`; a link left behind in `extensions/SemanticMediaWiki/src/Query/ResultPrinters/` is not
+used anymore and can be deleted by hand.
 
 ComplexArrays - Associative and multidimensional arrays for MediaWiki.
 Copyright (C) 2019 Marijn van Wezel

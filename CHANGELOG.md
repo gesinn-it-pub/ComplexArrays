@@ -19,11 +19,13 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - Renamed the extension from WSArrays to ComplexArrays (extension name, main class `ComplexArrays`, `ComplexArrays.i18n.php`, debug log channel, composer package `gesinn-it/complex-arrays`); parser functions, `ca-*` messages and the `complexarray` result format are unchanged
 
 ### Removed
+- The unused class `ComplexArrayWrapper` and its tests
 - The `$wgEnableResultPrinter` option: the `complexarray` result format is registered whenever Semantic MediaWiki is installed
 - Stale `VERSION` constant of the main class
 - `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
 
 ### Fixed
+- Converting between JSON and the `((`/`))` markup no longer relies on regular expressions guessing what is inside of a string: braces and doubled parentheses in keys and values are left alone (a key such as `{k}` made the markup unrecognisable)
 - The `complexarray` result format of Semantic MediaWiki no longer symlinks a file into SMW's directory: `ComplexArrays\SMW\ComplexArrayPrinter` is autoloaded from this extension and registered through the `SMW::Setup::AfterInitializationComplete` hook; it defines the array in the parser that runs the query (it was written to an obsolete global and never visible to the page), and no longer repeats rows of earlier queries. It works with Semantic MediaWiki 5, 6 and 7
 - Defined arrays no longer leak between pages, previews, jobs and API parses: they are kept per parser in `ComplexArrays\ArrayStore` and cleared on `ParserClearState` instead of in the public static `ComplexArrays::$arrays` (removed); the per-call state of the parser functions (for example the separator and show flag of `#complexarraymap`) is no longer kept in static properties, so it cannot survive into the next call
 - The options `$wgEnableResultPrinter` and `$wgDefinedArraysGlobal` declared in `extension.json` are now read through MediaWiki's configuration; the legacy globals `$wfEnableResultPrinter` and `$wfDefinedArraysGlobal` remain as a deprecated fallback with a debug log entry, and the options are documented in the README
