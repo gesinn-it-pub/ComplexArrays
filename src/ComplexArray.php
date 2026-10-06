@@ -19,32 +19,33 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays;
+
 /**
- * Abstract class Extension
+ * Class ComplexArray
  *
- * @extends ExtensionFactory
+ * Great-grandfather class. This is the highest class. It defines the object arrays should be stored in. Arrays that are stored in this object, are always escaped and safe.
  */
-abstract class Extension extends ExtensionFactory {
+class ComplexArray {
 	/**
-	 * This function should return a string containing the name of the class (which is
-	 * also the name of the parser function).
-	 *
-	 * @return string
+	 * @var array
 	 */
-	abstract public function getName();
+	private $array = [];
 
 	/**
-	 * This function returns the name of any aliases the might want to define for
-	 * the parser function.
+	 * @param array $array
+	 */
+	public function __construct( array $array = [] ) {
+		$this->array = $array;
+	}
+
+	/**
+	 * Return the array with escaped characters.
 	 *
 	 * @return array
+	 * @throws Exception
 	 */
-	abstract public function getAliases();
-
-	/**
-	 * Specify whether to implement this extension as an 'sfh' hook or a 'standard' hook.
-	 *
-	 * @return null|string
-	 */
-	abstract public function getType();
+	public function getArray() {
+		return $this->array;
+	}
 }

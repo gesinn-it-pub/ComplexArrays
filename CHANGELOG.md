@@ -12,10 +12,12 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays`, the wildcard operator and `ComplexArrayWrapper`; overall line coverage is above 90 %
 
 ### Changed
+- Modernised extension registration: manifest version 2, PSR-4 autoloading (`AutoloadNamespaces`) with all classes moved into the `ComplexArrays\` namespace (parser functions in `ComplexArrays\ParserFunctions`, files renamed accordingly, `ComplexArrayWrapper` moved to `src/`), and a `ComplexArrays\Hooks` handler class for `ParserFirstCallInit` that registers the parser functions from an explicit list instead of globbing `src/classes`
 - Renamed the extension from WSArrays to ComplexArrays (extension name, main class `ComplexArrays`, `ComplexArrays.i18n.php`, debug log channel, composer package `gesinn-it/complex-arrays`); parser functions, `ca-*` messages and the `complexarray` result format are unchanged
 
 ### Removed
 - Stale `VERSION` constant of the main class
+- `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
 
 ### Fixed
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)

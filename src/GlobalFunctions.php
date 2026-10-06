@@ -19,7 +19,10 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-require_once 'ComplexArray.class.php';
+namespace ComplexArrays;
+
+use Html;
+use PPFrame;
 
 /**
  * Class GlobalFunctions

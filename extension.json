@@ -18,22 +18,27 @@
       "i18n"
     ]
   },
-  "AutoloadClasses": {
-    "ComplexArrays": "src/ComplexArrays.php",
-    "ComplexArrayWrapper": "ComplexArrayWrapper.php"
+  "AutoloadNamespaces": {
+    "ComplexArrays\\": "src/"
   },
   "ExtensionMessagesFiles": {
     "ComplexArraysMagic": "ComplexArrays.i18n.php"
   },
+  "HookHandlers": {
+    "main": {
+      "class": "ComplexArrays\\Hooks"
+    }
+  },
   "Hooks": {
-    "ParserFirstCallInit": [
-      "ComplexArrays::onParserFirstCallInit"
-    ]
+    "ParserFirstCallInit": "main"
   },
   "config": {
-    "SkipVersionControl": false,
-    "EnableResultPrinter": false,
-    "DefinedArraysGlobal": []
+    "EnableResultPrinter": {
+      "value": false
+    },
+    "DefinedArraysGlobal": {
+      "value": []
+    }
   },
-  "manifest_version": 1
+  "manifest_version": 2
 }

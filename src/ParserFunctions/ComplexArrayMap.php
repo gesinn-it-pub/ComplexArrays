@@ -19,6 +19,13 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays\ParserFunctions;
+
+use ComplexArrays\ComplexArrays;
+use ComplexArrays\GlobalFunctions;
+use ComplexArrays\ResultPrinter;
+use Parser;
+
 /**
  * Class ComplexArrayMap
  *
@@ -170,7 +177,7 @@ class ComplexArrayMap extends ResultPrinter {
 				$buffer[] = str_replace( $map_key, $subarray, $current_map );
 			} else {
 				$preg_quote = preg_quote( $map_key );
-				$buffer[] = preg_replace_callback( "/($preg_quote((\[[^\[\]]+\])+)?)/", 'ComplexArrayMap::replaceCallback', $current_map );
+				$buffer[] = preg_replace_callback( "/($preg_quote((\[[^\[\]]+\])+)?)/", [ self::class, 'replaceCallback' ], $current_map );
 			}
 		}
 

@@ -1,5 +1,8 @@
 <?php
 
+namespace ComplexArrays;
+
+
 /**
  * Class ComplexArrayWrapper
  */

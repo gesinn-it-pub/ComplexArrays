@@ -19,23 +19,29 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays\ParserFunctions;
+
+use ComplexArrays\GlobalFunctions;
+use ComplexArrays\ResultPrinter;
+use Parser;
+
 /**
- * Class ComplexArrayDefinedArrays
+ * Class ComplexArrayParent.class
  *
- * Defines the parser function {{#complexarraydefinedarrays:}}, which allows users to get a list of defined arrays.
+ * Defines the parser function {{#complexarrayparent:}}, which returns the parent of the given key.
  *
  * @extends ComplexArrays
  */
-class ComplexArrayDefinedArrays extends ResultPrinter {
+class ComplexArrayParent extends ResultPrinter {
 	public function getName() {
-		return 'complexarraydefinedarrays';
+		return 'complexarrayparent';
 	}
 
 	public function getAliases() {
 		return [
-			'cadefinedarrays',
-			'cadefined',
-			'cad'
+			'caparent',
+			'capapa',
+			'camama'
 		];
 	}
 
@@ -47,27 +53,20 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 	 * Define all allowed parameters.
 	 *
 	 * @param Parser $parser
-	 * @param string|null $array_name
-	 *
-	 * @return array|string
+	 * @param string|null $key
+	 * @return array|null
 	 */
-	public static function getResult( Parser $parser, $array_name = null ) {
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array' ) );
+	public static function getResult( Parser $parser, $key = null ) {
+		if ( empty( $key ) ) {
+			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Key' ) );
 		}
 
-		if ( !GlobalFunctions::isValidArrayName( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
-		}
-
-		self::arrayDefinedArrays( $array_name );
-
-		return '';
+		return self::arrayParent( $key );
 	}
 
-	private static function arrayDefinedArrays( $array_name ) {
-		$array = array_keys( ComplexArrays::$arrays );
+	private static function arrayParent( $key ) {
+		$regex = '/\[[^\[\]]+\]$/m';
 
-		ComplexArrays::$arrays[ $array_name ] = new ComplexArray( $array );
+		return preg_replace( $regex, '', $key );
 	}
 }

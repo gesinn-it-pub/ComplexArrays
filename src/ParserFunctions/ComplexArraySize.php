@@ -19,21 +19,27 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays\ParserFunctions;
+
+use ComplexArrays\GlobalFunctions;
+use ComplexArrays\ResultPrinter;
+use Parser;
+
 /**
- * Class ComplexArrayExtract
+ * Class ComplexArraySize
  *
- * Defines the parser function {{#complexarrayextract:}}, which allows users to create a new array from a subarray.
+ * Defines the parser function {{#complexarraysize:}}, which allows users to get the size of a (sub)array.
  *
  * @extends ComplexArrays
  */
-class ComplexArrayExtract extends ResultPrinter {
+class ComplexArraySize extends ResultPrinter {
 	public function getName() {
-		return 'complexarrayextract';
+		return 'complexarraysize';
 	}
 
 	public function getAliases() {
 		return [
-			'caextract'
+		  'casize'
 		];
 	}
 
@@ -45,48 +51,42 @@ class ComplexArrayExtract extends ResultPrinter {
 	 * Define all allowed parameters.
 	 *
 	 * @param Parser $parser
-	 * @param string $new_name
 	 * @param string $array_name
-	 * @return array|bool
+	 * @param string $options
+	 * @return array|int
 	 *
 	 * @throws Exception
 	 */
-	public static function getResult( Parser $parser, $new_name = '', $array_name = '' ) {
-		if ( !$new_name ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array' ) );
-		}
+	public static function getResult( Parser $parser, $array_name = '', $options = '' ) {
+		GlobalFunctions::fetchSemanticArrays();
 
-		if ( !GlobalFunctions::isValidArrayName( $new_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
-		}
-
-		if ( !$array_name ) {
+		if ( empty( $array_name ) ) {
 			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
 		}
 
-		return self::arrayExtract( $new_name, $array_name );
+		return self::arraySize( $array_name, $options );
 	}
 
 	/**
-	 * @param $new_name
-	 * @param $subarray
-	 * @return array|bool
+	 * Calculate size of array.
+	 *
+	 * @param $name
+	 * @param string $options
+	 * @return array|string
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayExtract( $new_name, $array_name ) {
-		// If no subarray is provided, show an error.
-		if ( !strpos( $array_name, "[" ) ||
-			!strpos( $array_name, "]" ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-subarray-not-provided' ) );
+	private static function arraySize( $name, $options = '' ) {
+		if ( !GlobalFunctions::arrayExists( GlobalFunctions::getBaseArrayFromArrayName( $name ) ) ) {
+			return '';
 		}
 
-		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
+		$array = GlobalFunctions::getArrayFromArrayName( $name );
 
-		if ( $array ) {
-			ComplexArrays::$arrays[ $new_name ] = new ComplexArray( (array)$array );
+		if ( $options === "top" ) {
+			return count( $array );
 		}
 
-		return '';
+		return count( $array, COUNT_RECURSIVE );
 	}
 }

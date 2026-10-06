@@ -19,23 +19,31 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays\ParserFunctions;
+
+use ComplexArrays\ComplexArray;
+use ComplexArrays\ComplexArrays;
+use ComplexArrays\GlobalFunctions;
+use ComplexArrays\ResultPrinter;
+use Parser;
+
 /**
- * Class ComplexArrayParent.class
+ * Class ComplexArrayDefinedArrays
  *
- * Defines the parser function {{#complexarrayparent:}}, which returns the parent of the given key.
+ * Defines the parser function {{#complexarraydefinedarrays:}}, which allows users to get a list of defined arrays.
  *
  * @extends ComplexArrays
  */
-class ComplexArrayParent extends ResultPrinter {
+class ComplexArrayDefinedArrays extends ResultPrinter {
 	public function getName() {
-		return 'complexarrayparent';
+		return 'complexarraydefinedarrays';
 	}
 
 	public function getAliases() {
 		return [
-			'caparent',
-			'capapa',
-			'camama'
+			'cadefinedarrays',
+			'cadefined',
+			'cad'
 		];
 	}
 
@@ -47,20 +55,27 @@ class ComplexArrayParent extends ResultPrinter {
 	 * Define all allowed parameters.
 	 *
 	 * @param Parser $parser
-	 * @param string|null $key
-	 * @return array|null
+	 * @param string|null $array_name
+	 *
+	 * @return array|string
 	 */
-	public static function getResult( Parser $parser, $key = null ) {
-		if ( empty( $key ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Key' ) );
+	public static function getResult( Parser $parser, $array_name = null ) {
+		if ( empty( $array_name ) ) {
+			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array' ) );
 		}
 
-		return self::arrayParent( $key );
+		if ( !GlobalFunctions::isValidArrayName( $array_name ) ) {
+			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+		}
+
+		self::arrayDefinedArrays( $array_name );
+
+		return '';
 	}
 
-	private static function arrayParent( $key ) {
-		$regex = '/\[[^\[\]]+\]$/m';
+	private static function arrayDefinedArrays( $array_name ) {
+		$array = array_keys( ComplexArrays::$arrays );
 
-		return preg_replace( $regex, '', $key );
+		ComplexArrays::$arrays[ $array_name ] = new ComplexArray( $array );
 	}
 }

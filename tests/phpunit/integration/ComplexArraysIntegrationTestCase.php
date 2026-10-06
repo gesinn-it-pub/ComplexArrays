@@ -2,7 +2,7 @@
 
 namespace ComplexArrays\Tests\Integration;
 
-use ComplexArrays;
+use ComplexArrays\ComplexArrays;
 use MediaWiki\MediaWikiServices;
 use MediaWikiIntegrationTestCase;
 use ParserOptions;
@@ -14,7 +14,7 @@ use ParserOptions;
  * tests express the intended behaviour of a parser function in wikitext.
  *
  * Tests deliberately carry no @covers annotation: every parser function runs
- * through the shared infrastructure (GlobalFunctions, ComplexArrays, the factories),
+ * through the shared infrastructure (GlobalFunctions, ComplexArrays),
  * which would otherwise not count as covered.
  *
  * @group Database

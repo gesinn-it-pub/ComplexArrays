@@ -24,38 +24,6 @@ namespace SMW\Query\ResultPrinters;
 use Exception;
 
 /**
- * Class ComplexArray
- *
- * It defines the object arrays should be stored in. Arrays that are stored in this object, are always escaped and safe. This class is a copy of the class in src/ComplexArray.class.php.
- *
- * @package SMW\Query\ResultPrinters
- * @alias src/ComplexArray.class.php
- */
-class ComplexArray {
-	/**
-	 * @var array
-	 */
-	private $array = [];
-
-	/**
-	 * @param array $array
-	 */
-	public function __construct( array $array = [] ) {
-		$this->array = $array;
-	}
-
-	/**
-	 * Return the array with escaped characters.
-	 *
-	 * @return array
-	 * @throws Exception
-	 */
-	public function getArray() {
-		return $this->array;
-	}
-}
-
-/**
  * Class ComplexArrayPrinter
  *
  * @package SMW\Query\ResultPrinters
@@ -131,7 +99,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 		$name = $params['name'];
 
 		global $wfDefinedArraysGlobal;
-		$wfDefinedArraysGlobal[ $name ] = new \ComplexArray( [] );
+		$wfDefinedArraysGlobal[ $name ] = new \ComplexArrays\ComplexArray( [] );
 	}
 
 	/**
@@ -165,7 +133,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 
 		$result = $this->buildResultArray( $queryResult );
 
-		$wfDefinedArraysGlobal[ $this->name ] = new \ComplexArray( $result );
+		$wfDefinedArraysGlobal[ $this->name ] = new \ComplexArrays\ComplexArray( $result );
 
 		return null;
 	}

@@ -2,8 +2,8 @@
 
 namespace ComplexArrays\Tests\Integration;
 
-use ComplexArray;
-use ComplexArrayWrapper;
+use ComplexArrays\ComplexArray;
+use ComplexArrays\ComplexArrayWrapper;
 
 // The test classes are not registered with the autoloader when run via vendor/bin/phpunit.
 require_once __DIR__ . '/ComplexArraysIntegrationTestCase.php';

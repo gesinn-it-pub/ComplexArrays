@@ -19,21 +19,28 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays\ParserFunctions;
+
+use ComplexArrays\ComplexArrays;
+use ComplexArrays\GlobalFunctions;
+use ComplexArrays\ResultPrinter;
+use Parser;
+
 /**
- * Class ComplexArraySize
+ * Class ComplexArrayReset
  *
- * Defines the parser function {{#complexarraysize:}}, which allows users to get the size of a (sub)array.
+ * Defines the parser function {{#complexarrayreset:}}, which allows users to reset all or one array.
  *
  * @extends ComplexArrays
  */
-class ComplexArraySize extends ResultPrinter {
+class ComplexArrayReset extends ResultPrinter {
 	public function getName() {
-		return 'complexarraysize';
+		return 'complexarrayreset';
 	}
 
 	public function getAliases() {
 		return [
-		  'casize'
+			'careset'
 		];
 	}
 
@@ -46,41 +53,27 @@ class ComplexArraySize extends ResultPrinter {
 	 *
 	 * @param Parser $parser
 	 * @param string $array_name
-	 * @param string $options
-	 * @return array|int
-	 *
-	 * @throws Exception
+	 * @return string
 	 */
-	public static function getResult( Parser $parser, $array_name = '', $options = '' ) {
+	public static function getResult( Parser $parser, $array_name = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
-		}
-
-		return self::arraySize( $array_name, $options );
+		self::arrayReset( $array_name );
+		return '';
 	}
 
 	/**
-	 * Calculate size of array.
+	 * Reset all or one array.
 	 *
-	 * @param $name
-	 * @param string $options
-	 * @return array|string
-	 *
-	 * @throws Exception
+	 * @param string $array_name
 	 */
-	private static function arraySize( $name, $options = '' ) {
-		if ( !GlobalFunctions::arrayExists( GlobalFunctions::getBaseArrayFromArrayName( $name ) ) ) {
-			return '';
+	private static function arrayReset( $array_name = '' ) {
+		if ( empty( $array_name ) ) {
+			ComplexArrays::$arrays = [];
+		} else {
+			if ( isset( ComplexArrays::$arrays[$array_name] ) ) {
+				unset( ComplexArrays::$arrays[$array_name] );
+			}
 		}
-
-		$array = GlobalFunctions::getArrayFromArrayName( $name );
-
-		if ( $options === "top" ) {
-			return count( $array );
-		}
-
-		return count( $array, COUNT_RECURSIVE );
 	}
 }

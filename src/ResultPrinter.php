@@ -19,12 +19,14 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
+namespace ComplexArrays;
+
 /**
  * Abstract class ResultPrinter
  *
- * @extends ResultPrinterFactory
+ * @extends ComplexArrays
  */
-abstract class ResultPrinter extends ResultPrinterFactory {
+abstract class ResultPrinter extends ComplexArrays {
 	/**
 	 * This function should return a string containing the name of the class (which is
 	 * also the name of the parser function).
