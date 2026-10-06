@@ -16,7 +16,8 @@ class ComplexArraySearchArrayTest extends ComplexArraysIntegrationTestCase {
 				'a,b,c,d,e,f,d', "<ul><li>example[3]</li>\n<li>example[6]</li></ul>"
 			],
 			'two-dimensional list' => [
-				'[["a"], ["a"], ["a"]]', "<ul><li>example[0][0]</li>\n<li>example[1][0]</li>\n<li>example[2][0]</li></ul>"
+				'[["a"], ["a"], ["a"]]', "<ul><li>example[0][0]</li>\n<li>example[1][0]</li>\n"
+					. "<li>example[2][0]</li></ul>"
 			],
 		];
 	}

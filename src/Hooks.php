@@ -84,10 +84,11 @@ class Hooks implements ParserFirstCallInitHook {
 	 * Registers the "complexarray" result format of Semantic MediaWiki, if enabled.
 	 */
 	private function registerResultPrinter(): void {
-		$link = $GLOBALS['wgExtensionDirectory'] . '/SemanticMediaWiki/src/Query/ResultPrinters/ComplexArrayPrinter.php';
+		$link = $GLOBALS['wgExtensionDirectory']
+			. '/SemanticMediaWiki/src/Query/ResultPrinters/ComplexArrayPrinter.php';
 		$target = dirname( __DIR__ ) . '/ComplexArrayPrinter.php';
 
-		if ( @$GLOBALS['wfEnableResultPrinter'] !== true ) {
+		if ( ( $GLOBALS['wfEnableResultPrinter'] ?? null ) !== true ) {
 			return;
 		}
 
@@ -97,7 +98,10 @@ class Hooks implements ParserFirstCallInitHook {
 			}
 
 			if ( !symlink( $target, $link ) ) {
-				wfDebugLog( 'ComplexArrays', 'Creation of symbolic link from target ' . $target . ' to link ' . $link . ' failed.' );
+				wfDebugLog(
+					'ComplexArrays',
+					'Creation of symbolic link from target ' . $target . ' to link ' . $link . ' failed.'
+				);
 				return;
 			}
 		}

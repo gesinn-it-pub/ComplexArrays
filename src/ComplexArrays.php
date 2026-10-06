@@ -30,7 +30,8 @@ namespace ComplexArrays;
  */
 class ComplexArrays extends ComplexArray {
 	/**
-	 * This variable holds all defined arrays. If an array is defined called "array", the array will be stored in ComplexArrays::$arrays["array"].
+	 * This variable holds all defined arrays. If an array is defined called "array", the array will be stored in
+	 * ComplexArrays::$arrays["array"].
 	 *
 	 * @var array
 	 */

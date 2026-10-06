@@ -33,16 +33,31 @@ use Parser;
  * Defines the parser function {{#complexarraysearch:}}, which allows users to get search in an array.
  */
 class ComplexArraySearch extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraysearch';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 		  'casearch'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -76,7 +91,7 @@ class ComplexArraySearch extends ResultPrinter {
 
 	/**
 	 * @param string $array_name
-	 * @param $value
+	 * @param mixed $value
 	 * @return array|int|string
 	 *
 	 * @throws Exception

@@ -35,16 +35,31 @@ use PPFrame;
  * Defines the parser function {{#complexarraydefine:}}, which allows users to define a new array.
  */
 class ComplexArrayDefine extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraydefine';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'cadefine'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'sfh';
 	}
@@ -67,10 +82,10 @@ class ComplexArrayDefine extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
-		$array_name   = GlobalFunctions::getValue( @$args[0], $frame );
-		$noparse      = GlobalFunctions::getValue( @$args[3], $frame );
-		$array_markup = GlobalFunctions::getValue( @$args[1], $frame, $parser, $noparse );
-		$sep          = GlobalFunctions::getValue( @$args[2], $frame );
+		$array_name   = GlobalFunctions::getValue( $args[0] ?? null, $frame );
+		$noparse      = GlobalFunctions::getValue( $args[3] ?? null, $frame );
+		$array_markup = GlobalFunctions::getValue( $args[1] ?? null, $frame, $parser, $noparse );
+		$sep          = GlobalFunctions::getValue( $args[2] ?? null, $frame );
 
 		if ( !GlobalFunctions::isValidArrayName( $array_name ) ) {
 			return GlobalFunctions::error( 'ca-invalid-name' );

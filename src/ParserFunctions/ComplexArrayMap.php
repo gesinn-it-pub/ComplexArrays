@@ -34,16 +34,31 @@ use PPFrame;
  * Defines the parser function {{#complexarraymap:}}, which allows users to iterate over (sub)arrays.
  */
 class ComplexArrayMap extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraymap';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'camap'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'sfh';
 	}
@@ -123,17 +138,17 @@ class ComplexArrayMap extends ResultPrinter {
 
 		$key_replace = isset( $args[5] ) ? GlobalFunctions::getValue( $args[5], $frame ) : false;
 
-		$name = GlobalFunctions::getValue( @$args[0], $frame );
-		$map_key = GlobalFunctions::getValue( @$args[1], $frame );
-		$map = GlobalFunctions::getValue( @$args[2], $frame, $parser, 'NO_IGNORE,NO_TAGS,NO_TEMPLATES' );
+		$name = GlobalFunctions::getValue( $args[0] ?? null, $frame );
+		$map_key = GlobalFunctions::getValue( $args[1] ?? null, $frame );
+		$map = GlobalFunctions::getValue( $args[2] ?? null, $frame, $parser, 'NO_IGNORE,NO_TAGS,NO_TEMPLATES' );
 
 		return [ self::arrayMap( $name, $map_key, $map, $key_replace ), 'noparse' => false ];
 	}
 
 	/**
-	 * @param $array_name
-	 * @param $map_key
-	 * @param $map
+	 * @param string $array_name
+	 * @param string $map_key
+	 * @param string $map
 	 * @param string|false $key_replace
 	 * @return array|string
 	 *
@@ -142,7 +157,11 @@ class ComplexArrayMap extends ResultPrinter {
 	private static function arrayMap( $array_name, $map_key, $map, $key_replace = false ) {
 		self::$buffer = '';
 
-		if ( GlobalFunctions::isBlank( $array_name ) || GlobalFunctions::isBlank( $map_key ) || GlobalFunctions::isBlank( $map ) ) {
+		if (
+			GlobalFunctions::isBlank( $array_name )
+			|| GlobalFunctions::isBlank( $map_key )
+			|| GlobalFunctions::isBlank( $map )
+		) {
 			return '';
 		}
 
@@ -157,13 +176,12 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array
-	 * @param $map_key
-	 * @param $map
-	 * @param $array_name
+	 * @param array $array
+	 * @param string $map_key
+	 * @param string $map
+	 * @param string $array_name
 	 * @param string|false $key_replace
 	 * @return string
-	 *
 	 */
 	private static function iterate( $array, $map_key, $map, $array_name, $key_replace = false ) {
 		self::$array = $array_name;
@@ -177,7 +195,11 @@ class ComplexArrayMap extends ResultPrinter {
 				$buffer[] = str_replace( $map_key, $subarray, $current_map );
 			} else {
 				$preg_quote = preg_quote( $map_key );
-				$buffer[] = preg_replace_callback( "/($preg_quote((\[[^\[\]]+\])+)?)/", [ self::class, 'replaceCallback' ], $current_map );
+				$buffer[] = preg_replace_callback(
+					"/($preg_quote((\[[^\[\]]+\])+)?)/",
+					[ self::class, 'replaceCallback' ],
+					$current_map
+				);
 			}
 		}
 
@@ -201,7 +223,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
-	 * @param $match
+	 * @param string $match
 	 * @return array|bool
 	 *
 	 * @throws Exception
@@ -215,7 +237,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
-	 * @param $pointer
+	 * @param string $pointer
 	 * @return string
 	 */
 	private static function getArrayNameFromPointer( $pointer ) {
@@ -223,7 +245,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array_key
+	 * @param string|int $array_key
 	 * @return null|string|string[]
 	 */
 	private static function getPointerFromArrayName( $array_key ) {

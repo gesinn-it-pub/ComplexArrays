@@ -29,13 +29,24 @@ use Parser;
 /**
  * Class ComplexArrayMapTemplate
  *
- * Defines the parser function {{#complexarraymaptemplate:}}, which allows users to map a multidimensional array to a list of templates.
+ * Defines the parser function {{#complexarraymaptemplate:}}, which allows users to map a multidimensional array
+ * to a list of templates.
  */
 class ComplexArrayMapTemplate extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraymaptemplate';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'camaptemplate',
@@ -44,6 +55,11 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -77,8 +93,8 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	}
 
 	/**
-	 * @param $name
-	 * @param $template
+	 * @param string $name
+	 * @param string $template
 	 * @param string $options
 	 * @param string $new_delimiter
 	 * @return array|string
@@ -98,9 +114,9 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 
 	/**
 	 * @param array $array
-	 * @param $template
-	 * @param $options
-	 * @param $new_delimiter
+	 * @param string $template
+	 * @param string $options
+	 * @param string $new_delimiter
 	 * @return string|null
 	 */
 	private static function mapToArray( $array, $template, $options, $new_delimiter ) {
@@ -129,7 +145,7 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 			foreach ( $value as $key => $subvalue ) {
 				if ( is_array( $subvalue ) ) {
 					$json = json_encode( $subvalue );
-					GlobalFunctions::JSONtoWSON( $json );
+					GlobalFunctions::jsonToWson( $json );
 
 					$subvalue = $json;
 				}

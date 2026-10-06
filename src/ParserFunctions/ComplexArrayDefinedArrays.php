@@ -33,10 +33,20 @@ use Parser;
  * Defines the parser function {{#complexarraydefinedarrays:}}, which allows users to get a list of defined arrays.
  */
 class ComplexArrayDefinedArrays extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraydefinedarrays';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'cadefinedarrays',
@@ -45,6 +55,11 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -71,6 +86,11 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 		return '';
 	}
 
+	/**
+	 * Store the list of defined array names as a new array.
+	 *
+	 * @param string $array_name
+	 */
 	private static function arrayDefinedArrays( $array_name ) {
 		$array = array_keys( ComplexArrays::$arrays );
 

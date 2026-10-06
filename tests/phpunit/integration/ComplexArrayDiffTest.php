@@ -59,7 +59,8 @@ class ComplexArrayDiffTest extends ComplexArraysIntegrationTestCase {
 	public function testInvalidNameYieldsError(): void {
 		$this->assertStringContainsString(
 			'error',
-			$this->parse( '{{#complexarraydefine:foo|a}}{{#complexarraydefine:bar|b}}{{#complexarraydiff:123|foo|bar}}' )
+			$this->parse( '{{#complexarraydefine:foo|a}}{{#complexarraydefine:bar|b}}'
+				. '{{#complexarraydiff:123|foo|bar}}' )
 		);
 	}
 }

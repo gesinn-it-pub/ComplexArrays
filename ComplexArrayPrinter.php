@@ -47,8 +47,20 @@ class ComplexArrayPrinter extends ResultPrinter {
 	 * @var array
 	 */
 	private $r = [];
+
+	/**
+	 * @var array
+	 */
 	private $v = [];
+
+	/**
+	 * @var array
+	 */
 	private $res = [];
+
+	/**
+	 * @var array
+	 */
 	private $return = [];
 
 	/**
@@ -96,13 +108,13 @@ class ComplexArrayPrinter extends ResultPrinter {
 	protected function handleParameters( array $params, $outputMode ) {
 		$name = $params['name'];
 
-		global $wfDefinedArraysGlobal;
-		$wfDefinedArraysGlobal[ $name ] = new \ComplexArrays\ComplexArray( [] );
+		global $wgComplexArraysDefinedArrays;
+		$wgComplexArraysDefinedArrays[ $name ] = new \ComplexArrays\ComplexArray( [] );
 	}
 
 	/**
 	 * @param \SMWQueryResult $queryResult
-	 * @param $outputMode
+	 * @param int $outputMode
 	 * @return bool|string
 	 */
 	protected function getResultText( \SMWQueryResult $queryResult, $outputMode ) {
@@ -114,7 +126,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 	 * @return bool|string
 	 */
 	private function buildContents( \SMWQueryResult $queryResult ) {
-		global $wfDefinedArraysGlobal;
+		global $wgComplexArraysDefinedArrays;
 
 		$this->name = $this->params[ 'name' ];
 		$this->delimiter = $this->params[ 'valuesep' ];
@@ -131,7 +143,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 
 		$result = $this->buildResultArray( $queryResult );
 
-		$wfDefinedArraysGlobal[ $this->name ] = new \ComplexArrays\ComplexArray( $result );
+		$wgComplexArraysDefinedArrays[ $this->name ] = new \ComplexArrays\ComplexArray( $result );
 
 		return null;
 	}
@@ -151,6 +163,11 @@ class ComplexArrayPrinter extends ResultPrinter {
 		return $this->return;
 	}
 
+	/**
+	 * Format a single query result row and append it to the result list.
+	 *
+	 * @param array $result
+	 */
 	private function formatResult( $result ) {
 		foreach ( $result["printouts"] as $key => $printout ) {
 			$this->formatPrintout( $key, $printout );
@@ -180,8 +197,8 @@ class ComplexArrayPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param $key
-	 * @param $printout
+	 * @param string $key
+	 * @param array $printout
 	 */
 	private function formatPrintout( $key, $printout ) {
 		$this->v = [];
@@ -195,7 +212,7 @@ class ComplexArrayPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 */
 	private function addPrintout( $key ) {
 		if ( !empty( $this->v ) ) {
@@ -208,25 +225,25 @@ class ComplexArrayPrinter extends ResultPrinter {
 	}
 
 	/**
-	 * @param $prop_type
-	 * @param $property
+	 * @param string $prop_type
+	 * @param mixed $property
 	 */
 	private function formatProperty( $prop_type, $property ) {
 		switch ( $prop_type ) {
 			case "_wpg":
-				array_push( $this->v, $this->formatPropertyOfType_wpg( $property ) );
+				array_push( $this->v, $this->formatPropertyOfTypeWpg( $property ) );
 				break;
 			case "_dat":
-				array_push( $this->v, $this->formatPropertyOfType_dat( $property ) );
+				array_push( $this->v, $this->formatPropertyOfTypeDat( $property ) );
 				break;
 			case "_ema":
-				array_push( $this->v, $this->formatPropertyOfType_ema( $property ) );
+				array_push( $this->v, $this->formatPropertyOfTypeEma( $property ) );
 				break;
 			case "_boo":
-				array_push( $this->v, $this->formatPropertyOfType_boo( $property ) );
+				array_push( $this->v, $this->formatPropertyOfTypeBoo( $property ) );
 				break;
 			default:
-				array_push( $this->v, $this->formatPropertyOfType_txt( $property ) );
+				array_push( $this->v, $this->formatPropertyOfTypeTxt( $property ) );
 				break;
 		}
 	}
@@ -234,10 +251,10 @@ class ComplexArrayPrinter extends ResultPrinter {
 	/**
 	 * Format property values of type _wpg (page).
 	 *
-	 * @param $property
+	 * @param string|array $property
 	 * @return string|array
 	 */
-	private function formatPropertyOfType_wpg( $property ) {
+	private function formatPropertyOfTypeWpg( $property ) {
 		if ( $this->detailed === true && isset( $property['fulltext'] ) ) {
 			return $property['fulltext'];
 		}
@@ -248,10 +265,10 @@ class ComplexArrayPrinter extends ResultPrinter {
 	/**
 	 * Format property values of type _dat (date).
 	 *
-	 * @param $property
+	 * @param array $property
 	 * @return string
 	 */
-	private function formatPropertyOfType_dat( $property ) {
+	private function formatPropertyOfTypeDat( $property ) {
 		$unix_timestamp = $property["timestamp"];
 
 		// Return ISO 8601 timestamp
@@ -261,20 +278,20 @@ class ComplexArrayPrinter extends ResultPrinter {
 	/**
 	 * Format property values of type _ema (email).
 	 *
-	 * @param $property
+	 * @param string $property
 	 * @return string
 	 */
-	private function formatPropertyOfType_ema( $property ) {
+	private function formatPropertyOfTypeEma( $property ) {
 		return str_replace( "mailto:", "", $property );
 	}
 
 	/**
 	 * Format property values of type _boo (boolean).
 	 *
-	 * @param $property
+	 * @param string $property
 	 * @return string
 	 */
-	private function formatPropertyOfType_boo( $property ) {
+	private function formatPropertyOfTypeBoo( $property ) {
 		switch ( $property ) {
 			case 't':
 				return '1';
@@ -288,15 +305,15 @@ class ComplexArrayPrinter extends ResultPrinter {
 	/**
 	 * This function is not really necessary, it is just here for proper semantics.
 	 *
-	 * @param $property
+	 * @param string $property
 	 * @return string
 	 */
-	private function formatPropertyOfType_txt( $property ) {
+	private function formatPropertyOfTypeTxt( $property ) {
 		return $property;
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return string
 	 */
 	private function fetchPropType( $key ) {

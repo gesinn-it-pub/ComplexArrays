@@ -31,10 +31,20 @@ use Parser;
  * Defines the parser function {{#complexarrayparent:}}, which returns the parent of the given key.
  */
 class ComplexArrayParent extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayparent';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caparent',
@@ -43,6 +53,11 @@ class ComplexArrayParent extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}

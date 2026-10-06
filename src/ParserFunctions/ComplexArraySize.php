@@ -32,16 +32,31 @@ use Parser;
  * Defines the parser function {{#complexarraysize:}}, which allows users to get the size of a (sub)array.
  */
 class ComplexArraySize extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraysize';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 		  'casize'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -69,7 +84,7 @@ class ComplexArraySize extends ResultPrinter {
 	/**
 	 * Calculate size of array.
 	 *
-	 * @param $name
+	 * @param string $name
 	 * @param string $options
 	 * @return array|int|string
 	 *

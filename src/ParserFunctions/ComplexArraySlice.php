@@ -34,16 +34,31 @@ use Parser;
  * Defines the parser function {{#complexarrayslice:}}, which allows users to slice an array.
  */
 class ComplexArraySlice extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayslice';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caslice'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -58,7 +73,13 @@ class ComplexArraySlice extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	public static function getResult( Parser $parser, $new_array_name = '', $array_name = '', $offset = '', $length = '' ) {
+	public static function getResult(
+		Parser $parser,
+		$new_array_name = '',
+		$array_name = '',
+		$offset = '',
+		$length = ''
+	) {
 		GlobalFunctions::fetchSemanticArrays();
 
 		if ( GlobalFunctions::isBlank( $new_array_name ) ) {

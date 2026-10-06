@@ -32,16 +32,31 @@ use Parser;
  * Defines the parser function {{#complexarrayprint:}}, which allows users to display an array in a couple of ways.
  */
 class ComplexArrayPrint extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayprint';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caprint'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -104,7 +119,7 @@ class ComplexArrayPrint extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array_name
+	 * @param string $array_name
 	 * @param string $options
 	 * @return null|string
 	 *
@@ -129,7 +144,7 @@ class ComplexArrayPrint extends ResultPrinter {
 	}
 
 	/**
-	 * @param $options
+	 * @param string|array $options
 	 * @return array|mixed|null|string|string[]
 	 */
 	private static function applyOptions( $options ) {
@@ -152,7 +167,10 @@ class ComplexArrayPrint extends ResultPrinter {
 	 * @return array|null|string
 	 */
 	private static function createList() {
-		if ( !is_array( self::$array ) || count( self::$array ) === 1 && !GlobalFunctions::containsArray( self::$array ) ) {
+		if (
+			!is_array( self::$array )
+			|| ( count( self::$array ) === 1 && !GlobalFunctions::containsArray( self::$array ) )
+		) {
 			if ( is_array( self::$array ) ) {
 				$last_el = reset( self::$array );
 				$return  = key( self::$array ) . ": " . $last_el;
@@ -161,14 +179,20 @@ class ComplexArrayPrint extends ResultPrinter {
 			} else {
 				// Replace any carraige returns with the empty string
 				// TODO: Figure out where these cr's are coming from
-				return [ str_replace( "\r", "", self::$array ), 'noparse' => self::$noparse, 'nowiki' => self::$nowiki ];
+				return [
+					str_replace( "\r", "", self::$array ),
+					'noparse' => self::$noparse,
+					'nowiki' => self::$nowiki
+				];
 			}
 		}
 
 		$result = null;
 		foreach ( self::$array as $key => $value ) {
 			if ( !is_array( $value ) ) {
-				$result .= is_numeric( $key ) ? self::$indent_char . " $value\n" : self::$indent_char . " $key: $value\n";
+				$result .= is_numeric( $key )
+					? self::$indent_char . " $value\n"
+					: self::$indent_char . " $key: $value\n";
 			} else {
 				$result .= self::$indent_char . " " . strval( $key ) . "\n";
 				self::addArrayToList( $value, $result );
@@ -179,8 +203,8 @@ class ComplexArrayPrint extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array
-	 * @param &$result
+	 * @param array $array
+	 * @param string &$result
 	 * @param int $depth
 	 */
 	private static function addArrayToList( $array, &$result, $depth = 0 ) {

@@ -30,15 +30,40 @@ use Parser;
  * Class ComplexArrayArrayMap
  */
 class ComplexArrayArrayMap extends ResultPrinter {
+	/**
+	 * @var array
+	 */
 	private static $array = [];
+
+	/**
+	 * @var string
+	 */
 	private static $variable = '';
-	private static $formula  = '';
+
+	/**
+	 * @var string
+	 */
+	private static $formula = '';
+
+	/**
+	 * @var string
+	 */
 	private static $new_delimiter = '';
 
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayarraymap';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caamap',
@@ -46,14 +71,19 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'sfh';
 	}
 
 	/**
 	 * @param Parser $parser
-	 * @param $frame
-	 * @param $args
+	 * @param \PPFrame $frame
+	 * @param array $args
 	 * @throws Exception
 	 *
 	 * @return array
@@ -62,34 +92,34 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		GlobalFunctions::fetchSemanticArrays();
 
 		$value = GlobalFunctions::getValue(
-			@$args[ 0 ],
+			$args[0] ?? null,
 			$frame,
 			$parser,
 			GlobalFunctions::getValue(
-				@$args[ 5 ],
+				$args[5] ?? null,
 				$frame
 			)
 		);
 
 		$delimiter = GlobalFunctions::getValue(
-			@$args[ 1 ],
+			$args[1] ?? null,
 			$frame
 		);
 
 		$variable = GlobalFunctions::getValue(
-			@$args[ 2 ],
+			$args[2] ?? null,
 			$frame
 		);
 
 		$formula = GlobalFunctions::getValue(
-			@$args[ 3 ],
+			$args[3] ?? null,
 			$frame,
 			$parser,
 			'NO_IGNORE,NO_TAGS,NO_TEMPLATES'
 		);
 
 		$new_delimiter = GlobalFunctions::getValue(
-			@$args[ 4 ],
+			$args[4] ?? null,
 			$frame
 		);
 
@@ -97,15 +127,19 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	}
 
 	/**
-	 * @param $value
-	 * @param $variable
-	 * @param $formula
-	 * @param $delimiter
-	 * @param $new_delimiter
+	 * @param mixed $value
+	 * @param string $variable
+	 * @param string $formula
+	 * @param string $delimiter
+	 * @param string $new_delimiter
 	 * @return string
 	 */
 	private static function arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ) {
-		if ( GlobalFunctions::isBlank( $value ) || GlobalFunctions::isBlank( $variable ) || GlobalFunctions::isBlank( $formula ) ) {
+		if (
+			GlobalFunctions::isBlank( $value )
+			|| GlobalFunctions::isBlank( $variable )
+			|| GlobalFunctions::isBlank( $formula )
+		) {
 			return '';
 		}
 
@@ -130,6 +164,11 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		return $haystack;
 	}
 
+	/**
+	 * Apply the formula to every item of the current array.
+	 *
+	 * @return string
+	 */
 	private static function iterate() {
 		$haystack = [];
 
@@ -148,6 +187,12 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		}
 	}
 
+	/**
+	 * Join items into a human-readable list.
+	 *
+	 * @param array $haystack
+	 * @return string
+	 */
 	private static function prettyPrint( $haystack ) {
 		$num_items = count( $haystack );
 

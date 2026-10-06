@@ -34,10 +34,20 @@ use Parser;
  * Unsets a value from an existing array.
  */
 class ComplexArrayUnset extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayunset';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caunset',
@@ -45,6 +55,11 @@ class ComplexArrayUnset extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -69,7 +84,7 @@ class ComplexArrayUnset extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array_name
+	 * @param string $array_name
 	 * @return string
 	 * @throws Exception
 	 */
@@ -103,6 +118,12 @@ class ComplexArrayUnset extends ResultPrinter {
 		return '';
 	}
 
+	/**
+	 * Unset the value addressed by a list of keys.
+	 *
+	 * @param array &$array
+	 * @param string[] $keys
+	 */
 	private static function unsetValueFromKeys( &$array, $keys ) {
 		$depth = count( $keys ) - 1;
 		$temp =& $array;

@@ -15,7 +15,10 @@ class ComplexArrayArrayMapTest extends ComplexArraysIntegrationTestCase {
 			'items joined by delimiter' => [
 				'a,b,c|,|####|Hello, ####!|<br/>', '<p>Hello, a!<br />Hello, b!<br />Hello, c!' . "\n</p>"
 			],
-			'omitted glue defaults to comma and space' => [ 'a,b,c|,|####|Hello, ####!', '<p>Hello, a!, Hello, b!, Hello, c!' . "\n</p>" ],
+			'omitted glue defaults to comma and space' => [
+				'a,b,c|,|####|Hello, ####!',
+				'<p>Hello, a!, Hello, b!, Hello, c!' . "\n</p>"
+			],
 			'empty delimiter does not affect the glue' => [
 				'a,b,c||####|Hello, ####!', '<p>Hello, a!, Hello, b!, Hello, c!' . "\n</p>"
 			],

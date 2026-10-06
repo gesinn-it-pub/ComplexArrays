@@ -26,7 +26,7 @@ abstract class ComplexArraysIntegrationTestCase extends MediaWikiIntegrationTest
 
 		// Defined arrays live in a static property and would leak between tests.
 		ComplexArrays::$arrays = [];
-		$GLOBALS['wfDefinedArraysGlobal'] = [];
+		$GLOBALS['wgComplexArraysDefinedArrays'] = [];
 	}
 
 	protected function tearDown(): void {

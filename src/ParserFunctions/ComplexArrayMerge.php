@@ -34,16 +34,31 @@ use Parser;
  * Defines the parser function {{#complexarraymerge:}}, which allows users to merge multiple arrays.
  */
 class ComplexArrayMerge extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraymerge';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'camerge'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -73,7 +88,7 @@ class ComplexArrayMerge extends ResultPrinter {
 	}
 
 	/**
-	 * @param $args
+	 * @param array $args
 	 * @return array|string
 	 * @throws Exception
 	 */
@@ -108,7 +123,7 @@ class ComplexArrayMerge extends ResultPrinter {
 	}
 
 	/**
-	 * @param &$args
+	 * @param array &$args
 	 */
 	private static function parseFunctionArguments( &$args ) {
 		self::removeFirstItemFromArray( $args );
@@ -123,7 +138,7 @@ class ComplexArrayMerge extends ResultPrinter {
 	}
 
 	/**
-	 * @param $arr
+	 * @param array $arr
 	 * @return array
 	 * @throws Exception
 	 */
@@ -143,29 +158,29 @@ class ComplexArrayMerge extends ResultPrinter {
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function removeFirstItemFromArray( &$array ) {
 		array_shift( $array );
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function removeLastItemFromArray( &$array ) {
 		self::$last_element = array_pop( $array );
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function getFirstItemFromArray( &$array ) {
 		self::$new_array = reset( $array );
 	}
 
 	/**
-	 * @param &$array
-	 * @param $item
+	 * @param array &$array
+	 * @param mixed $item
 	 */
 	private static function addItemToEndOfArray( &$array, $item ) {
 		array_push( $array, $item );

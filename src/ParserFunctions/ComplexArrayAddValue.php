@@ -34,10 +34,20 @@ use Parser;
  * Defines the parser function {{#complexarrayaddvalue:}}, which allows users to add values to (sub)arrays.
  */
 class ComplexArrayAddValue extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayaddvalue';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caaddvalue',
@@ -47,6 +57,11 @@ class ComplexArrayAddValue extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -84,8 +99,8 @@ class ComplexArrayAddValue extends ResultPrinter {
 	 * This function first calculates the name of the base array, then fetches that array and adds a value to the array.
 	 * The array is then saved again under the same name with the value added.
 	 *
-	 * @param $array_name
-	 * @param $value
+	 * @param string $array_name
+	 * @param mixed $value
 	 * @return array|string
 	 *
 	 * @throws Exception
@@ -113,7 +128,7 @@ class ComplexArrayAddValue extends ResultPrinter {
 	}
 
 	/**
-	 * @param $path
+	 * @param array $path
 	 * @param array &$array
 	 * @param string $value
 	 */

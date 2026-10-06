@@ -39,16 +39,31 @@ class ComplexArrayDiff extends ResultPrinter {
 	 */
 	private static $new_array;
 
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraydiff';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'cadiff'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -70,7 +85,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	/**
 	 * Calculate difference between arrays.
 	 *
-	 * @param $args
+	 * @param array $args
 	 *
 	 * @return array|string
 	 * @throws Exception
@@ -108,7 +123,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	}
 
 	/**
-	 * @param $arr
+	 * @param array $arr
 	 * @return array
 	 * @throws Exception
 	 */
@@ -130,7 +145,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	}
 
 	/**
-	 * @param &$args
+	 * @param array &$args
 	 */
 	private static function parseFunctionArguments( &$args ) {
 		self::removeFirstItemFromArray( $args );
@@ -139,19 +154,25 @@ class ComplexArrayDiff extends ResultPrinter {
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function removeFirstItemFromArray( &$array ) {
 		array_shift( $array );
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function getFirstItemFromArray( &$array ) {
 		self::$new_array = reset( $array );
 	}
 
+	/**
+	 * Check whether an array contains no nested arrays.
+	 *
+	 * @param array $array
+	 * @return bool
+	 */
 	private static function isOneDimensionalArray( array $array ) {
 		foreach ( $array as $item ) {
 			if ( is_array( $item ) ) {

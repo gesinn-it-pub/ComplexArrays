@@ -31,19 +31,35 @@ use Parser;
 /**
  * Class ComplexArrayUnique
  *
- * Defines the parser function {{#complexarrayunique:}}, which allows users to remove duplicate keys or values from a (sub)array.
+ * Defines the parser function {{#complexarrayunique:}}, which allows users to remove duplicate keys or values
+ * from a (sub)array.
  */
 class ComplexArrayUnique extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarrayunique';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'caunique'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}

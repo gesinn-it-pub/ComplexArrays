@@ -31,19 +31,35 @@ use Parser;
 /**
  * Class ComplexArrayPushArray
  *
- * Defines the parser function {{#complexarraypusharray:}}, which allows users to push one or more arrays to the end of another array, creating a new array.
+ * Defines the parser function {{#complexarraypusharray:}}, which allows users to push one or more arrays to the
+ * end of another array, creating a new array.
  */
 class ComplexArrayPushArray extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraypusharray';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'capusharray'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -68,7 +84,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 	}
 
 	/**
-	 * @param $args
+	 * @param array $args
 	 * @return array|string
 	 *
 	 * @throws Exception
@@ -113,7 +129,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 	}
 
 	/**
-	 * @param &$args
+	 * @param array &$args
 	 */
 	private static function parseFunctionArguments( &$args ) {
 		self::removeFirstItemFromArray( $args );
@@ -122,14 +138,14 @@ class ComplexArrayPushArray extends ResultPrinter {
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function removeFirstItemFromArray( &$array ) {
 		array_shift( $array );
 	}
 
 	/**
-	 * @param &$array
+	 * @param array &$array
 	 */
 	private static function getFirstItemFromArray( &$array ) {
 		self::$new_array = reset( $array );

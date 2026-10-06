@@ -26,7 +26,6 @@ class ComplexArrayWrapper {
 	/**
 	 * Create a new ComplexArray class. Equivalent to $class = new ComplexArrayWrapper();.
 	 *
-	 * @signature ComplexArrayWrapper newFromVoid();
 	 * @return ComplexArrayWrapper
 	 */
 	public static function newFromVoid() {
@@ -37,15 +36,14 @@ class ComplexArrayWrapper {
 	 * ComplexArrayWrapper constructor.
 	 */
 	public function __construct() {
-		global $wfDefinedArraysGlobal;
-		$this->arrays =& $wfDefinedArraysGlobal;
+		global $wgComplexArraysDefinedArrays;
+		$this->arrays =& $wgComplexArraysDefinedArrays;
 	}
 
 	/**
 	 * Set query array to $array_name. Returns false on failure.
 	 *
-	 * @signature $this|bool from( string $array_name );
-	 * @param $array_name
+	 * @param string $array_name
 	 * @return $this|bool
 	 */
 	public function on( $array_name ) {
@@ -79,7 +77,6 @@ class ComplexArrayWrapper {
 	/**
 	 * Returns the value of the array.
 	 *
-	 * @signature array|bool getArrayValue( array $indices );
 	 * @return array|bool
 	 */
 	public function get() {
@@ -111,8 +108,7 @@ class ComplexArrayWrapper {
 	/**
 	 * Define a new or overwrite an existing array, or set a value of a sub array, given indices.
 	 *
-	 * @signature bool set( mixed $value );
-	 * @param $value
+	 * @param mixed $value
 	 * @return bool
 	 */
 	public function set( $value ) {
@@ -146,7 +142,6 @@ class ComplexArrayWrapper {
 	/**
 	 * Resets values in class.
 	 *
-	 * @signature $this reset();
 	 * @return $this
 	 */
 	public function reset() {
@@ -159,7 +154,6 @@ class ComplexArrayWrapper {
 	/**
 	 * Unsets the array.
 	 *
-	 * @signature bool unsetArray();
 	 * @return bool
 	 */
 	public function unsetArray() {

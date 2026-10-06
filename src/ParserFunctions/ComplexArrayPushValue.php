@@ -32,13 +32,24 @@ use PPFrame;
 /**
  * Class ComplexArrayPushValue
  *
- * Defines the parser function {{#complexarraypushvalue:}}, which allows users to push a value or subarray to the end of a (sub)array.
+ * Defines the parser function {{#complexarraypushvalue:}}, which allows users to push a value or subarray to the
+ * end of a (sub)array.
  */
 class ComplexArrayPushValue extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraypushvalue';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'complexarraypush',
@@ -46,6 +57,11 @@ class ComplexArrayPushValue extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'sfh';
 	}
@@ -71,9 +87,9 @@ class ComplexArrayPushValue extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
-		$noparse = GlobalFunctions::getValue( @$args[2], $frame );
-		$array_name = GlobalFunctions::getValue( @$args[0], $frame );
-		$value = GlobalFunctions::getValue( @$args[1], $frame, $parser, $noparse );
+		$noparse = GlobalFunctions::getValue( $args[2] ?? null, $frame );
+		$array_name = GlobalFunctions::getValue( $args[0] ?? null, $frame );
+		$value = GlobalFunctions::getValue( $args[1] ?? null, $frame, $parser, $noparse );
 
 		if ( $value === null || $value === '' ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Value' );
@@ -83,8 +99,8 @@ class ComplexArrayPushValue extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array_name
-	 * @param $markup_value
+	 * @param string $array_name
+	 * @param string $markup_value
 	 * @return array|bool|string
 	 *
 	 * @throws Exception
@@ -126,6 +142,13 @@ class ComplexArrayPushValue extends ResultPrinter {
 		return '';
 	}
 
+	/**
+	 * Push a value onto an array and store the result under the base array name.
+	 *
+	 * @param mixed $value
+	 * @param array $array
+	 * @param string $base_array
+	 */
 	private static function replace( $value, $array, $base_array ) {
 		array_push( $array, $value );
 
@@ -135,7 +158,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 	/**
 	 * Push value to location defined in $path.
 	 *
-	 * @param $path
+	 * @param array $path
 	 * @param array &$array
 	 * @param null $value
 	 * @return array|bool

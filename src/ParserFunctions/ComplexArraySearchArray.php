@@ -31,13 +31,24 @@ use Parser;
 /**
  * Class ComplexArraySearch
  *
- * Defines the parser function {{#complexarraysearcharray:}}, which allows users to search for a string in the array, and define an array with all the keys of the result.
+ * Defines the parser function {{#complexarraysearcharray:}}, which allows users to search for a string in the
+ * array, and define an array with all the keys of the result.
  */
 class ComplexArraySearchArray extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraysearcharray';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'casearcharray',
@@ -45,6 +56,11 @@ class ComplexArraySearchArray extends ResultPrinter {
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -124,9 +140,9 @@ class ComplexArraySearchArray extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array
-	 * @param $value
-	 * @param &$key
+	 * @param array $array
+	 * @param mixed $value
+	 * @param string &$key
 	 */
 	private static function i( $array, $value, &$key ) {
 		foreach ( $array as $current_key => $current_item ) {

@@ -34,16 +34,31 @@ use Parser;
  * Defines the parser function {{#complexarraysort:}}, which allows users to sort arrays.
  */
 class ComplexArraySort extends ResultPrinter {
+	/**
+	 * Get the name of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return 'complexarraysort';
 	}
 
+	/**
+	 * Get the aliases of the parser function.
+	 *
+	 * @return string[]
+	 */
 	public function getAliases() {
 		return [
 			'casort'
 		];
 	}
 
+	/**
+	 * Get the type of the parser function.
+	 *
+	 * @return string
+	 */
 	public function getType() {
 		return 'normal';
 	}
@@ -121,7 +136,7 @@ class ComplexArraySort extends ResultPrinter {
 	}
 
 	/**
-	 * @param $algo
+	 * @param string $algo
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function sortArray( $algo ) {
@@ -269,7 +284,7 @@ class ComplexArraySort extends ResultPrinter {
 	/**
 	 * Sort array using keysort
 	 *
-	 * @param $order
+	 * @param string $order
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
@@ -311,8 +326,8 @@ class ComplexArraySort extends ResultPrinter {
 	/**
 	 * User-defined sorting function which sorts based on key.
 	 *
-	 * @param &$array
-	 * @param $key
+	 * @param array &$array
+	 * @param string $key
 	 */
 	private static function ksort( &$array, $key ) {
 		$sorter = [];

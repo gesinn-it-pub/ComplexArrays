@@ -58,6 +58,9 @@ class ComplexArrayUniqueTest extends ComplexArraysIntegrationTestCase {
 	}
 
 	public function testMissingNameYieldsError(): void {
-		$this->assertStringContainsString( 'Array key must not be omitted', $this->parse( '{{#complexarrayunique:}}' ) );
+		$this->assertStringContainsString(
+			'Array key must not be omitted',
+			$this->parse( '{{#complexarrayunique:}}' )
+		);
 	}
 }

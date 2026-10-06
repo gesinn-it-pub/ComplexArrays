@@ -83,7 +83,7 @@ class GlobalFunctions {
 	 * @param string &$wson
 	 * @return string
 	 */
-	public static function WSONtoJSON( &$wson ) {
+	public static function wsonToJson( &$wson ) {
 		$wson = preg_replace( "/(?!\B\"[^\"]*)\(\((?![^\"]*\"\B)/i", "{", $wson );
 		$wson = preg_replace( "/(?!\B\"[^\"]*)\)\)(?![^\"]*\"\B)/i", "}", $wson );
 
@@ -96,20 +96,26 @@ class GlobalFunctions {
 	 * @param string &$json
 	 * @return string
 	 */
-	public static function JSONtoWSON( &$json ) {
+	public static function jsonToWson( &$json ) {
 		$json = preg_replace( "/(?!\B\"[^\"]*){(?![^\"]*\"\B)/i", "((", $json );
 		$json = preg_replace( "/(?!\B\"[^\"]*)}(?![^\"]*\"\B)/i", "))", $json );
 
 		return $json;
 	}
 
+	/**
+	 * Convert an array to markup.
+	 *
+	 * @param array $array
+	 * @return string|false
+	 */
 	public static function arrayToMarkup( $array ) {
 		if ( !is_array( $array ) ) {
 			return false;
 		}
 
 		$json = json_encode( $array );
-		self::JSONtoWSON( $json );
+		self::jsonToWson( $json );
 
 		return $json;
 	}
@@ -131,7 +137,7 @@ class GlobalFunctions {
 
 		switch ( $markup_type ) {
 			case self::CA_MARKUP_LEGACY:
-				self::WSONtoJSON( $markup );
+				self::wsonToJson( $markup );
 				$array = self::trimElements( json_decode( $markup, true ) );
 
 				return $array;
@@ -152,8 +158,8 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param $markup
-	 * @param null $separator
+	 * @param string $markup
+	 * @param string|null $separator
 	 * @return int
 	 */
 	public static function determineMarkup( $markup, $separator = null ) {
@@ -162,7 +168,7 @@ class GlobalFunctions {
 		}
 
 		$json_markup = $markup;
-		self::WSONtoJSON( $json_markup );
+		self::wsonToJson( $json_markup );
 
 		if ( self::isValidJSON( $json_markup ) ) {
 			return self::CA_MARKUP_LEGACY;
@@ -171,6 +177,12 @@ class GlobalFunctions {
 		return self::CA_MARKUP_SIMPLE;
 	}
 
+	/**
+	 * Extract the bracketed keys from an array name.
+	 *
+	 * @param string $array_name
+	 * @return string[]|false
+	 */
 	public static function getKeys( $array_name ) {
 		if ( preg_match_all( "/(?<=\[).+?(?=\])/", $array_name, $matches ) === 0 ) {
 			return false;
@@ -230,7 +242,8 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * Get the subarray from an array name in the form of <base_array>[<sub1>][<sub2>][...]. Used by GlobalFunctions::getArrayFromArrayName().
+	 * Get the subarray from an array name in the form of <base_array>[<sub1>][<sub2>][...]. Used by
+	 * GlobalFunctions::getArrayFromArrayName().
 	 *
 	 * @param string $array_name
 	 * @return array|bool|mixed
@@ -312,9 +325,9 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param $array
-	 * @param $matches
-	 * @param $index
+	 * @param array $array
+	 * @param array $matches
+	 * @param int $index
 	 * @return array
 	 */
 	private static function getArrayFromWairudokado( $array, $matches, $index ) {
@@ -348,17 +361,18 @@ class GlobalFunctions {
 	/**
 	 * Fetch any arrays defined by Semantic MediaWiki.
 	 *
-	 * Semantic MediaWiki stores all ComplexArrays in the configuration parameter $wfDefinedArraysGlobal. In order to allow access to these array, we need to move them to ComplexArrays::$arrays.
+	 * Semantic MediaWiki stores all ComplexArrays in the configuration parameter $wgComplexArraysDefinedArrays. In
+	 * order to allow access to these array, we need to move them to ComplexArrays::$arrays.
 	 *
 	 * @return void
 	 */
 	public static function fetchSemanticArrays() {
-		global $wfDefinedArraysGlobal;
-		if ( $wfDefinedArraysGlobal !== null ) {
-			ComplexArrays::$arrays = array_merge( ComplexArrays::$arrays, $wfDefinedArraysGlobal );
+		global $wgComplexArraysDefinedArrays;
+		if ( $wgComplexArraysDefinedArrays !== null ) {
+			ComplexArrays::$arrays = array_merge( ComplexArrays::$arrays, $wgComplexArraysDefinedArrays );
 		}
 
-		$wfDefinedArraysGlobal = [];
+		$wgComplexArraysDefinedArrays = [];
 	}
 
 	/**
@@ -443,7 +457,7 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param $noparse
+	 * @param string $noparse
 	 * @return array
 	 */
 	public static function formatNoparse( $noparse ) {
@@ -500,6 +514,12 @@ class GlobalFunctions {
 		return trim( $frame->expand( $arg ) );
 	}
 
+	/**
+	 * Trim all scalar elements of an array recursively.
+	 *
+	 * @param array $array
+	 * @return array
+	 */
 	private static function trimElements( $array ) {
 		array_walk_recursive( $array, static function ( &$value ) { $value = trim( $value );
 		} );

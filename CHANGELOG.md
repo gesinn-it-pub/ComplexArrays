@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 
 ### Changed
 - Modernised extension registration: manifest version 2, PSR-4 autoloading (`AutoloadNamespaces`) with all classes moved into the `ComplexArrays\` namespace (parser functions in `ComplexArrays\ParserFunctions`, files renamed accordingly, `ComplexArrayWrapper` moved to `src/`), and a `ComplexArrays\Hooks` handler class for `ParserFirstCallInit` that registers the parser functions from an explicit list instead of globbing `src/classes`
+- Upgraded MediaWiki CodeSniffer to 48.0.2 (the newest release supporting PHP 8.1), removed all PHPCS rule exclusions except the integration-test `@covers` one and fixed the resulting findings: complete docblocks, no error suppression operator, line length, and lower camel case names (`wsonToJson`, `jsonToWson`, `formatPropertyOfType*`); the internal global `$wfDefinedArraysGlobal` is now `$wgComplexArraysDefinedArrays`
 - Renamed the extension from WSArrays to ComplexArrays (extension name, main class `ComplexArrays`, `ComplexArrays.i18n.php`, debug log channel, composer package `gesinn-it/complex-arrays`); parser functions, `ca-*` messages and the `complexarray` result format are unchanged
 
 ### Removed
