@@ -24,6 +24,7 @@ use ComplexArrays\ParserFunctions\ComplexArraySort;
 use ComplexArrays\ParserFunctions\ComplexArrayUnique;
 use ComplexArrays\ParserFunctions\ComplexArrayUnset;
 use MediaWiki\Hook\ParserFirstCallInitHook;
+use MediaWiki\MediaWikiServices;
 use Parser;
 
 /**
@@ -81,6 +82,39 @@ class Hooks implements ParserFirstCallInitHook {
 	}
 
 	/**
+	 * Returns the arrays pre-defined via $wgDefinedArraysGlobal (name => array).
+	 *
+	 * @return array
+	 */
+	public static function getConfiguredArrays(): array {
+		$arrays = self::getConfig( 'DefinedArraysGlobal', 'wfDefinedArraysGlobal' );
+		return is_array( $arrays ) ? $arrays : [];
+	}
+
+	/**
+	 * Reads an option from MediaWiki's configuration ($wg<name>). The legacy global
+	 * $wf... is a deprecated fallback, used only if the option was not configured.
+	 *
+	 * @param string $name Option name without the "wg" prefix
+	 * @param string $legacyGlobal Name of the deprecated global
+	 * @return mixed
+	 */
+	private static function getConfig( string $name, string $legacyGlobal ) {
+		$config = MediaWikiServices::getInstance()->getMainConfig();
+		$value = $config->get( $name );
+
+		if ( ( $value === [] || $value === false ) && isset( $GLOBALS[$legacyGlobal] ) ) {
+			wfDebugLog(
+				'ComplexArrays',
+				'$' . $legacyGlobal . ' is deprecated, use $wg' . $name . ' instead.'
+			);
+			return $GLOBALS[$legacyGlobal];
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Registers the "complexarray" result format of Semantic MediaWiki, if enabled.
 	 */
 	private function registerResultPrinter(): void {
@@ -88,7 +122,7 @@ class Hooks implements ParserFirstCallInitHook {
 			. '/SemanticMediaWiki/src/Query/ResultPrinters/ComplexArrayPrinter.php';
 		$target = dirname( __DIR__ ) . '/ComplexArrayPrinter.php';
 
-		if ( ( $GLOBALS['wfEnableResultPrinter'] ?? null ) !== true ) {
+		if ( self::getConfig( 'EnableResultPrinter', 'wfEnableResultPrinter' ) !== true ) {
 			return;
 		}
 

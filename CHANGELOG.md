@@ -22,6 +22,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
 
 ### Fixed
+- The options `$wgEnableResultPrinter` and `$wgDefinedArraysGlobal` declared in `extension.json` are now read through MediaWiki's configuration; the legacy globals `$wfEnableResultPrinter` and `$wfDefinedArraysGlobal` remain as a deprecated fallback with a debug log entry, and the options are documented in the README
 - Parser function arguments with the value `0` are no longer treated as omitted (for example `{{#complexarraypush:list|0}}` was rejected with "Value must not be omitted")
 - Malformed `use` statements in `ComplexArrays\Hooks` (missing namespace separator) that pointed the parser function class imports at non-existent classes
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)

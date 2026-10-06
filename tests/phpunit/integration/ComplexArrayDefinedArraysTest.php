@@ -25,4 +25,24 @@ class ComplexArrayDefinedArraysTest extends ComplexArraysIntegrationTestCase {
 	public function testInvalidNameYieldsError(): void {
 		$this->assertStringContainsString( 'error', $this->parse( '{{#complexarraydefinedarrays:123}}' ) );
 	}
+
+	public function testArrayPredefinedViaConfigIsAvailable(): void {
+		$this->overrideConfigValue( 'DefinedArraysGlobal', [ 'colors' => [ 'red', 'green' ] ] );
+
+		$this->assertParsesTo(
+			"<p>2\n</p>",
+			'{{#complexarraysize:colors}}'
+		);
+	}
+
+	protected function tearDown(): void {
+		unset( $GLOBALS['wfDefinedArraysGlobal'] );
+		parent::tearDown();
+	}
+
+	public function testArrayPredefinedViaLegacyGlobalIsAvailable(): void {
+		$GLOBALS['wfDefinedArraysGlobal'] = [ 'colors' => [ 'red', 'green', 'blue' ] ];
+
+		$this->assertParsesTo( "<p>3\n</p>", '{{#complexarraysize:colors}}' );
+	}
 }

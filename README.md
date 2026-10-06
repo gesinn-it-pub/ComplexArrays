@@ -1,5 +1,23 @@
 Multidimensional and associative arrays for MediaWiki.
 
+## Configuration
+
+Set the options in `LocalSettings.php` after loading the extension:
+
+```php
+wfLoadExtension( 'ComplexArrays' );
+
+// Pre-define arrays (name => array) that are available to all parser functions.
+$wgDefinedArraysGlobal = [ 'colors' => [ 'red', 'green' ] ];
+
+// Register the "complexarray" result format of Semantic MediaWiki (default: false).
+$wgEnableResultPrinter = true;
+```
+
+The former globals `$wfDefinedArraysGlobal` and `$wfEnableResultPrinter` are deprecated. They are still
+honoured if the corresponding `$wg...` option is not set, and a debug log entry (channel `ComplexArrays`)
+is written. They will be removed in a future release.
+
 ComplexArrays - Associative and multidimensional arrays for MediaWiki.
 Copyright (C) 2019 Marijn van Wezel
 

@@ -359,10 +359,11 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * Fetch any arrays defined by Semantic MediaWiki.
+	 * Fetch any arrays defined by Semantic MediaWiki or by configuration.
 	 *
 	 * Semantic MediaWiki stores all ComplexArrays in the configuration parameter $wgComplexArraysDefinedArrays. In
-	 * order to allow access to these array, we need to move them to ComplexArrays::$arrays.
+	 * order to allow access to these array, we need to move them to ComplexArrays::$arrays. Arrays pre-defined via
+	 * $wgDefinedArraysGlobal (name => array) are added unless an array of that name already exists.
 	 *
 	 * @return void
 	 */
@@ -373,6 +374,12 @@ class GlobalFunctions {
 		}
 
 		$wgComplexArraysDefinedArrays = [];
+
+		foreach ( Hooks::getConfiguredArrays() as $name => $array ) {
+			if ( !isset( ComplexArrays::$arrays[$name] ) && is_array( $array ) ) {
+				ComplexArrays::$arrays[$name] = new ComplexArray( $array );
+			}
+		}
 	}
 
 	/**
