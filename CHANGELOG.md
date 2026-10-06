@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
 
 ### Fixed
+- Malformed `use` statements in `ComplexArrays\Hooks` (missing namespace separator) that pointed the parser function class imports at non-existent classes
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)
 - Null passed to `explode()` in `#complexarrayprint` (deprecation on PHP 8.1+)
 - `Message::toString()` called without format in error output (fatal on MediaWiki 1.43)
