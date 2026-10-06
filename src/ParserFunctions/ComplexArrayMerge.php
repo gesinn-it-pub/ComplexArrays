@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -66,12 +66,12 @@ class ComplexArrayMerge extends ResultPrinter {
 	/**
 	 * @var string
 	 */
-	private static $new_array = '';
+	private $new_array = '';
 
 	/**
 	 * @var string
 	 */
-	private static $last_element = '';
+	private $last_element = '';
 
 	/**
 	 * Define all allowed parameters.
@@ -82,9 +82,11 @@ class ComplexArrayMerge extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
-		return self::arrayMerge( func_get_args() );
+		$call = new self();
+
+		return $call->arrayMerge( $parser, func_get_args() );
 	}
 
 	/**
@@ -92,10 +94,10 @@ class ComplexArrayMerge extends ResultPrinter {
 	 * @return array|string
 	 * @throws Exception
 	 */
-	private static function arrayMerge( $args ) {
-		self::parseFunctionArguments( $args );
+	private function arrayMerge( Parser $parser, $args ) {
+		$this->parseFunctionArguments( $args );
 
-		if ( !GlobalFunctions::isValidArrayName( self::$new_array ) ) {
+		if ( !GlobalFunctions::isValidArrayName( $this->new_array ) ) {
 			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
@@ -103,19 +105,19 @@ class ComplexArrayMerge extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-too-little-arrays' );
 		}
 
-		$arrays = self::iterate( $args );
+		$arrays = $this->iterate( $parser, $args );
 
-		if ( self::$last_element === "recursive" ) {
+		if ( $this->last_element === "recursive" ) {
 			$array = call_user_func_array( 'array_merge_recursive', $arrays );
 
 			if ( is_array( $array ) ) {
-				ComplexArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
+				ArrayStore::forParser( $parser )->set( $this->new_array, new ComplexArray( $array ) );
 			}
 		} else {
 			$array = call_user_func_array( 'array_merge', $arrays );
 
 			if ( is_array( $array ) ) {
-				ComplexArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
+				ArrayStore::forParser( $parser )->set( $this->new_array, new ComplexArray( $array ) );
 			}
 		}
 
@@ -125,15 +127,15 @@ class ComplexArrayMerge extends ResultPrinter {
 	/**
 	 * @param array &$args
 	 */
-	private static function parseFunctionArguments( &$args ) {
-		self::removeFirstItemFromArray( $args );
-		self::getFirstItemFromArray( $args );
-		self::removeFirstItemFromArray( $args );
-		self::removeLastItemFromArray( $args );
+	private function parseFunctionArguments( &$args ) {
+		$this->removeFirstItemFromArray( $args );
+		$this->getFirstItemFromArray( $args );
+		$this->removeFirstItemFromArray( $args );
+		$this->removeLastItemFromArray( $args );
 
 		// If the last element is not "recursive", add it back
-		if ( self::$last_element !== "recursive" ) {
-			self::addItemToEndOfArray( $args, self::$last_element );
+		if ( $this->last_element !== "recursive" ) {
+			$this->addItemToEndOfArray( $args, $this->last_element );
 		}
 	}
 
@@ -142,15 +144,15 @@ class ComplexArrayMerge extends ResultPrinter {
 	 * @return array
 	 * @throws Exception
 	 */
-	private static function iterate( $arr ) {
+	private function iterate( Parser $parser, $arr ) {
 		$arrays = [];
 		foreach ( $arr as $array ) {
 			// Check if the array exists
-			if ( !isset( ComplexArrays::$arrays[ $array ] ) ) {
+			if ( !ArrayStore::forParser( $parser )->has( $array ) ) {
 				continue;
 			}
 
-			$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array ] );
+			$array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array ) );
 			array_push( $arrays, (array)$array );
 		}
 
@@ -160,29 +162,29 @@ class ComplexArrayMerge extends ResultPrinter {
 	/**
 	 * @param array &$array
 	 */
-	private static function removeFirstItemFromArray( &$array ) {
+	private function removeFirstItemFromArray( &$array ) {
 		array_shift( $array );
 	}
 
 	/**
 	 * @param array &$array
 	 */
-	private static function removeLastItemFromArray( &$array ) {
-		self::$last_element = array_pop( $array );
+	private function removeLastItemFromArray( &$array ) {
+		$this->last_element = array_pop( $array );
 	}
 
 	/**
 	 * @param array &$array
 	 */
-	private static function getFirstItemFromArray( &$array ) {
-		self::$new_array = reset( $array );
+	private function getFirstItemFromArray( &$array ) {
+		$this->new_array = reset( $array );
 	}
 
 	/**
 	 * @param array &$array
 	 * @param mixed $item
 	 */
-	private static function addItemToEndOfArray( &$array, $item ) {
+	private function addItemToEndOfArray( &$array, $item ) {
 		array_push( $array, $item );
 	}
 }

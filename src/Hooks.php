@@ -23,6 +23,7 @@ use ComplexArrays\ParserFunctions\ComplexArraySlice;
 use ComplexArrays\ParserFunctions\ComplexArraySort;
 use ComplexArrays\ParserFunctions\ComplexArrayUnique;
 use ComplexArrays\ParserFunctions\ComplexArrayUnset;
+use MediaWiki\Hook\ParserClearStateHook;
 use MediaWiki\Hook\ParserFirstCallInitHook;
 use MediaWiki\MediaWikiServices;
 use Parser;
@@ -32,7 +33,7 @@ use Parser;
  *
  * @license GPL-2.0-or-later
  */
-class Hooks implements ParserFirstCallInitHook {
+class Hooks implements ParserFirstCallInitHook, ParserClearStateHook {
 
 	/**
 	 * The classes implementing a parser function, each providing getName(),
@@ -79,6 +80,15 @@ class Hooks implements ParserFirstCallInitHook {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Forgets the arrays of the previous parse.
+	 *
+	 * @param Parser $parser
+	 */
+	public function onParserClearState( $parser ) {
+		ArrayStore::forParser( $parser )->clear();
 	}
 
 	/**

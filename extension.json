@@ -30,7 +30,8 @@
     }
   },
   "Hooks": {
-    "ParserFirstCallInit": "main"
+    "ParserFirstCallInit": "main",
+    "ParserClearState": "main"
   },
   "config": {
     "EnableResultPrinter": {

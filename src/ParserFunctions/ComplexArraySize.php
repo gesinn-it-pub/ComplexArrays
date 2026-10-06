@@ -72,13 +72,13 @@ class ComplexArraySize extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $array_name = '', $options = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $array_name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
-		return self::arraySize( $array_name, $options );
+		return self::arraySize( $parser, $array_name, $options );
 	}
 
 	/**
@@ -90,12 +90,12 @@ class ComplexArraySize extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arraySize( $name, $options = '' ) {
-		if ( !GlobalFunctions::arrayExists( GlobalFunctions::getBaseArrayFromArrayName( $name ) ) ) {
+	private static function arraySize( Parser $parser, $name, $options = '' ) {
+		if ( !GlobalFunctions::arrayExists( $parser, GlobalFunctions::getBaseArrayFromArrayName( $name ) ) ) {
 			return '';
 		}
 
-		$array = GlobalFunctions::getArrayFromArrayName( $name );
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $name );
 
 		if ( $options === "top" ) {
 			return count( $array );

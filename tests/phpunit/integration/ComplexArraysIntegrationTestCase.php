@@ -2,9 +2,9 @@
 
 namespace ComplexArrays\Tests\Integration;
 
-use ComplexArrays\ComplexArrays;
 use MediaWiki\MediaWikiServices;
 use MediaWikiIntegrationTestCase;
+use Parser;
 use ParserOptions;
 
 /**
@@ -24,14 +24,7 @@ abstract class ComplexArraysIntegrationTestCase extends MediaWikiIntegrationTest
 	protected function setUp(): void {
 		parent::setUp();
 
-		// Defined arrays live in a static property and would leak between tests.
-		ComplexArrays::$arrays = [];
 		$GLOBALS['wgComplexArraysDefinedArrays'] = [];
-	}
-
-	protected function tearDown(): void {
-		ComplexArrays::$arrays = [];
-		parent::tearDown();
 	}
 
 	/**
@@ -39,8 +32,14 @@ abstract class ComplexArraysIntegrationTestCase extends MediaWikiIntegrationTest
 	 * wrapper element and surrounding whitespace.
 	 */
 	protected function parse( string $wikitext ): string {
-		$services = MediaWikiServices::getInstance();
-		$parser = $services->getParserFactory()->create();
+		return $this->parseWith( MediaWikiServices::getInstance()->getParserFactory()->create(), $wikitext );
+	}
+
+	/**
+	 * Like parse(), but with the given parser, so a test can parse several
+	 * pages with one parser or with different ones.
+	 */
+	protected function parseWith( Parser $parser, string $wikitext ): string {
 		$title = \Title::makeTitle( NS_MAIN, 'ComplexArraysTest' );
 		$options = ParserOptions::newFromAnon();
 

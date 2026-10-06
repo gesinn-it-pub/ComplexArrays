@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -74,17 +74,17 @@ class ComplexArrayUnique extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $array_name = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $array_name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
-		if ( !GlobalFunctions::arrayExists( $array_name ) ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $array_name ) ) {
 			return '';
 		}
 
-		self::arrayUnique( $array_name );
+		self::arrayUnique( $parser, $array_name );
 
 		return '';
 	}
@@ -96,17 +96,17 @@ class ComplexArrayUnique extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayUnique( $array_name ) {
-		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[$array_name] );
+	private static function arrayUnique( Parser $parser, $array_name ) {
+		$array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array_name ) );
 
 		if ( GlobalFunctions::containsArray( $array ) ) {
 			$array = array_unique( $array, SORT_REGULAR );
 
-			ComplexArrays::$arrays[$array_name] = new ComplexArray( $array );
+			ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray( $array ) );
 		} else {
 			$array = array_unique( $array );
 
-			ComplexArrays::$arrays[$array_name] = new ComplexArray( $array );
+			ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray( $array ) );
 		}
 	}
 }

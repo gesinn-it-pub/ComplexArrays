@@ -23,6 +23,7 @@ namespace ComplexArrays;
 
 use Exception;
 use Html;
+use Parser;
 use PPFrame;
 
 /**
@@ -223,19 +224,21 @@ class GlobalFunctions {
 	/**
 	 * Return the contents of a subarray based on the name (basearray[subarray][subarray]...).
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @return bool|array
 	 *
 	 * @throws Exception
 	 */
-	public static function getArrayFromArrayName( $array_name ) {
+	public static function getArrayFromArrayName( Parser $parser, $array_name ) {
 		/* This is already a base array, so just get the array */
 		if ( !strpos( $array_name, "[" ) ) {
-			if ( isset( ComplexArrays::$arrays[ $array_name ] ) ) {
-				return self::getArrayFromComplexArray( ComplexArrays::$arrays[ $array_name ] );
+			$array = ArrayStore::forParser( $parser )->get( $array_name );
+			if ( $array !== null ) {
+				return self::getArrayFromComplexArray( $array );
 			}
 		} else {
-			return self::getSubarrayFromArrayName( $array_name );
+			return self::getSubarrayFromArrayName( $parser, $array_name );
 		}
 
 		return false;
@@ -245,15 +248,16 @@ class GlobalFunctions {
 	 * Get the subarray from an array name in the form of <base_array>[<sub1>][<sub2>][...]. Used by
 	 * GlobalFunctions::getArrayFromArrayName().
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @return array|bool|mixed
 	 * @throws Exception
 	 */
-	private static function getSubarrayFromArrayName( $array_name ) {
+	private static function getSubarrayFromArrayName( Parser $parser, $array_name ) {
 		/* Get the name of the base array */
 		$base_array_name = self::getBaseArrayFromArrayName( $array_name );
 
-		if ( !self::arrayExists( $base_array_name ) ) {
+		if ( !self::arrayExists( $parser, $base_array_name ) ) {
 			return false;
 		}
 
@@ -261,7 +265,7 @@ class GlobalFunctions {
 			return false;
 		}
 
-		$array = self::getArrayFromComplexArray( ComplexArrays::$arrays[ $base_array_name ] );
+		$array = self::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $base_array_name ) );
 
 		if ( !is_array( $array ) ) {
 			return false;
@@ -362,22 +366,25 @@ class GlobalFunctions {
 	 * Fetch any arrays defined by Semantic MediaWiki or by configuration.
 	 *
 	 * Semantic MediaWiki stores all ComplexArrays in the configuration parameter $wgComplexArraysDefinedArrays. In
-	 * order to allow access to these array, we need to move them to ComplexArrays::$arrays. Arrays pre-defined via
+	 * order to allow access to these array, we need to move them to the store of the parser. Arrays pre-defined via
 	 * $wgDefinedArraysGlobal (name => array) are added unless an array of that name already exists.
 	 *
+	 * @param Parser $parser
 	 * @return void
 	 */
-	public static function fetchSemanticArrays() {
+	public static function fetchSemanticArrays( Parser $parser ) {
+		$store = ArrayStore::forParser( $parser );
+
 		global $wgComplexArraysDefinedArrays;
 		if ( $wgComplexArraysDefinedArrays !== null ) {
-			ComplexArrays::$arrays = array_merge( ComplexArrays::$arrays, $wgComplexArraysDefinedArrays );
+			$store->merge( $wgComplexArraysDefinedArrays );
 		}
 
 		$wgComplexArraysDefinedArrays = [];
 
 		foreach ( Hooks::getConfiguredArrays() as $name => $array ) {
-			if ( !isset( ComplexArrays::$arrays[$name] ) && is_array( $array ) ) {
-				ComplexArrays::$arrays[$name] = new ComplexArray( $array );
+			if ( !$store->has( $name ) && is_array( $array ) ) {
+				$store->set( $name, new ComplexArray( $array ) );
 			}
 		}
 	}
@@ -425,15 +432,12 @@ class GlobalFunctions {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @return bool
 	 */
-	public static function arrayExists( $array_name ) {
-		if ( isset( ComplexArrays::$arrays[$array_name] ) ) {
-			return true;
-		}
-
-		return false;
+	public static function arrayExists( Parser $parser, $array_name ) {
+		return ArrayStore::forParser( $parser )->has( $array_name );
 	}
 
 	/**

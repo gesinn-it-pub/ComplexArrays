@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -75,7 +75,7 @@ class ComplexArrayDefine extends ResultPrinter {
 	 * @return array|string
 	 */
 	public static function getResult( Parser $parser, $frame, $args ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		// Name
 		if ( GlobalFunctions::isBlank( $args[0] ?? null ) ) {
@@ -93,23 +93,23 @@ class ComplexArrayDefine extends ResultPrinter {
 
 		// Define an empty array
 		if ( GlobalFunctions::isBlank( $array_markup ) ) {
-			ComplexArrays::$arrays[ $array_name ] = new ComplexArray();
+			ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray() );
 		} else {
-			self::arrayDefine( $array_name, $array_markup, $sep );
+			self::arrayDefine( $parser, $array_name, $array_markup, $sep );
 		}
 
 		return '';
 	}
 
 	/**
-	 * Define array and store it in ComplexArrays::$arrays as a SafeComplexArray object.
+	 * Define array and store it in the array store of the parser.
 	 *
 	 * @param string $array_name
 	 * @param string $array_markup
 	 * @param string|null $separator
 	 * @throws Exception
 	 */
-	private static function arrayDefine( $array_name, $array_markup, $separator = null ) {
+	private static function arrayDefine( Parser $parser, $array_name, $array_markup, $separator = null ) {
 		$array = GlobalFunctions::markupToArray( $array_markup, $separator );
 
 		if ( !$array ) {
@@ -117,6 +117,6 @@ class ComplexArrayDefine extends ResultPrinter {
 			return;
 		}
 
-		ComplexArrays::$arrays[$array_name] = new ComplexArray( (array)$array );
+		ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray( (array)$array ) );
 	}
 }

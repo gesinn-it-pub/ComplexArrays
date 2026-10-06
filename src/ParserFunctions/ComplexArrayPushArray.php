@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -67,7 +67,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 	/**
 	 * @var string
 	 */
-	private static $new_array = '';
+	private $new_array = '';
 
 	/**
 	 * Define parameters and initialize parser.
@@ -78,9 +78,11 @@ class ComplexArrayPushArray extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
-		return self::arrayPush( func_get_args() );
+		$call = new self();
+
+		return $call->arrayPush( $parser, func_get_args() );
 	}
 
 	/**
@@ -89,10 +91,10 @@ class ComplexArrayPushArray extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayPush( $args ) {
-		self::parseFunctionArguments( $args );
+	private function arrayPush( Parser $parser, $args ) {
+		$this->parseFunctionArguments( $args );
 
-		if ( !GlobalFunctions::isValidArrayName( self::$new_array ) ) {
+		if ( !GlobalFunctions::isValidArrayName( $this->new_array ) ) {
 			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
@@ -100,9 +102,9 @@ class ComplexArrayPushArray extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-too-little-arrays' );
 		}
 
-		$arrays = self::iterate( $args );
+		$arrays = $this->iterate( $parser, $args );
 
-		ComplexArrays::$arrays[self::$new_array] = new ComplexArray( $arrays );
+		ArrayStore::forParser( $parser )->set( $this->new_array, new ComplexArray( $arrays ) );
 
 		return '';
 	}
@@ -113,14 +115,14 @@ class ComplexArrayPushArray extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function iterate( $array ) {
+	private function iterate( Parser $parser, $array ) {
 		$arrays = [];
 		foreach ( $array as $array_name ) {
-			if ( !GlobalFunctions::arrayExists( $array_name ) ) {
+			if ( !GlobalFunctions::arrayExists( $parser, $array_name ) ) {
 				continue;
 			}
 
-			$push_array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array_name ] );
+			$push_array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array_name ) );
 
 			array_push( $arrays, $push_array );
 		}
@@ -131,23 +133,23 @@ class ComplexArrayPushArray extends ResultPrinter {
 	/**
 	 * @param array &$args
 	 */
-	private static function parseFunctionArguments( &$args ) {
-		self::removeFirstItemFromArray( $args );
-		self::getFirstItemFromArray( $args );
-		self::removeFirstItemFromArray( $args );
+	private function parseFunctionArguments( &$args ) {
+		$this->removeFirstItemFromArray( $args );
+		$this->getFirstItemFromArray( $args );
+		$this->removeFirstItemFromArray( $args );
 	}
 
 	/**
 	 * @param array &$array
 	 */
-	private static function removeFirstItemFromArray( &$array ) {
+	private function removeFirstItemFromArray( &$array ) {
 		array_shift( $array );
 	}
 
 	/**
 	 * @param array &$array
 	 */
-	private static function getFirstItemFromArray( &$array ) {
-		self::$new_array = reset( $array );
+	private function getFirstItemFromArray( &$array ) {
+		$this->new_array = reset( $array );
 	}
 }

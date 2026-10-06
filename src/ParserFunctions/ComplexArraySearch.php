@@ -21,7 +21,7 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -65,7 +65,7 @@ class ComplexArraySearch extends ResultPrinter {
 	/**
 	 * @var string|null
 	 */
-	private static $array_name = '';
+	private $array_name = '';
 
 	/**
 	 * @param Parser $parser
@@ -76,7 +76,9 @@ class ComplexArraySearch extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $array_name = '', $value = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
+
+		$call = new self();
 
 		if ( $array_name === '' ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Name' );
@@ -86,7 +88,7 @@ class ComplexArraySearch extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
-		return self::arraySearch( $array_name, $value );
+		return $call->arraySearch( $parser, $array_name, $value );
 	}
 
 	/**
@@ -96,17 +98,17 @@ class ComplexArraySearch extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arraySearch( $array_name, $value ) {
-		if ( !isset( ComplexArrays::$arrays[ $array_name ] ) ) {
+	private function arraySearch( Parser $parser, $array_name, $value ) {
+		if ( !ArrayStore::forParser( $parser )->has( $array_name ) ) {
 			return '';
 		}
 
-		self::$array_name = null;
+		$this->array_name = null;
 
-		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
-		self::findValue( $array, $value, $array_name );
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $array_name );
+		$this->findValue( $array, $value, $array_name );
 
-		return self::$array_name;
+		return $this->array_name;
 	}
 
 	/**
@@ -114,17 +116,17 @@ class ComplexArraySearch extends ResultPrinter {
 	 * @param string $value
 	 * @param string &$array_name
 	 */
-	private static function findValue( $array, $value, &$array_name ) {
+	private function findValue( $array, $value, &$array_name ) {
 		foreach ( $array as $current_key => $current_item ) {
 			$array_name .= "[$current_key]";
 
 			if ( $value === $current_item ) {
-				self::$array_name = $array_name;
+				$this->array_name = $array_name;
 
 				return;
 			} else {
 				if ( is_array( $current_item ) ) {
-					self::findValue( $current_item, $value, $array_name );
+					$this->findValue( $current_item, $value, $array_name );
 				}
 
 				$array_name = substr( $array_name, 0, strrpos( $array_name, '[' ) );

@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -74,13 +74,13 @@ class ComplexArrayUnset extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $array_name = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $array_name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
-		return self::arrayUnset( $array_name );
+		return self::arrayUnset( $parser, $array_name );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class ComplexArrayUnset extends ResultPrinter {
 	 * @return string
 	 * @throws Exception
 	 */
-	private static function arrayUnset( $array_name ) {
+	private static function arrayUnset( Parser $parser, $array_name ) {
 		$base_array_name = GlobalFunctions::getBaseArrayFromArrayName( $array_name );
 
 		if ( $base_array_name === $array_name ) {
@@ -96,14 +96,14 @@ class ComplexArrayUnset extends ResultPrinter {
 			return '';
 		}
 
-		if ( !GlobalFunctions::arrayExists( $base_array_name ) ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $base_array_name ) ) {
 			return '';
 		}
 
-		$array = GlobalFunctions::getArrayFromArrayName( $base_array_name );
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $base_array_name );
 		$keys  = GlobalFunctions::getKeys( $array_name );
 
-		if ( !$array || !GlobalFunctions::getArrayFromArrayName( $array_name ) ) {
+		if ( !$array || !GlobalFunctions::getArrayFromArrayName( $parser, $array_name ) ) {
 			return '';
 		}
 
@@ -113,7 +113,7 @@ class ComplexArrayUnset extends ResultPrinter {
 
 		self::unsetValueFromKeys( $array, $keys );
 
-		ComplexArrays::$arrays[$base_array_name] = new ComplexArray( $array );
+		ArrayStore::forParser( $parser )->set( $base_array_name, new ComplexArray( $array ) );
 
 		return '';
 	}

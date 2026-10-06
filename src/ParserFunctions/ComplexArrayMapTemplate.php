@@ -77,7 +77,7 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $name = '', $template = '', $options = '', $new_delimiter = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Name' );
@@ -89,7 +89,7 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 
 		$new_delimiter = str_replace( [ '\n', '\s' ], [ "\n", ' ' ], $new_delimiter );
 
-		return self::arrayMapTemplate( $name, $template, $options, $new_delimiter );
+		return self::arrayMapTemplate( $parser, $name, $template, $options, $new_delimiter );
 	}
 
 	/**
@@ -101,11 +101,11 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayMapTemplate( $name, $template, $options = '', $new_delimiter = '' ) {
+	private static function arrayMapTemplate( Parser $parser, $name, $template, $options = '', $new_delimiter = '' ) {
 		$base_array = GlobalFunctions::getBaseArrayFromArrayName( $name );
-		$array = GlobalFunctions::getArrayFromArrayName( $name );
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $name );
 
-		if ( !GlobalFunctions::arrayExists( $base_array ) || !$array ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $base_array ) || !$array ) {
 			return '';
 		}
 

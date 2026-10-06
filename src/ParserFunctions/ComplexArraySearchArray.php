@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -68,7 +68,7 @@ class ComplexArraySearchArray extends ResultPrinter {
 	/**
 	 * @var array[]|string[]
 	 */
-	private static $found = [];
+	private $found = [];
 
 	/**
 	 * @param Parser $parser
@@ -80,7 +80,9 @@ class ComplexArraySearchArray extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $new_array_name = '', $array_name = '', $value = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
+
+		$call = new self();
 
 		if ( GlobalFunctions::isBlank( $new_array_name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'New array key' );
@@ -98,7 +100,7 @@ class ComplexArraySearchArray extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
-		return self::arraySearchArray( $new_array_name, $array_name, $value );
+		return $call->arraySearchArray( $parser, $new_array_name, $array_name, $value );
 	}
 
 	/**
@@ -109,15 +111,15 @@ class ComplexArraySearchArray extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arraySearchArray( $new_array, $name, $value ) {
-		if ( !GlobalFunctions::arrayExists( $name ) ) {
+	private function arraySearchArray( Parser $parser, $new_array, $name, $value ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $name ) ) {
 			return '';
 		}
 
-		$found = self::findValues( $value, $name );
+		$found = $this->findValues( $parser, $value, $name );
 
 		if ( $found !== [] ) {
-			ComplexArrays::$arrays[ $new_array ] = new ComplexArray( $found );
+			ArrayStore::forParser( $parser )->set( $new_array, new ComplexArray( $found ) );
 		}
 
 		return '';
@@ -130,13 +132,13 @@ class ComplexArraySearchArray extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function findValues( $value, $key ) {
-		$array = GlobalFunctions::getArrayFromArrayName( $key );
+	private function findValues( Parser $parser, $value, $key ) {
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $key );
 
-		self::$found = [];
-		self::i( $array, $value, $key );
+		$this->found = [];
+		$this->i( $array, $value, $key );
 
-		return self::$found;
+		return $this->found;
 	}
 
 	/**
@@ -144,15 +146,15 @@ class ComplexArraySearchArray extends ResultPrinter {
 	 * @param mixed $value
 	 * @param string &$key
 	 */
-	private static function i( $array, $value, &$key ) {
+	private function i( $array, $value, &$key ) {
 		foreach ( $array as $current_key => $current_item ) {
 			$key .= "[$current_key]";
 
 			if ( $value === $current_item ) {
-				array_push( self::$found, $key );
+				array_push( $this->found, $key );
 			} else {
 				if ( is_array( $current_item ) ) {
-					self::i( $current_item, $value, $key );
+					$this->i( $current_item, $value, $key );
 				}
 			}
 

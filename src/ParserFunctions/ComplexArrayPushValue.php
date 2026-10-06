@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -77,7 +77,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $frame, $args ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $args[0] ?? null ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Name' );
@@ -95,7 +95,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
-		return self::arrayPushValue( $array_name, $value );
+		return self::arrayPushValue( $parser, $array_name, $value );
 	}
 
 	/**
@@ -105,22 +105,22 @@ class ComplexArrayPushValue extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayPushValue( $array_name, $markup_value ) {
+	private static function arrayPushValue( Parser $parser, $array_name, $markup_value ) {
 		$base_array = GlobalFunctions::getBaseArrayFromArrayName( $array_name );
 
 		// If the array doesn't exist yet, create it
-		if ( !GlobalFunctions::arrayExists( $base_array ) ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $base_array ) ) {
 			if ( !GlobalFunctions::isValidArrayName( $base_array ) ) {
 				return GlobalFunctions::error( 'ca-invalid-name' );
 			}
 
-			ComplexArrays::$arrays[ $base_array ] = new ComplexArray();
+			ArrayStore::forParser( $parser )->set( $base_array, new ComplexArray() );
 		}
 
 		$matches = [];
 		preg_match_all( "/(?<=\[).+?(?=\])/", $array_name, $matches );
 
-		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[$base_array] );
+		$array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $base_array ) );
 		$value = GlobalFunctions::markupToArray( $markup_value );
 
 		if ( count( $value ) === 1 ) {
@@ -128,7 +128,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 		}
 
 		if ( !strpos( $array_name, "[" ) ) {
-			self::replace( $value, $array, $base_array );
+			self::replace( $parser, $value, $array, $base_array );
 		} else {
 			$result = self::add( $matches[0], $array, $value );
 
@@ -136,7 +136,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 				return $result;
 			}
 
-			ComplexArrays::$arrays[$base_array] = new ComplexArray( $array );
+			ArrayStore::forParser( $parser )->set( $base_array, new ComplexArray( $array ) );
 		}
 
 		return '';
@@ -149,10 +149,10 @@ class ComplexArrayPushValue extends ResultPrinter {
 	 * @param array $array
 	 * @param string $base_array
 	 */
-	private static function replace( $value, $array, $base_array ) {
+	private static function replace( Parser $parser, $value, $array, $base_array ) {
 		array_push( $array, $value );
 
-		ComplexArrays::$arrays[ $base_array ] = new ComplexArray( $array );
+		ArrayStore::forParser( $parser )->set( $base_array, new ComplexArray( $array ) );
 	}
 
 	/**

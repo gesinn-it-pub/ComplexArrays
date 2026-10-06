@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -77,7 +77,7 @@ class ComplexArrayAddValue extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $name = '', $value = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Name' );
@@ -92,7 +92,7 @@ class ComplexArrayAddValue extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-subarray-not-provided' );
 		}
 
-		return self::arrayAddValue( $name, $value );
+		return self::arrayAddValue( $parser, $name, $value );
 	}
 
 	/**
@@ -105,10 +105,10 @@ class ComplexArrayAddValue extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayAddValue( $array_name, $value ) {
+	private static function arrayAddValue( Parser $parser, $array_name, $value ) {
 		$base_array_name = GlobalFunctions::getBaseArrayFromArrayName( $array_name );
 
-		if ( !GlobalFunctions::arrayExists( $base_array_name ) ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $base_array_name ) ) {
 			return '';
 		}
 
@@ -118,11 +118,11 @@ class ComplexArrayAddValue extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
-		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $base_array_name ] );
+		$array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $base_array_name ) );
 
 		self::set( $keys, $array, $value );
 
-		ComplexArrays::$arrays[ $base_array_name ] = new ComplexArray( $array );
+		ArrayStore::forParser( $parser )->set( $base_array_name, new ComplexArray( $array ) );
 
 		return '';
 	}

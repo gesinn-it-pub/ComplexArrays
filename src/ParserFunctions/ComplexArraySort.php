@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -66,17 +66,17 @@ class ComplexArraySort extends ResultPrinter {
 	/**
 	 * @var string|null
 	 */
-	private static $key;
+	private $key;
 
 	/**
 	 * @var string
 	 */
-	private static $array_name;
+	private $array_name;
 
 	/**
 	 * @var array
 	 */
-	private static $array;
+	private $array;
 
 	/**
 	 * Define all allowed parameters.
@@ -90,13 +90,15 @@ class ComplexArraySort extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $array_name = '', $options = '', $key = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
+
+		$call = new self();
 
 		if ( GlobalFunctions::isBlank( $array_name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
-		return self::arraySort( $array_name, $options, $key );
+		return $call->arraySort( $parser, $array_name, $options, $key );
 	}
 
 	/**
@@ -107,25 +109,25 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arraySort( $array_name, $options = '', $key = '' ) {
-		if ( !GlobalFunctions::arrayExists( $array_name ) ) {
+	private function arraySort( Parser $parser, $array_name, $options = '', $key = '' ) {
+		if ( !GlobalFunctions::arrayExists( $parser, $array_name ) ) {
 			return '';
 		}
 
-		self::$array      = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array_name ] );
-		self::$array_name = $array_name;
+		$this->array      = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array_name ) );
+		$this->array_name = $array_name;
 
 		// The key is static, so it must not survive from a previous call.
-		self::$key = $key !== '' ? $key : null;
+		$this->key = $key !== '' ? $key : null;
 
 		if ( GlobalFunctions::isBlank( $options ) ) {
-			$result = self::sortArray( "sort" );
+			$result = $this->sortArray( $parser, "sort" );
 		} else {
-			$result = self::sortArray( $options );
+			$result = $this->sortArray( $parser, $options );
 		}
 
 		if ( $result === null ) {
-			ComplexArrays::$arrays[$array_name] = new ComplexArray( self::$array );
+			ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray( $this->array ) );
 
 			return '';
 		}
@@ -139,41 +141,41 @@ class ComplexArraySort extends ResultPrinter {
 	 * @param string $algo
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function sortArray( $algo ) {
+	private function sortArray( Parser $parser, $algo ) {
 		switch ( $algo ) {
 			case 'multisort':
-				$array = self::multisort();
+				$array = $this->multisort();
 				break;
 			case 'asort':
-				$array = self::asort();
+				$array = $this->asort();
 				break;
 			case 'arsort':
-				$array = self::arsort();
+				$array = $this->arsort();
 				break;
 			case 'krsort':
-				$array = self::krsort();
+				$array = $this->krsort();
 				break;
 			case 'natcasesort':
-				$array = self::natcasesort();
+				$array = $this->natcasesort();
 				break;
 			case 'natsort':
-				$array = self::natsort();
+				$array = $this->natsort();
 				break;
 			case 'rsort':
-				$array = self::rsort();
+				$array = $this->rsort();
 				break;
 			case 'shuffle':
-				$array = self::shuffle();
+				$array = $this->shuffle();
 				break;
 			case 'keysort':
-				$array = self::keysort( null );
+				$array = $this->keysort( $parser, null );
 				break;
 			case 'keysort,desc':
-				$array = self::keysort( 'desc' );
+				$array = $this->keysort( $parser, 'desc' );
 				break;
 			case 'sort':
 			default:
-				$array = self::sort();
+				$array = $this->sort();
 				break;
 		}
 
@@ -185,8 +187,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function multisort() {
-		if ( !array_multisort( self::$array ) ) {
+	private function multisort() {
+		if ( !array_multisort( $this->array ) ) {
 			return [ 'ca-sort-broken', 'multisort' ];
 		}
 
@@ -198,8 +200,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function asort() {
-		asort( self::$array );
+	private function asort() {
+		asort( $this->array );
 
 		return null;
 	}
@@ -209,8 +211,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function arsort() {
-		arsort( self::$array );
+	private function arsort() {
+		arsort( $this->array );
 
 		return null;
 	}
@@ -220,8 +222,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function krsort() {
-		krsort( self::$array );
+	private function krsort() {
+		krsort( $this->array );
 
 		return null;
 	}
@@ -231,8 +233,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function natcasesort() {
-		natcasesort( self::$array );
+	private function natcasesort() {
+		natcasesort( $this->array );
 
 		return null;
 	}
@@ -242,8 +244,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function natsort() {
-		natsort( self::$array );
+	private function natsort() {
+		natsort( $this->array );
 
 		return null;
 	}
@@ -253,8 +255,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function rsort() {
-		rsort( self::$array );
+	private function rsort() {
+		rsort( $this->array );
 
 		return null;
 	}
@@ -264,8 +266,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function shuffle() {
-		shuffle( self::$array );
+	private function shuffle() {
+		shuffle( $this->array );
 
 		return null;
 	}
@@ -275,8 +277,8 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function sort() {
-		sort( self::$array );
+	private function sort() {
+		sort( $this->array );
 
 		return null;
 	}
@@ -288,37 +290,37 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
-	private static function keysort( $order ) {
-		if ( self::$key === null ) {
+	private function keysort( Parser $parser, $order ) {
+		if ( $this->key === null ) {
 			return [ 'ca-sort-missing-key' ];
 		}
 
-		foreach ( self::$array as $value ) {
-			if ( !isset( $value[ self::$key ] ) ) {
+		foreach ( $this->array as $value ) {
+			if ( !isset( $value[ $this->key ] ) ) {
 				return [ 'ca-sort-invalid-key' ];
 			}
 
-			if ( is_array( $value[ self::$key ] ) ) {
+			if ( is_array( $value[ $this->key ] ) ) {
 				return [ 'ca-sort-array-too-deep' ];
 			}
 		}
 
-		self::ksort( self::$array, self::$key );
+		$this->ksort( $this->array, $this->key );
 
 		$i = 0;
 		$temp = [];
-		foreach ( self::$array as $key => $item ) {
+		foreach ( $this->array as $key => $item ) {
 			$temp[ $i ] = $item;
 			$i++;
 		}
 
-		self::$array = $temp;
+		$this->array = $temp;
 
 		if ( $order == "desc" ) {
-			self::$array = array_reverse( self::$array );
+			$this->array = array_reverse( $this->array );
 		}
 
-		ComplexArrays::$arrays[ self::$array_name ] = new ComplexArray( self::$array );
+		ArrayStore::forParser( $parser )->set( $this->array_name, new ComplexArray( $this->array ) );
 
 		return null;
 	}
@@ -329,7 +331,7 @@ class ComplexArraySort extends ResultPrinter {
 	 * @param array &$array
 	 * @param string $key
 	 */
-	private static function ksort( &$array, $key ) {
+	private function ksort( &$array, $key ) {
 		$sorter = [];
 		$ret = [];
 

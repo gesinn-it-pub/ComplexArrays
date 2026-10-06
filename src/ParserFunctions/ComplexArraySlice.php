@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -80,7 +80,7 @@ class ComplexArraySlice extends ResultPrinter {
 		$offset = '',
 		$length = ''
 	) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
 		if ( GlobalFunctions::isBlank( $new_array_name ) ) {
 			return GlobalFunctions::error( 'ca-omitted', 'New array key' );
@@ -96,7 +96,7 @@ class ComplexArraySlice extends ResultPrinter {
 
 		$length = GlobalFunctions::isBlank( $length ) ? null : (int)$length;
 
-		return self::arraySlice( $new_array_name, $array_name, (int)$offset, $length );
+		return self::arraySlice( $parser, $new_array_name, $array_name, (int)$offset, $length );
 	}
 
 	/**
@@ -108,14 +108,14 @@ class ComplexArraySlice extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arraySlice( $new_array_name, $array_name, $offset = 0, $length = null ) {
-		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
+	private static function arraySlice( Parser $parser, $new_array_name, $array_name, $offset = 0, $length = null ) {
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $array_name );
 
 		if ( !$array ) {
 			return '';
 		}
 
-		ComplexArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset, $length ) );
+		ArrayStore::forParser( $parser )->set( $new_array_name, new ComplexArray( array_slice( $array, $offset, $length ) ) );
 
 		return '';
 	}

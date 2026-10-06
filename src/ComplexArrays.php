@@ -24,16 +24,10 @@ namespace ComplexArrays;
 /**
  * Class ComplexArrays
  *
- * Defines all parser functions.
+ * Common base class of all parser functions. The arrays themselves are kept per
+ * parser in an ArrayStore.
  *
  * @extends GlobalFunctions
  */
 class ComplexArrays extends ComplexArray {
-	/**
-	 * This variable holds all defined arrays. If an array is defined called "array", the array will be stored in
-	 * ComplexArrays::$arrays["array"].
-	 *
-	 * @var array
-	 */
-	public static $arrays = [];
 }

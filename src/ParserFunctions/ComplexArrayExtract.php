@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -86,7 +86,7 @@ class ComplexArrayExtract extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
-		return self::arrayExtract( $new_name, $array_name );
+		return self::arrayExtract( $parser, $new_name, $array_name );
 	}
 
 	/**
@@ -96,17 +96,17 @@ class ComplexArrayExtract extends ResultPrinter {
 	 *
 	 * @throws Exception
 	 */
-	private static function arrayExtract( $new_name, $array_name ) {
+	private static function arrayExtract( Parser $parser, $new_name, $array_name ) {
 		// If no subarray is provided, show an error.
 		if ( !strpos( $array_name, "[" ) ||
 			!strpos( $array_name, "]" ) ) {
 			return GlobalFunctions::error( 'ca-subarray-not-provided' );
 		}
 
-		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
+		$array = GlobalFunctions::getArrayFromArrayName( $parser, $array_name );
 
 		if ( $array ) {
-			ComplexArrays::$arrays[ $new_name ] = new ComplexArray( (array)$array );
+			ArrayStore::forParser( $parser )->set( $new_name, new ComplexArray( (array)$array ) );
 		}
 
 		return '';

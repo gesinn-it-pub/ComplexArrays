@@ -21,7 +21,7 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Parser;
@@ -69,9 +69,9 @@ class ComplexArrayReset extends ResultPrinter {
 	 * @return string
 	 */
 	public static function getResult( Parser $parser, $array_name = '' ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
-		self::arrayReset( $array_name );
+		self::arrayReset( $parser, $array_name );
 		return '';
 	}
 
@@ -80,12 +80,12 @@ class ComplexArrayReset extends ResultPrinter {
 	 *
 	 * @param string $array_name
 	 */
-	private static function arrayReset( $array_name = '' ) {
+	private static function arrayReset( Parser $parser, $array_name = '' ) {
 		if ( GlobalFunctions::isBlank( $array_name ) ) {
-			ComplexArrays::$arrays = [];
+			ArrayStore::forParser( $parser )->clear();
 		} else {
-			if ( isset( ComplexArrays::$arrays[$array_name] ) ) {
-				unset( ComplexArrays::$arrays[$array_name] );
+			if ( ArrayStore::forParser( $parser )->has( $array_name ) ) {
+				ArrayStore::forParser( $parser )->remove( $array_name );
 			}
 		}
 	}

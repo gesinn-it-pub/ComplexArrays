@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Parser;
@@ -81,7 +81,7 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
-		self::arrayDefinedArrays( $array_name );
+		self::arrayDefinedArrays( $parser, $array_name );
 
 		return '';
 	}
@@ -91,9 +91,9 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 	 *
 	 * @param string $array_name
 	 */
-	private static function arrayDefinedArrays( $array_name ) {
-		$array = array_keys( ComplexArrays::$arrays );
+	private static function arrayDefinedArrays( Parser $parser, $array_name ) {
+		$array = ArrayStore::forParser( $parser )->names();
 
-		ComplexArrays::$arrays[ $array_name ] = new ComplexArray( $array );
+		ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray( $array ) );
 	}
 }

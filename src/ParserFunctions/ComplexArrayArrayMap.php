@@ -33,22 +33,22 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	/**
 	 * @var array
 	 */
-	private static $array = [];
+	private $array = [];
 
 	/**
 	 * @var string
 	 */
-	private static $variable = '';
+	private $variable = '';
 
 	/**
 	 * @var string
 	 */
-	private static $formula = '';
+	private $formula = '';
 
 	/**
 	 * @var string
 	 */
-	private static $new_delimiter = '';
+	private $new_delimiter = '';
 
 	/**
 	 * Get the name of the parser function.
@@ -89,7 +89,9 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	 * @return array
 	 */
 	public static function getResult( Parser $parser, $frame, $args ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
+
+		$call = new self();
 
 		$value = GlobalFunctions::getValue(
 			$args[0] ?? null,
@@ -123,7 +125,7 @@ class ComplexArrayArrayMap extends ResultPrinter {
 			$frame
 		);
 
-		return [ self::arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ), 'noparse' => false ];
+		return [ $call->arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ), 'noparse' => false ];
 	}
 
 	/**
@@ -134,7 +136,7 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	 * @param string $new_delimiter
 	 * @return string
 	 */
-	private static function arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ) {
+	private function arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ) {
 		if (
 			GlobalFunctions::isBlank( $value )
 			|| GlobalFunctions::isBlank( $variable )
@@ -154,12 +156,12 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		$delimiter = str_replace( [ '\n', '\s' ], [ "\n", ' ' ], $delimiter );
 		$new_delimiter = str_replace( [ '\n', '\s' ], [ "\n", ' ' ], $new_delimiter );
 
-		self::$array         = array_map( "trim", explode( $delimiter, $value ) );
-		self::$variable      = $variable;
-		self::$formula       = $formula;
-		self::$new_delimiter = $new_delimiter;
+		$this->array         = array_map( "trim", explode( $delimiter, $value ) );
+		$this->variable      = $variable;
+		$this->formula       = $formula;
+		$this->new_delimiter = $new_delimiter;
 
-		$haystack = self::iterate();
+		$haystack = $this->iterate();
 
 		return $haystack;
 	}
@@ -169,21 +171,21 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	 *
 	 * @return string
 	 */
-	private static function iterate() {
+	private function iterate() {
 		$haystack = [];
 
-		foreach ( self::$array as $item ) {
-			$replaced_formula = str_replace( self::$variable, $item, self::$formula );
+		foreach ( $this->array as $item ) {
+			$replaced_formula = str_replace( $this->variable, $item, $this->formula );
 
 			if ( $replaced_formula ) {
 				array_push( $haystack, $replaced_formula );
 			}
 		}
 
-		if ( self::$new_delimiter === "print=pretty" ) {
-			return self::prettyPrint( $haystack );
+		if ( $this->new_delimiter === "print=pretty" ) {
+			return $this->prettyPrint( $haystack );
 		} else {
-			return implode( self::$new_delimiter, $haystack );
+			return implode( $this->new_delimiter, $haystack );
 		}
 	}
 
@@ -193,7 +195,7 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	 * @param array $haystack
 	 * @return string
 	 */
-	private static function prettyPrint( $haystack ) {
+	private function prettyPrint( $haystack ) {
 		$num_items = count( $haystack );
 
 		if ( $num_items === 0 ) {

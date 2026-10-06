@@ -22,7 +22,7 @@
 namespace ComplexArrays\ParserFunctions;
 
 use ComplexArrays\ComplexArray;
-use ComplexArrays\ComplexArrays;
+use ComplexArrays\ArrayStore;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -37,7 +37,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	/**
 	 * @var string
 	 */
-	private static $new_array;
+	private $new_array;
 
 	/**
 	 * Get the name of the parser function.
@@ -77,9 +77,11 @@ class ComplexArrayDiff extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser ) {
-		GlobalFunctions::fetchSemanticArrays();
+		GlobalFunctions::fetchSemanticArrays( $parser );
 
-		return self::arrayDiff( func_get_args() );
+		$call = new self();
+
+		return $call->arrayDiff( $parser, func_get_args() );
 	}
 
 	/**
@@ -90,14 +92,14 @@ class ComplexArrayDiff extends ResultPrinter {
 	 * @return array|string
 	 * @throws Exception
 	 */
-	private static function arrayDiff( $args ) {
-		self::parseFunctionArguments( $args );
+	private function arrayDiff( Parser $parser, $args ) {
+		$this->parseFunctionArguments( $args );
 
-		if ( !GlobalFunctions::isValidArrayName( self::$new_array ) ) {
+		if ( !GlobalFunctions::isValidArrayName( $this->new_array ) ) {
 			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
-		$arrays = self::pushArrays( $args );
+		$arrays = $this->pushArrays( $parser, $args );
 
 		if ( count( $arrays ) < 2 ) {
 			return GlobalFunctions::error( 'ca-too-little-arrays' );
@@ -108,7 +110,7 @@ class ComplexArrayDiff extends ResultPrinter {
 				return '';
 			}
 
-			if ( !self::isOneDimensionalArray( $array ) ) {
+			if ( !$this->isOneDimensionalArray( $array ) ) {
 				return GlobalFunctions::error( 'ca-diff-multidimensional' );
 			}
 		}
@@ -116,7 +118,7 @@ class ComplexArrayDiff extends ResultPrinter {
 		$array_diff = call_user_func_array( 'array_diff_assoc', $arrays );
 
 		if ( is_array( $array_diff ) ) {
-			ComplexArrays::$arrays[ self::$new_array ] = new ComplexArray( $array_diff );
+			ArrayStore::forParser( $parser )->set( $this->new_array, new ComplexArray( $array_diff ) );
 		}
 
 		return '';
@@ -127,16 +129,16 @@ class ComplexArrayDiff extends ResultPrinter {
 	 * @return array
 	 * @throws Exception
 	 */
-	private static function pushArrays( $arr ) {
+	private function pushArrays( Parser $parser, $arr ) {
 		$arrays = [];
 
 		foreach ( $arr as $array ) {
 			// Check if the array exists
-			if ( !isset( ComplexArrays::$arrays[ $array ] ) ) {
+			if ( !ArrayStore::forParser( $parser )->has( $array ) ) {
 				continue;
 			}
 
-			$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array ] );
+			$array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array ) );
 
 			array_push( $arrays, $array );
 		}
@@ -147,24 +149,24 @@ class ComplexArrayDiff extends ResultPrinter {
 	/**
 	 * @param array &$args
 	 */
-	private static function parseFunctionArguments( &$args ) {
-		self::removeFirstItemFromArray( $args );
-		self::getFirstItemFromArray( $args );
-		self::removeFirstItemFromArray( $args );
+	private function parseFunctionArguments( &$args ) {
+		$this->removeFirstItemFromArray( $args );
+		$this->getFirstItemFromArray( $args );
+		$this->removeFirstItemFromArray( $args );
 	}
 
 	/**
 	 * @param array &$array
 	 */
-	private static function removeFirstItemFromArray( &$array ) {
+	private function removeFirstItemFromArray( &$array ) {
 		array_shift( $array );
 	}
 
 	/**
 	 * @param array &$array
 	 */
-	private static function getFirstItemFromArray( &$array ) {
-		self::$new_array = reset( $array );
+	private function getFirstItemFromArray( &$array ) {
+		$this->new_array = reset( $array );
 	}
 
 	/**
@@ -173,7 +175,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	 * @param array $array
 	 * @return bool
 	 */
-	private static function isOneDimensionalArray( array $array ) {
+	private function isOneDimensionalArray( array $array ) {
 		foreach ( $array as $item ) {
 			if ( is_array( $item ) ) {
 				return false;
