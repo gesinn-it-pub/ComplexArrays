@@ -148,6 +148,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param string $map_key
 	 * @param string $map
@@ -178,6 +179,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param array $array
 	 * @param string $map_key
 	 * @param string $map
@@ -211,6 +213,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param array $matches
 	 * @return string
 	 *
@@ -227,6 +230,7 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $match
 	 * @return array|bool
 	 *

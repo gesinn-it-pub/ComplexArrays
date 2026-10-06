@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -99,6 +99,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param string $markup_value
 	 * @return array|bool|string
@@ -145,6 +146,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 	/**
 	 * Push a value onto an array and store the result under the base array name.
 	 *
+	 * @param Parser $parser
 	 * @param mixed $value
 	 * @param array $array
 	 * @param string $base_array

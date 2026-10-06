@@ -78,6 +78,7 @@ class ComplexArrayReset extends ResultPrinter {
 	/**
 	 * Reset all or one array.
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 */
 	private static function arrayReset( Parser $parser, $array_name = '' ) {

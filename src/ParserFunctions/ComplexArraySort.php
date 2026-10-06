@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -102,6 +102,7 @@ class ComplexArraySort extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param string $options
 	 * @param string $key
@@ -114,7 +115,9 @@ class ComplexArraySort extends ResultPrinter {
 			return '';
 		}
 
-		$this->array      = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array_name ) );
+		$this->array      = GlobalFunctions::getArrayFromComplexArray(
+			ArrayStore::forParser( $parser )->get( $array_name )
+		);
 		$this->array_name = $array_name;
 
 		// The key is static, so it must not survive from a previous call.
@@ -138,6 +141,7 @@ class ComplexArraySort extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $algo
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
@@ -286,6 +290,7 @@ class ComplexArraySort extends ResultPrinter {
 	/**
 	 * Sort array using keysort
 	 *
+	 * @param Parser $parser
 	 * @param string|null $order
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success

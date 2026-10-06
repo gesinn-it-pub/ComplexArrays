@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -84,6 +84,7 @@ class ComplexArrayUnset extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @return string
 	 * @throws Exception

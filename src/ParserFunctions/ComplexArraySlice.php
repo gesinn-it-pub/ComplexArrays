@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -100,6 +100,7 @@ class ComplexArraySlice extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $new_array_name
 	 * @param string $array_name
 	 * @param int $offset
@@ -115,7 +116,10 @@ class ComplexArraySlice extends ResultPrinter {
 			return '';
 		}
 
-		ArrayStore::forParser( $parser )->set( $new_array_name, new ComplexArray( array_slice( $array, $offset, $length ) ) );
+		ArrayStore::forParser( $parser )->set(
+			$new_array_name,
+			new ComplexArray( array_slice( $array, $offset, $length ) )
+		);
 
 		return '';
 	}

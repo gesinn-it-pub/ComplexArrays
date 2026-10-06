@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -92,6 +92,7 @@ class ComplexArrayUnique extends ResultPrinter {
 	/**
 	 * Apply array_unique onto the array and safe it again as SafeComplexArray
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 *
 	 * @throws Exception

@@ -121,6 +121,7 @@ class ComplexArrayPrint extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param string $options
 	 * @return null|string

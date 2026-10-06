@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -99,6 +99,7 @@ class ComplexArrayAddValue extends ResultPrinter {
 	 * This function first calculates the name of the base array, then fetches that array and adds a value to the array.
 	 * The array is then saved again under the same name with the value added.
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param mixed $value
 	 * @return array|string

@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Parser;
@@ -89,6 +89,7 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 	/**
 	 * Store the list of defined array names as a new array.
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 */
 	private static function arrayDefinedArrays( Parser $parser, $array_name ) {

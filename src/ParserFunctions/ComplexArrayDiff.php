@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -87,6 +87,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	/**
 	 * Calculate difference between arrays.
 	 *
+	 * @param Parser $parser
 	 * @param array $args
 	 *
 	 * @return array|string
@@ -125,6 +126,7 @@ class ComplexArrayDiff extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param array $arr
 	 * @return array
 	 * @throws Exception

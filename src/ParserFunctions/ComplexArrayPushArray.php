@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -86,6 +86,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param array $args
 	 * @return array|string
 	 *
@@ -110,6 +111,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param array $array
 	 * @return array|bool
 	 *
@@ -122,7 +124,9 @@ class ComplexArrayPushArray extends ResultPrinter {
 				continue;
 			}
 
-			$push_array = GlobalFunctions::getArrayFromComplexArray( ArrayStore::forParser( $parser )->get( $array_name ) );
+			$push_array = GlobalFunctions::getArrayFromComplexArray(
+				ArrayStore::forParser( $parser )->get( $array_name )
+			);
 
 			array_push( $arrays, $push_array );
 		}

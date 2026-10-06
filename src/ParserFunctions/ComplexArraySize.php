@@ -84,6 +84,7 @@ class ComplexArraySize extends ResultPrinter {
 	/**
 	 * Calculate size of array.
 	 *
+	 * @param Parser $parser
 	 * @param string $name
 	 * @param string $options
 	 * @return array|int|string

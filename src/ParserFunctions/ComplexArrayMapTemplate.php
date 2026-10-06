@@ -93,6 +93,7 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	}
 
 	/**
+	 * @param Parser $parser
 	 * @param string $name
 	 * @param string $template
 	 * @param string $options
