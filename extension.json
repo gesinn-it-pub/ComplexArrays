@@ -1,7 +1,10 @@
 {
   "name": "ComplexArrays",
   "namemsg": "ca-name",
-  "author": "Xxmarijnw",
+  "author": [
+    "Marijn van Wezel (Xxmarijnw)",
+    "[https://www.gesinn.it gesinn.it GmbH & Co. KG] (Alexander Gesinn)"
+  ],
   "version": "5.5.5",
   "url": "https://www.mediawiki.org/wiki/Extension:ComplexArrays",
   "descriptionmsg": "ca-description",

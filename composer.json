@@ -4,6 +4,15 @@
   "description": "Parser functions to allow the creation and traversing of associative and multidimensional arrays",
   "keywords": [],
   "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Marijn van Wezel"
+    },
+    {
+      "name": "gesinn.it GmbH & Co. KG (Alexander Gesinn)",
+      "homepage": "https://www.gesinn.it"
+    }
+  ],
   "require": {},
   "require-dev": {
     "mediawiki/mediawiki-codesniffer": "48.0.2",

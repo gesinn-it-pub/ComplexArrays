@@ -3,6 +3,7 @@
 /**
  * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
+ * Copyright (C) 2026 gesinn.it GmbH & Co. KG (Alexander Gesinn)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
