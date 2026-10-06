@@ -284,7 +284,7 @@ class ComplexArraySort extends ResultPrinter {
 	/**
 	 * Sort array using keysort
 	 *
-	 * @param string $order
+	 * @param string|null $order
 	 *
 	 * @return array|null The message key and parameters of an error, or null on success
 	 */
