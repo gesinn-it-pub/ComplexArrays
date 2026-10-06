@@ -45,6 +45,9 @@ abstract class ComplexArraysIntegrationTestCase extends MediaWikiIntegrationTest
 			'allowTOC' => false,
 		] );
 
+		// Newer MediaWiki cores flag empty list items with a class; that is incidental here.
+		$html = str_replace( ' class="mw-empty-elt"', '', $html );
+
 		return trim( preg_replace( '/<!--.*?-->/s', '', $html ) );
 	}
 
