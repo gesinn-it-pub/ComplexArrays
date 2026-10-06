@@ -21,8 +21,8 @@
 
 namespace ComplexArrays\ParserFunctions;
 
-use ComplexArrays\ComplexArray;
 use ComplexArrays\ArrayStore;
+use ComplexArrays\ComplexArray;
 use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
@@ -95,7 +95,10 @@ class ComplexArrayDefine extends ResultPrinter {
 		if ( GlobalFunctions::isBlank( $array_markup ) ) {
 			ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray() );
 		} else {
-			self::arrayDefine( $parser, $array_name, $array_markup, $sep );
+			$error = self::arrayDefine( $parser, $array_name, $array_markup, $sep );
+			if ( $error !== null ) {
+				return $error;
+			}
 		}
 
 		return '';
@@ -104,19 +107,22 @@ class ComplexArrayDefine extends ResultPrinter {
 	/**
 	 * Define array and store it in the array store of the parser.
 	 *
+	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param string $array_markup
 	 * @param string|null $separator
+	 * @return array|null Error result, or null if the array was defined
 	 * @throws Exception
 	 */
 	private static function arrayDefine( Parser $parser, $array_name, $array_markup, $separator = null ) {
 		$array = GlobalFunctions::markupToArray( $array_markup, $separator );
 
-		if ( !$array ) {
-			GlobalFunctions::error( 'ca-invalid-markup' );
-			return;
+		if ( $array === null ) {
+			return GlobalFunctions::error( 'ca-invalid-markup' );
 		}
 
 		ArrayStore::forParser( $parser )->set( $array_name, new ComplexArray( (array)$array ) );
+
+		return null;
 	}
 }

@@ -89,4 +89,11 @@ class ComplexArrayDefineTest extends ComplexArraysIntegrationTestCase {
 			$this->parse( '{{#complexarraydefine:in[valid|a,b}}' )
 		);
 	}
+
+	public function testEmptyJsonListCreatesEmptyArray(): void {
+		$this->assertParsesToText(
+			'0',
+			'{{#complexarraydefine:example|[]}}{{#complexarraysize:example}}'
+		);
+	}
 }

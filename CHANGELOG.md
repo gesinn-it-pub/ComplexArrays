@@ -27,6 +27,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - Parser function arguments with the value `0` are no longer treated as omitted (for example `{{#complexarraypush:list|0}}` was rejected with "Value must not be omitted")
 - Malformed `use` statements in `ComplexArrays\Hooks` (missing namespace separator) that pointed the parser function class imports at non-existent classes
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)
+- `#complexarraydefine` with an empty JSON list (`[]`) now defines an empty array instead of silently defining nothing behind a discarded "markup is not recognized" error; that error is now returned instead of being thrown away
 - Null passed to `explode()` in `#complexarrayprint` (deprecation on PHP 8.1+)
 - `Message::toString()` called without format in error output (fatal on MediaWiki 1.43)
 - Parser tests: add missing `!! end`/`!! Version 2` markers and rename duplicate test names
