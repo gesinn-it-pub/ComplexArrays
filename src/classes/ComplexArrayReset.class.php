@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarrayreset:}}, which allows users to reset all or one array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayReset extends ResultPrinter {
 	public function getName() {
@@ -62,10 +62,10 @@ class ComplexArrayReset extends ResultPrinter {
 	 */
 	private static function arrayReset( $array_name = '' ) {
 		if ( empty( $array_name ) ) {
-			WSArrays::$arrays = [];
+			ComplexArrays::$arrays = [];
 		} else {
-			if ( isset( WSArrays::$arrays[$array_name] ) ) {
-				unset( WSArrays::$arrays[$array_name] );
+			if ( isset( ComplexArrays::$arrays[$array_name] ) ) {
+				unset( ComplexArrays::$arrays[$array_name] );
 			}
 		}
 	}

@@ -4,7 +4,7 @@
       "Marijn van Wezel <marijn@wikibase.nl>"
     ]
   },
-  "ca-name": "The name of the extension (normally WSArrays)",
+  "ca-name": "The name of the extension (normally ComplexArrays)",
   "ca-description": "The description of the extension as shown on Special:Version",
   "ca-omitted": "Error message shown when someone forgets a required parameter",
   "ca-map-multidimensional": "Error message shown when someone tries to map a multidimensional array using #complexarrayprint",

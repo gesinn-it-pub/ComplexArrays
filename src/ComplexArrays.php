@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 
 /**
  *
- * Initialization file for WSArrays.
+ * Initialization file for ComplexArrays.
  *
  * @license GPL-2.0-or-later
  *
@@ -39,7 +39,7 @@ if ( !@$GLOBALS['wfSkipVersionControl'] ) {
 		if ( function_exists( 'wfMessage' ) ) {
 			$ca_unsupported_version = wfMessage( 'ca-unsopported-version', 'MediaWiki', $wgVersion, '1.27' )->text();
 		} else {
-			$ca_unsupported_version = "This version of MediaWiki is not supported by WSArrays (has version " . $wgVersion . ", requires at least version 1.27)";
+			$ca_unsupported_version = "This version of MediaWiki is not supported by ComplexArrays (has version " . $wgVersion . ", requires at least version 1.27)";
 		}
 
 		throw new Exception( $ca_unsupported_version );
@@ -49,7 +49,7 @@ if ( !@$GLOBALS['wfSkipVersionControl'] ) {
 		if ( function_exists( 'wfMessage' ) ) {
 			$ca_unsupported_version = wfMessage( 'ca-unsopported-version', 'PHP', PHP_VERSION, '5.3' )->text();
 		} else {
-			$ca_unsupported_version = "This version of PHP is not supported by WSArrays (has version " . PHP_VERSION . ", requires at least version 5.3)";
+			$ca_unsupported_version = "This version of PHP is not supported by ComplexArrays (has version " . PHP_VERSION . ", requires at least version 5.3)";
 		}
 
 		throw new Exception( $ca_unsupported_version );
@@ -69,7 +69,7 @@ if ( @$GLOBALS['wfEnableResultPrinter'] === true ) {
 			if ( $result ) {
 				$GLOBALS[ 'smwgResultFormats' ][ 'complexarray' ] = 'SMW\Query\ResultPrinters\ComplexArrayPrinter';
 			} else {
-				wfDebugLog( 'WSArrays', 'Creation of symbolic link from target ' . $semantic_result_printer_target . ' to link ' . $semantic_result_printer_link . ' failed.' );
+				wfDebugLog( 'ComplexArrays', 'Creation of symbolic link from target ' . $semantic_result_printer_target . ' to link ' . $semantic_result_printer_link . ' failed.' );
 			}
 		}
 	}
@@ -78,24 +78,22 @@ if ( @$GLOBALS['wfEnableResultPrinter'] === true ) {
 require_once 'GlobalFunctions.class.php';
 
 /**
- * Class WSArrays
+ * Class ComplexArrays
  *
  * Defines all parser functions.
  *
  * @extends GlobalFunctions
  */
-class WSArrays extends ComplexArray {
-	public const VERSION = '4.0';
-
+class ComplexArrays extends ComplexArray {
 	/**
-	 * This variable holds all defined arrays. If an array is defined called "array", the array will be stored in WSArrays::$arrays["array"].
+	 * This variable holds all defined arrays. If an array is defined called "array", the array will be stored in ComplexArrays::$arrays["array"].
 	 *
 	 * @var array
 	 */
 	public static $arrays = [];
 
 	/**
-	 * This function is called on every page with a WSArrays parser function.
+	 * This function is called on every page with a ComplexArrays parser function.
 	 *
 	 * @param Parser $parser
 	 * @return bool

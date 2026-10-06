@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraysize:}}, which allows users to get the size of a (sub)array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArraySize extends ResultPrinter {
 	public function getName() {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraysort:}}, which allows users to sort arrays.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArraySort extends ResultPrinter {
 	public function getName() {
@@ -90,7 +90,7 @@ class ComplexArraySort extends ResultPrinter {
 			return '';
 		}
 
-		self::$array      = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[ $array_name ] );
+		self::$array      = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array_name ] );
 		self::$array_name = $array_name;
 
 		// The key is static, so it must not survive from a previous call.
@@ -103,7 +103,7 @@ class ComplexArraySort extends ResultPrinter {
 		}
 
 		if ( $result === true ) {
-			WSArrays::$arrays[$array_name] = new ComplexArray( self::$array );
+			ComplexArrays::$arrays[$array_name] = new ComplexArray( self::$array );
 
 			return '';
 		}
@@ -328,7 +328,7 @@ class ComplexArraySort extends ResultPrinter {
 			self::$array = array_reverse( self::$array );
 		}
 
-		WSArrays::$arrays[ self::$array_name ] = new ComplexArray( self::$array );
+		ComplexArrays::$arrays[ self::$array_name ] = new ComplexArray( self::$array );
 
 		return true;
 	}

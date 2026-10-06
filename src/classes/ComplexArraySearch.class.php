@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraysearch:}}, which allows users to get search in an array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArraySearch extends ResultPrinter {
 	public function getName() {
@@ -76,7 +76,7 @@ class ComplexArraySearch extends ResultPrinter {
 	 * @throws Exception
 	 */
 	private static function arraySearch( $array_name, $value ) {
-		if ( !isset( WSArrays::$arrays[ $array_name ] ) ) {
+		if ( !isset( ComplexArrays::$arrays[ $array_name ] ) ) {
 			return '';
 		}
 

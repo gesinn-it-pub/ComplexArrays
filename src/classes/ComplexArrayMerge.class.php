@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraymerge:}}, which allows users to merge multiple arrays.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayMerge extends ResultPrinter {
 	public function getName() {
@@ -87,13 +87,13 @@ class ComplexArrayMerge extends ResultPrinter {
 			$array = call_user_func_array( 'array_merge_recursive', $arrays );
 
 			if ( is_array( $array ) ) {
-				WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
+				ComplexArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
 			}
 		} else {
 			$array = call_user_func_array( 'array_merge', $arrays );
 
 			if ( is_array( $array ) ) {
-				WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
+				ComplexArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
 			}
 		}
 
@@ -124,11 +124,11 @@ class ComplexArrayMerge extends ResultPrinter {
 		$arrays = [];
 		foreach ( $arr as $array ) {
 			// Check if the array exists
-			if ( !isset( WSArrays::$arrays[ $array ] ) ) {
+			if ( !isset( ComplexArrays::$arrays[ $array ] ) ) {
 				continue;
 			}
 
-			$array = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[ $array ] );
+			$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array ] );
 			array_push( $arrays, (array)$array );
 		}
 

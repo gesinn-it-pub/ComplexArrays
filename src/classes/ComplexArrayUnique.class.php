@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarrayunique:}}, which allows users to remove duplicate keys or values from a (sub)array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayUnique extends ResultPrinter {
 	public function getName() {
@@ -74,16 +74,16 @@ class ComplexArrayUnique extends ResultPrinter {
 	 * @throws Exception
 	 */
 	private static function arrayUnique( $array_name ) {
-		$array = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[$array_name] );
+		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[$array_name] );
 
 		if ( GlobalFunctions::containsArray( $array ) ) {
 			$array = array_unique( $array, SORT_REGULAR );
 
-			WSArrays::$arrays[$array_name] = new ComplexArray( $array );
+			ComplexArrays::$arrays[$array_name] = new ComplexArray( $array );
 		} else {
 			$array = array_unique( $array );
 
-			WSArrays::$arrays[$array_name] = new ComplexArray( $array );
+			ComplexArrays::$arrays[$array_name] = new ComplexArray( $array );
 		}
 	}
 }

@@ -1,9 +1,9 @@
 {
-  "name": "WSArrays",
+  "name": "ComplexArrays",
   "namemsg": "ca-name",
   "author": "Xxmarijnw",
   "version": "5.5.5",
-  "url": "https://www.mediawiki.org/wiki/Extension:WSArrays",
+  "url": "https://www.mediawiki.org/wiki/Extension:ComplexArrays",
   "descriptionmsg": "ca-description",
   "license-name": "GPL-2.0-or-later",
   "type": "parserhook",
@@ -14,20 +14,20 @@
     }
   },
   "MessagesDirs": {
-    "WSArrays": [
+    "ComplexArrays": [
       "i18n"
     ]
   },
   "AutoloadClasses": {
-    "WSArrays": "src/WSArrays.php",
+    "ComplexArrays": "src/ComplexArrays.php",
     "ComplexArrayWrapper": "ComplexArrayWrapper.php"
   },
   "ExtensionMessagesFiles": {
-    "WSArraysMagic": "WSArrays.i18n.php"
+    "ComplexArraysMagic": "ComplexArrays.i18n.php"
   },
   "Hooks": {
     "ParserFirstCallInit": [
-      "WSArrays::onParserFirstCallInit"
+      "ComplexArrays::onParserFirstCallInit"
     ]
   },
   "config": {

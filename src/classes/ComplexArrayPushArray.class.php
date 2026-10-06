@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraypusharray:}}, which allows users to push one or more arrays to the end of another array, creating a new array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayPushArray extends ResultPrinter {
 	public function getName() {
@@ -79,7 +79,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 
 		$arrays = self::iterate( $args );
 
-		WSArrays::$arrays[self::$new_array] = new ComplexArray( $arrays );
+		ComplexArrays::$arrays[self::$new_array] = new ComplexArray( $arrays );
 
 		return '';
 	}
@@ -97,7 +97,7 @@ class ComplexArrayPushArray extends ResultPrinter {
 				continue;
 			}
 
-			$push_array = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[ $array_name ] );
+			$push_array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array_name ] );
 
 			array_push( $arrays, $push_array );
 		}

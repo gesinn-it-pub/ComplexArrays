@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraydefine:}}, which allows users to define a new array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayDefine extends ResultPrinter {
 	public function getName() {
@@ -70,7 +70,7 @@ class ComplexArrayDefine extends ResultPrinter {
 
 		// Define an empty array
 		if ( empty( $array_markup ) ) {
-			WSArrays::$arrays[ $array_name ] = new ComplexArray();
+			ComplexArrays::$arrays[ $array_name ] = new ComplexArray();
 		} else {
 			self::arrayDefine( $array_name, $array_markup, $sep );
 		}
@@ -79,7 +79,7 @@ class ComplexArrayDefine extends ResultPrinter {
 	}
 
 	/**
-	 * Define array and store it in WSArrays::$arrays as a SafeComplexArray object.
+	 * Define array and store it in ComplexArrays::$arrays as a SafeComplexArray object.
 	 *
 	 * @param string $array_name
 	 * @param string $array_markup
@@ -94,6 +94,6 @@ class ComplexArrayDefine extends ResultPrinter {
 			return;
 		}
 
-		WSArrays::$arrays[$array_name] = new ComplexArray( (array)$array );
+		ComplexArrays::$arrays[$array_name] = new ComplexArray( (array)$array );
 	}
 }

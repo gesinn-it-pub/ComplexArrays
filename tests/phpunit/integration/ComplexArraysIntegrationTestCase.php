@@ -2,10 +2,10 @@
 
 namespace ComplexArrays\Tests\Integration;
 
+use ComplexArrays;
 use MediaWiki\MediaWikiServices;
 use MediaWikiIntegrationTestCase;
 use ParserOptions;
-use WSArrays;
 
 /**
  * Shared base for integration tests of the ComplexArrays parser functions.
@@ -14,7 +14,7 @@ use WSArrays;
  * tests express the intended behaviour of a parser function in wikitext.
  *
  * Tests deliberately carry no @covers annotation: every parser function runs
- * through the shared infrastructure (GlobalFunctions, WSArrays, the factories),
+ * through the shared infrastructure (GlobalFunctions, ComplexArrays, the factories),
  * which would otherwise not count as covered.
  *
  * @group Database
@@ -25,12 +25,12 @@ abstract class ComplexArraysIntegrationTestCase extends MediaWikiIntegrationTest
 		parent::setUp();
 
 		// Defined arrays live in a static property and would leak between tests.
-		WSArrays::$arrays = [];
+		ComplexArrays::$arrays = [];
 		$GLOBALS['wfDefinedArraysGlobal'] = [];
 	}
 
 	protected function tearDown(): void {
-		WSArrays::$arrays = [];
+		ComplexArrays::$arrays = [];
 		parent::tearDown();
 	}
 

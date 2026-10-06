@@ -1,5 +1,5 @@
 {
-  "name": "wikibase-solutions/w-s-arrays",
+  "name": "gesinn-it/complex-arrays",
   "type": "mediawiki-extension",
   "description": "Parser functions to allow the creation and traversing of associative and multidimensional arrays",
   "keywords": [],

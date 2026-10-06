@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarrayprint:}}, which allows users to display an array in a couple of ways.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayPrint extends ResultPrinter {
 	public function getName() {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 /**
  * Class ResultPrinterFactory
  */
-class ResultPrinterFactory extends WSArrays {
+class ResultPrinterFactory extends ComplexArrays {
 	/**
 	 * @var string
 	 */

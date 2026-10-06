@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarrayaddvalue:}}, which allows users to add values to (sub)arrays.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayAddValue extends ResultPrinter {
 	public function getName() {
@@ -98,11 +98,11 @@ class ComplexArrayAddValue extends ResultPrinter {
 			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
 		}
 
-		$array = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[ $base_array_name ] );
+		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $base_array_name ] );
 
 		self::set( $keys, $array, $value );
 
-		WSArrays::$arrays[ $base_array_name ] = new ComplexArray( $array );
+		ComplexArrays::$arrays[ $base_array_name ] = new ComplexArray( $array );
 
 		return '';
 	}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraydiff:}}, which calculates the difference between two arrays.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayDiff extends ResultPrinter {
 	/**
@@ -94,7 +94,7 @@ class ComplexArrayDiff extends ResultPrinter {
 		$array_diff = call_user_func_array( 'array_diff_assoc', $arrays );
 
 		if ( is_array( $array_diff ) ) {
-			WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array_diff );
+			ComplexArrays::$arrays[ self::$new_array ] = new ComplexArray( $array_diff );
 		}
 
 		return '';
@@ -110,11 +110,11 @@ class ComplexArrayDiff extends ResultPrinter {
 
 		foreach ( $arr as $array ) {
 			// Check if the array exists
-			if ( !isset( WSArrays::$arrays[ $array ] ) ) {
+			if ( !isset( ComplexArrays::$arrays[ $array ] ) ) {
 				continue;
 			}
 
-			$array = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[ $array ] );
+			$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $array ] );
 
 			array_push( $arrays, $array );
 		}

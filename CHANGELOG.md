@@ -11,6 +11,12 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
 - PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays`, the wildcard operator and `ComplexArrayWrapper`; overall line coverage is above 90 %
 
+### Changed
+- Renamed the extension from WSArrays to ComplexArrays (extension name, main class `ComplexArrays`, `ComplexArrays.i18n.php`, debug log channel, composer package `gesinn-it/complex-arrays`); parser functions, `ca-*` messages and the `complexarray` result format are unchanged
+
+### Removed
+- Stale `VERSION` constant of the main class
+
 ### Fixed
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)
 - Null passed to `explode()` in `#complexarrayprint` (deprecation on PHP 8.1+)

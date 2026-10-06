@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -206,8 +206,8 @@ class GlobalFunctions {
 	public static function getArrayFromArrayName( $array_name ) {
 		/* This is already a base array, so just get the array */
 		if ( !strpos( $array_name, "[" ) ) {
-			if ( isset( WSArrays::$arrays[ $array_name ] ) ) {
-				return self::getArrayFromComplexArray( WSArrays::$arrays[ $array_name ] );
+			if ( isset( ComplexArrays::$arrays[ $array_name ] ) ) {
+				return self::getArrayFromComplexArray( ComplexArrays::$arrays[ $array_name ] );
 			}
 		} else {
 			return self::getSubarrayFromArrayName( $array_name );
@@ -236,7 +236,7 @@ class GlobalFunctions {
 			return false;
 		}
 
-		$array = self::getArrayFromComplexArray( WSArrays::$arrays[ $base_array_name ] );
+		$array = self::getArrayFromComplexArray( ComplexArrays::$arrays[ $base_array_name ] );
 
 		if ( !is_array( $array ) ) {
 			return false;
@@ -336,14 +336,14 @@ class GlobalFunctions {
 	/**
 	 * Fetch any arrays defined by Semantic MediaWiki.
 	 *
-	 * Semantic MediaWiki stores all ComplexArrays in the configuration parameter $wfDefinedArraysGlobal. In order to allow access to these array, we need to move them to WSArrays::$arrays.
+	 * Semantic MediaWiki stores all ComplexArrays in the configuration parameter $wfDefinedArraysGlobal. In order to allow access to these array, we need to move them to ComplexArrays::$arrays.
 	 *
 	 * @return void
 	 */
 	public static function fetchSemanticArrays() {
 		global $wfDefinedArraysGlobal;
 		if ( $wfDefinedArraysGlobal !== null ) {
-			WSArrays::$arrays = array_merge( WSArrays::$arrays, $wfDefinedArraysGlobal );
+			ComplexArrays::$arrays = array_merge( ComplexArrays::$arrays, $wfDefinedArraysGlobal );
 		}
 
 		$wfDefinedArraysGlobal = [];
@@ -396,7 +396,7 @@ class GlobalFunctions {
 	 * @return bool
 	 */
 	public static function arrayExists( $array_name ) {
-		if ( isset( WSArrays::$arrays[$array_name] ) ) {
+		if ( isset( ComplexArrays::$arrays[$array_name] ) ) {
 			return true;
 		}
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraypushvalue:}}, which allows users to push a value or subarray to the end of a (sub)array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayPushValue extends ResultPrinter {
 	public function getName() {
@@ -90,13 +90,13 @@ class ComplexArrayPushValue extends ResultPrinter {
 				return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
 			}
 
-			WSArrays::$arrays[ $base_array ] = new ComplexArray();
+			ComplexArrays::$arrays[ $base_array ] = new ComplexArray();
 		}
 
 		$matches = [];
 		preg_match_all( "/(?<=\[).+?(?=\])/", $array_name, $matches );
 
-		$array = GlobalFunctions::getArrayFromComplexArray( WSArrays::$arrays[$base_array] );
+		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[$base_array] );
 		$value = GlobalFunctions::markupToArray( $markup_value );
 
 		if ( count( $value ) === 1 ) {
@@ -112,7 +112,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 				return $result;
 			}
 
-			WSArrays::$arrays[$base_array] = new ComplexArray( $array );
+			ComplexArrays::$arrays[$base_array] = new ComplexArray( $array );
 		}
 
 		return '';
@@ -121,7 +121,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 	private static function replace( $value, $array, $base_array ) {
 		array_push( $array, $value );
 
-		WSArrays::$arrays[ $base_array ] = new ComplexArray( $array );
+		ComplexArrays::$arrays[ $base_array ] = new ComplexArray( $array );
 	}
 
 	/**

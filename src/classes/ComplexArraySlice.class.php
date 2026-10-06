@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarrayslice:}}, which allows users to slice an array.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArraySlice extends ResultPrinter {
 	public function getName() {
@@ -86,9 +86,9 @@ class ComplexArraySlice extends ResultPrinter {
 		}
 
 		if ( !empty( $length ) ) {
-			WSArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset, $length ) );
+			ComplexArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset, $length ) );
 		} else {
-			WSArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset ) );
+			ComplexArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset ) );
 		}
 
 		return '';

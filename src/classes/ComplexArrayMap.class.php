@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WSArrays - Associative and multidimensional arrays for MediaWiki.
+ * ComplexArrays - Associative and multidimensional arrays for MediaWiki.
  * Copyright (C) 2019 Marijn van Wezel
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  * Defines the parser function {{#complexarraymap:}}, which allows users to iterate over (sub)arrays.
  *
- * @extends WSArrays
+ * @extends ComplexArrays
  */
 class ComplexArrayMap extends ResultPrinter {
 	public function getName() {
@@ -142,7 +142,7 @@ class ComplexArrayMap extends ResultPrinter {
 		$base_array = GlobalFunctions::getBaseArrayFromArrayName( $array_name );
 		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
 
-		if ( !isset( WSArrays::$arrays[$base_array] ) || !$array ) {
+		if ( !isset( ComplexArrays::$arrays[$base_array] ) || !$array ) {
 			return '';
 		}
 
