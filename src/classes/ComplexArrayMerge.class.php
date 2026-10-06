@@ -86,7 +86,7 @@ class ComplexArrayMerge extends ResultPrinter {
 		if ( self::$last_element === "recursive" ) {
 			$array = call_user_func_array( 'array_merge_recursive', $arrays );
 
-			if ( !is_array( $array ) ) {
+			if ( is_array( $array ) ) {
 				WSArrays::$arrays[ self::$new_array ] = new ComplexArray( $array );
 			}
 		} else {

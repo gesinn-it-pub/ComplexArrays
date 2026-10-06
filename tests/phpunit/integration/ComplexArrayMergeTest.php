@@ -62,6 +62,14 @@ class ComplexArrayMergeTest extends ComplexArraysIntegrationTestCase {
 		);
 	}
 
+	public function testRecursiveMergeCombinesValuesOfSameKey(): void {
+		$this->assertParsesTo(
+			"<ul><li>a\n<ul><li>1</li>\n<li>3</li></ul></li></ul>",
+			'{{#complexarraydefine:left|(("a": "1"))}}{{#complexarraydefine:right|(("a": "3"))}}'
+				. '{{#complexarraymerge:example|left|right|recursive}}{{#complexarrayprint:example}}'
+		);
+	}
+
 	public function testMergeProducesNoOutput(): void {
 		$this->assertParsesTo(
 			'',

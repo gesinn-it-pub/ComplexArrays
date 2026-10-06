@@ -90,6 +90,13 @@ class ComplexArrayPushValueTest extends ComplexArraysIntegrationTestCase {
 		$this->assertStringContainsString( 'Name must not be omitted', $this->parse( '{{#complexarraypush:|c}}' ) );
 	}
 
+	public function testMissingValueYieldsError(): void {
+		$this->assertStringContainsString(
+			'Value must not be omitted',
+			$this->parse( '{{#complexarraydefine:example|a,b}}{{#complexarraypush:example|}}' )
+		);
+	}
+
 	public function testInvalidNameYieldsError(): void {
 		$this->assertStringContainsString( 'error', $this->parse( '{{#complexarraypush:123|c}}' ) );
 	}
