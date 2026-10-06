@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 ## [Unreleased]
 
 ### Added
-- Tests for the SMW result format (registration and JSON scripts run with SMW's test runner), executed only where Semantic MediaWiki is installed; CI installs SMW and SRF for the coverage leg
+- Tests for the SMW result format (registration and JSON scripts run with SMW's test runner), executed only where Semantic MediaWiki is installed; CI installs SMW 7.3.0 and SRF for the coverage leg and SMW 6.0.0 for an additional leg
 - GitHub Actions CI based on docker-compose-ci (MediaWiki 1.39 and 1.43)
 - Phan static analysis (`composer phan`, `make composer-phan`); any finding fails CI
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
@@ -24,7 +24,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
 
 ### Fixed
-- The `complexarray` result format of Semantic MediaWiki no longer symlinks a file into SMW's directory: `ComplexArrays\SMW\ComplexArrayPrinter` is autoloaded from this extension and registered through the `SMW::Setup::AfterInitializationComplete` hook; it defines the array in the parser that runs the query (it was written to an obsolete global and never visible to the page), and no longer repeats rows of earlier queries. It requires SMW with `SMW\Query\QueryResult` (7.x)
+- The `complexarray` result format of Semantic MediaWiki no longer symlinks a file into SMW's directory: `ComplexArrays\SMW\ComplexArrayPrinter` is autoloaded from this extension and registered through the `SMW::Setup::AfterInitializationComplete` hook; it defines the array in the parser that runs the query (it was written to an obsolete global and never visible to the page), and no longer repeats rows of earlier queries. It works with Semantic MediaWiki 5, 6 and 7
 - Defined arrays no longer leak between pages, previews, jobs and API parses: they are kept per parser in `ComplexArrays\ArrayStore` and cleared on `ParserClearState` instead of in the public static `ComplexArrays::$arrays` (removed); the per-call state of the parser functions (for example the separator and show flag of `#complexarraymap`) is no longer kept in static properties, so it cannot survive into the next call
 - The options `$wgEnableResultPrinter` and `$wgDefinedArraysGlobal` declared in `extension.json` are now read through MediaWiki's configuration; the legacy globals `$wfEnableResultPrinter` and `$wfDefinedArraysGlobal` remain as a deprecated fallback with a debug log entry, and the options are documented in the README
 - Parser function arguments with the value `0` are no longer treated as omitted (for example `{{#complexarraypush:list|0}}` was rejected with "Value must not be omitted")

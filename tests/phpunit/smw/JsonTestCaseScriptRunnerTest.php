@@ -2,6 +2,8 @@
 
 namespace ComplexArrays\Tests\SMW;
 
+use ComplexArrays\Hooks;
+use MediaWiki\MediaWikiServices;
 use SMW\Tests\Integration\JSONScript\JSONScriptTestCaseRunnerTest;
 
 /**
@@ -17,6 +19,17 @@ use SMW\Tests\Integration\JSONScript\JSONScriptTestCaseRunnerTest;
  * @group Database
  */
 class JsonTestCaseScriptRunnerTest extends JSONScriptTestCaseRunnerTest {
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		// The runner of SMW before 7 removes all handlers of the parser hooks it knows,
+		// including ours; register them again so the parser functions are available.
+		$hooks = new Hooks();
+		$container = MediaWikiServices::getInstance()->getHookContainer();
+		$container->register( 'ParserFirstCallInit', [ $hooks, 'onParserFirstCallInit' ] );
+		$container->register( 'ParserClearState', [ $hooks, 'onParserClearState' ] );
+	}
 
 	/**
 	 * @return string
