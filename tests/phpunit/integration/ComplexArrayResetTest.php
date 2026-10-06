@@ -7,7 +7,6 @@ require_once __DIR__ . '/ComplexArraysIntegrationTestCase.php';
 
 /**
  * @group Database
- * @covers \ComplexArrayReset
  */
 class ComplexArrayResetTest extends ComplexArraysIntegrationTestCase {
 

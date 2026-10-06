@@ -7,7 +7,6 @@ require_once __DIR__ . '/ComplexArraysIntegrationTestCase.php';
 
 /**
  * @group Database
- * @covers \ComplexArrayPrint
  */
 class ComplexArrayPrintTest extends ComplexArraysIntegrationTestCase {
 
@@ -61,6 +60,17 @@ class ComplexArrayPrintTest extends ComplexArraysIntegrationTestCase {
 		$this->assertParsesTo(
 			'',
 			"{{#complexarraydefine:example|a,b,c}}{{#complexarrayprint:example[999]}}"
+		);
+	}
+
+	public function testMissingNameYieldsError(): void {
+		$this->assertStringContainsString( 'error', $this->parse( '{{#complexarrayprint:}}' ) );
+	}
+
+	public function testWsonOptionPrintsJson(): void {
+		$this->assertParsesToText(
+			'["a","b"]',
+			'{{#complexarraydefine:example|a,b}}{{#complexarrayprint:example|wson}}'
 		);
 	}
 }

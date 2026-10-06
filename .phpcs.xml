@@ -16,6 +16,12 @@
         <exclude name="Generic.Files.OneObjectStructurePerFile"/>
         <exclude name="Squiz.PHP.NonExecutableCode"/>
     </rule>
+    <!-- The integration tests run every parser function through shared infrastructure
+         (GlobalFunctions, WSArrays, the factories); a per-class @covers would hide
+         that code from the coverage report. -->
+    <rule ref="MediaWiki.Commenting.MissingCovers">
+        <exclude-pattern>tests/phpunit/integration/*</exclude-pattern>
+    </rule>
     <file>.</file>
     <arg name="bootstrap" value="./vendor/mediawiki/mediawiki-codesniffer/utils/bootstrap-ci.php"/>
     <arg name="extensions" value="php,php5,inc"/>

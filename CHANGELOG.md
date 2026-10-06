@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 ### Added
 - GitHub Actions CI based on docker-compose-ci (MediaWiki 1.39 and 1.43)
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
-- PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice` and `#complexarraydiff`
+- PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays`, the wildcard operator and `ComplexArrayWrapper`; overall line coverage is above 90 %
 
 ### Fixed
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)
@@ -23,13 +23,6 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - Parser is no longer passed by reference in the function hook factories
 - Dev dependencies (codesniffer, minus-x, parallel-lint) updated to versions installable on PHP 8.1+
 
-### Known issues
-Parser test baseline (`tests/parser/*.txt`, identical on MW 1.39/PHP 8.1 and MW 1.43/PHP 8.3);
-remaining failures are pre-existing expectation drift, not load errors:
-- Passing: Parent 3/3, Search 5/5, MapTemplate 5/5, Map 7/7
-- Failing: ArrayMap 7/11, Extract 3/4, SearchArray 1/3, Sort 1/14, Wildcard 1/3
-- Causes: trailing blank line in expected HTML (current parser output has none), `mw-empty-elt`
-  class on empty list items, and a `, ` separator in `#complexarrayarraymap` output
-
 ### Removed
+- Legacy parserTests files (`tests/parser/*.txt`) and their `run.php` runner; the PHPUnit suite is the single test reference
 - Legacy GitLab CI configuration

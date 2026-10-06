@@ -24,6 +24,8 @@
             <directory>tests</directory>
             <directory>build</directory>
             <directory>docs</directory>
+            <!-- Semantic MediaWiki result printer; needs SMW, which this suite does not install -->
+            <file>ComplexArrayPrinter.php</file>
         </exclude>
     </coverage>
 </phpunit>

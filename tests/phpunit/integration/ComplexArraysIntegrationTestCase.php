@@ -13,6 +13,10 @@ use WSArrays;
  * Parses wikitext with the real parser and returns the resulting HTML, so
  * tests express the intended behaviour of a parser function in wikitext.
  *
+ * Tests deliberately carry no @covers annotation: every parser function runs
+ * through the shared infrastructure (GlobalFunctions, WSArrays, the factories),
+ * which would otherwise not count as covered.
+ *
  * @group Database
  */
 abstract class ComplexArraysIntegrationTestCase extends MediaWikiIntegrationTestCase {

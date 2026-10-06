@@ -9,7 +9,6 @@ require_once __DIR__ . '/ComplexArraysIntegrationTestCase.php';
  * Definitions are observed through #complexarrayprint.
  *
  * @group Database
- * @covers \ComplexArrayDefine
  */
 class ComplexArrayDefineTest extends ComplexArraysIntegrationTestCase {
 
