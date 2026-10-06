@@ -1,0 +1,93 @@
+{
+	"description": "Test `format=complexarray` (types, name, detailed, additional keys)",
+	"setup": [
+		{ "page": "Has CA01 text", "namespace": "SMW_NS_PROPERTY", "contents": "[[Has type::Text]]" },
+		{ "page": "Has CA01 page", "namespace": "SMW_NS_PROPERTY", "contents": "[[Has type::Page]]" },
+		{ "page": "Has CA01 date", "namespace": "SMW_NS_PROPERTY", "contents": "[[Has type::Date]]" },
+		{ "page": "Has CA01 email", "namespace": "SMW_NS_PROPERTY", "contents": "[[Has type::Email]]" },
+		{ "page": "Has CA01 boolean", "namespace": "SMW_NS_PROPERTY", "contents": "[[Has type::Boolean]]" },
+		{
+			"page": "Example/CA01/1",
+			"contents": "[[Category:CA01]] [[Has CA01 text::alpha]] [[Has CA01 text::beta]] [[Has CA01 page::Example/CA01/2]] [[Has CA01 date::2020-01-02T03:04:05+00:00]] [[Has CA01 email::mailto:someone@example.org]] [[Has CA01 boolean::true]]"
+		},
+		{
+			"page": "Example/CA01/2",
+			"contents": "[[Category:CA01]] [[Has CA01 text::gamma]] [[Has CA01 boolean::false]]"
+		},
+		{
+			"page": "Test/CA01/named",
+			"contents": "{{#ask: [[Category:CA01]] |?Has CA01 text |?Has CA01 boolean |sort=Has CA01 text |format=complexarray |name=result }}{{#complexarrayprint:result[0][catitle]}}|{{#complexarrayprint:result[1][catitle]}}|{{#complexarrayprint:result[0][Has CA01 boolean]}}|{{#complexarrayprint:result[1][Has CA01 boolean]}}"
+		},
+		{
+			"page": "Test/CA01/types",
+			"contents": "{{#ask: [[Example/CA01/1]] |?Has CA01 text |?Has CA01 date |?Has CA01 email |format=complexarray |name=result }}{{#complexarrayprint:result[0][Has CA01 text][1]}}|{{#complexarrayprint:result[0][Has CA01 date]}}|{{#complexarrayprint:result[0][Has CA01 email]}}"
+		},
+		{
+			"page": "Test/CA01/page",
+			"contents": "{{#ask: [[Example/CA01/1]] |?Has CA01 page |format=complexarray |name=result }}{{#complexarrayprint:result[0][Has CA01 page]|markup}}"
+		},
+		{
+			"page": "Test/CA01/detailed",
+			"contents": "{{#ask: [[Example/CA01/1]] |?Has CA01 page |format=complexarray |detailed=true |name=result }}{{#complexarrayprint:result[0][Has CA01 page]}}"
+		},
+		{
+			"page": "Test/CA01/json",
+			"contents": "{{#ask: [[Example/CA01/2]] |?Has CA01 text |format=complexarray }}"
+		},
+		{
+			"page": "Test/CA01/unnamed-define",
+			"contents": "{{#complexarraydefine:result|{{#ask: [[Example/CA01/2]] |?Has CA01 text |format=complexarray }}}}{{#complexarrayprint:result[0][Has CA01 text]}}"
+		}
+	],
+	"tests": [
+		{
+			"type": "parser",
+			"about": "#0 name defines the array on the page, the format prints nothing itself",
+			"subject": "Test/CA01/named",
+			"assert-output": { "to-contain": [ "Example/CA01/1|Example/CA01/2|1|0" ] }
+		},
+		{
+			"type": "parser",
+			"about": "#1 multi-valued printouts become lists, dates are ISO 8601, mailto: is removed",
+			"subject": "Test/CA01/types",
+			"assert-output": { "to-contain": [ "beta|2020-01-02T03:04:05+00:00|someone@example.org" ] }
+		},
+		{
+			"type": "parser",
+			"about": "#2 page values are kept as delivered by SMW",
+			"subject": "Test/CA01/page",
+			"assert-output": { "to-contain": [ "((\"fulltext\":\"Example\\/CA01\\/2\",\"fullurl\":" ] }
+		},
+		{
+			"type": "parser",
+			"about": "#3 detailed=true reduces page values to their title",
+			"subject": "Test/CA01/detailed",
+			"assert-output": { "to-contain": [ "Example/CA01/2" ], "not-contain": [ "fullurl" ] }
+		},
+		{
+			"type": "parser",
+			"about": "#4 without a name the result is printed as JSON using (( and ))",
+			"subject": "Test/CA01/json",
+			"assert-output": { "to-contain": [ "((\"Has CA01 text\":\"gamma\"" ] }
+		},
+		{
+			"type": "parser",
+			"about": "#5 the JSON can be passed to #complexarraydefine",
+			"subject": "Test/CA01/unnamed-define",
+			"assert-output": { "to-contain": [ "gamma" ] }
+		}
+	],
+	"settings": {
+		"wgContLang": "en",
+		"wgLang": "en",
+		"smwgNamespacesWithSemanticLinks": {
+			"NS_MAIN": true,
+			"SMW_NS_PROPERTY": true
+		}
+	},
+	"meta": {
+		"version": "2",
+		"is-incomplete": false,
+		"debug": false
+	}
+}

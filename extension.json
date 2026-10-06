@@ -27,16 +27,17 @@
   "HookHandlers": {
     "main": {
       "class": "ComplexArrays\\Hooks"
+    },
+    "smw": {
+      "class": "ComplexArrays\\SMW\\Hooks"
     }
   },
   "Hooks": {
     "ParserFirstCallInit": "main",
-    "ParserClearState": "main"
+    "ParserClearState": "main",
+    "SMW::Setup::AfterInitializationComplete": "smw"
   },
   "config": {
-    "EnableResultPrinter": {
-      "value": false
-    },
     "DefinedArraysGlobal": {
       "value": []
     }

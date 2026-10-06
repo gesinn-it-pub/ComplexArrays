@@ -68,8 +68,6 @@ class Hooks implements ParserFirstCallInitHook, ParserClearStateHook {
 	 * @return bool
 	 */
 	public function onParserFirstCallInit( $parser ) {
-		$this->registerResultPrinter();
-
 		foreach ( self::PARSER_FUNCTIONS as $class ) {
 			$function = new $class();
 			$flags = $function->getType() === 'sfh' ? Parser::SFH_OBJECT_ARGS : 0;
@@ -122,34 +120,5 @@ class Hooks implements ParserFirstCallInitHook, ParserClearStateHook {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Registers the "complexarray" result format of Semantic MediaWiki, if enabled.
-	 */
-	private function registerResultPrinter(): void {
-		$link = $GLOBALS['wgExtensionDirectory']
-			. '/SemanticMediaWiki/src/Query/ResultPrinters/ComplexArrayPrinter.php';
-		$target = dirname( __DIR__ ) . '/ComplexArrayPrinter.php';
-
-		if ( self::getConfig( 'EnableResultPrinter', 'wfEnableResultPrinter' ) !== true ) {
-			return;
-		}
-
-		if ( !file_exists( $link ) ) {
-			if ( !file_exists( $target ) ) {
-				return;
-			}
-
-			if ( !symlink( $target, $link ) ) {
-				wfDebugLog(
-					'ComplexArrays',
-					'Creation of symbolic link from target ' . $target . ' to link ' . $link . ' failed.'
-				);
-				return;
-			}
-		}
-
-		$GLOBALS['smwgResultFormats']['complexarray'] = 'SMW\\Query\\ResultPrinters\\ComplexArrayPrinter';
 	}
 }

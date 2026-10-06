@@ -11,7 +11,11 @@
          verbose="true">
     <testsuites>
         <testsuite name="complex-arrays">
-            <directory>tests/phpunit</directory>
+            <directory>tests/phpunit/integration</directory>
+        </testsuite>
+        <!-- Needs Semantic MediaWiki; composer phpunit only runs it if SMW is installed -->
+        <testsuite name="complex-arrays-smw">
+            <directory>tests/phpunit/smw</directory>
         </testsuite>
     </testsuites>
     <coverage>
@@ -24,8 +28,6 @@
             <directory>tests</directory>
             <directory>build</directory>
             <directory>docs</directory>
-            <!-- Semantic MediaWiki result printer; needs SMW, which this suite does not install -->
-            <file>ComplexArrayPrinter.php</file>
         </exclude>
     </coverage>
 </phpunit>
