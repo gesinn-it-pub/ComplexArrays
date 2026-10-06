@@ -423,12 +423,12 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param ComplexArray $array
-	 * @return array
+	 * @param ComplexArray|null $array
+	 * @return array|false False if the array is not defined
 	 * @throws Exception
 	 */
-	public static function getArrayFromComplexArray( ComplexArray $array ) {
-		return $array->getArray();
+	public static function getArrayFromComplexArray( ?ComplexArray $array ) {
+		return $array === null ? false : $array->getArray();
 	}
 
 	/**

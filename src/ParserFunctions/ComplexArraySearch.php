@@ -95,7 +95,7 @@ class ComplexArraySearch extends ResultPrinter {
 	 * @param Parser $parser
 	 * @param string $array_name
 	 * @param mixed $value
-	 * @return array|int|string
+	 * @return array|int|string|null
 	 *
 	 * @throws Exception
 	 */
