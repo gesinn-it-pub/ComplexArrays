@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 
 ### Added
 - GitHub Actions CI based on docker-compose-ci (MediaWiki 1.39 and 1.43)
+- Phan static analysis (`composer phan`, `make composer-phan`) with a baseline in `.phan/baseline.php` for existing findings; new findings fail CI
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
 - PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays`, the wildcard operator and `ComplexArrayWrapper`; overall line coverage is above 90 %
 
