@@ -13,13 +13,31 @@
   },
   "scripts": {
     "test": [
-        "parallel-lint . --exclude vendor --exclude node_modules",
-        "phpcs -p -s",
-        "minus-x check ."
+      "@lint",
+      "@phpcs",
+      "@phpunit"
+    ],
+    "test-coverage": [
+      "@lint",
+      "@phpcs",
+      "@phpunit-coverage"
+    ],
+    "lint": [
+      "parallel-lint . --exclude vendor --exclude node_modules --exclude build",
+      "minus-x check ."
+    ],
+    "phpcs": "phpcs -sp",
+    "phpunit": [
+      "Composer\\Config::disableProcessTimeout",
+      "bash -c 'cd ${MW_INSTALL_PATH:-../..} && { [ -f tests/phpunit/generatePHPUnitConfig.php ] && { php tests/phpunit/generatePHPUnitConfig.php >/dev/null 2>&1 || true; [ -f phpunit.xml ] || printf \"%s\" \"<phpunit><!-- generatePHPUnitConfig --></phpunit>\" > phpunit.xml; } || true; } && MEDIAWIKI_HAS_INTEGRATION_TESTS=1 vendor/bin/phpunit -c extensions/ComplexArrays/phpunit.xml.dist --bootstrap tests/phpunit/bootstrap.php --testdox'"
+    ],
+    "phpunit-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "bash -c 'cd ${MW_INSTALL_PATH:-../..} && { [ -f tests/phpunit/generatePHPUnitConfig.php ] && { php tests/phpunit/generatePHPUnitConfig.php >/dev/null 2>&1 || true; [ -f phpunit.xml ] || printf \"%s\" \"<phpunit><!-- generatePHPUnitConfig --></phpunit>\" > phpunit.xml; } || true; } && MEDIAWIKI_HAS_INTEGRATION_TESTS=1 vendor/bin/phpunit -c extensions/ComplexArrays/phpunit.xml.dist --bootstrap tests/phpunit/bootstrap.php --testdox --coverage-text --coverage-html extensions/ComplexArrays/coverage/php --coverage-clover extensions/ComplexArrays/coverage/php/coverage.xml'"
     ],
     "fix": [
-        "minus-x fix .",
-        "phpcbf"
+      "minus-x fix .",
+      "phpcbf"
     ]
   }
 }
