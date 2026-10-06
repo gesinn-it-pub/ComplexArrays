@@ -16,6 +16,10 @@ PHP_VERSION?=8.3
 DB_TYPE?=mysql
 DB_IMAGE?="mariadb:11.2"
 
+# optional extensions for the SMW result format (empty = not installed)
+SMW_VERSION?=
+SRF_VERSION?=
+
 # composer
 COMPOSER_EXT?=true
 
