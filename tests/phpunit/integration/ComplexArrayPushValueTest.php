@@ -38,6 +38,10 @@ class ComplexArrayPushValueTest extends ComplexArraysIntegrationTestCase {
 				"<ul><li>0\n<ul><li>a</li>\n<li>1\n<ul><li>c</li>\n<li>d</li></ul></li></ul></li>\n"
 					. "<li>1\n<ul><li>b</li></ul></li></ul>"
 			],
+			'zero is a valid value' => [
+				'a,b', 'example', '0',
+				"<ul><li>a</li>\n<li>b</li>\n<li>0</li></ul>"
+			],
 			'scalar at the path is turned into a list' => [
 				'a,b', 'example[0]', 'c',
 				"<ul><li>0\n<ul><li>a</li>\n<li>c</li></ul></li>\n<li>b</li></ul>"

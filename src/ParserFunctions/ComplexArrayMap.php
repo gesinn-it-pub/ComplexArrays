@@ -26,6 +26,7 @@ use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
 use Parser;
+use PPFrame;
 
 /**
  * Class ComplexArrayMap
@@ -82,8 +83,8 @@ class ComplexArrayMap extends ResultPrinter {
 	 * Define parameters and initialize parser. This parser is hooked with Parser::SFH_OBJECT_ARGS.
 	 *
 	 * @param Parser $parser
-	 * @param string $frame
-	 * @param string $args
+	 * @param PPFrame $frame
+	 * @param array $args
 	 * @return array|null
 	 *
 	 * @throws Exception
@@ -93,17 +94,17 @@ class ComplexArrayMap extends ResultPrinter {
 
 		// Name
 		if ( !isset( $args[0] ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
 		// Map key
 		if ( !isset( $args[1] ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Map key' ) );
+			return GlobalFunctions::error( 'ca-omitted', 'Map key' );
 		}
 
 		// Map
 		if ( !isset( $args[2] ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Map' ) );
+			return GlobalFunctions::error( 'ca-omitted', 'Map' );
 		}
 
 		self::$show = isset( $args[4] ) ?
@@ -111,7 +112,7 @@ class ComplexArrayMap extends ResultPrinter {
 			false;
 
 		if ( isset( $args[3] ) ) {
-			$sep = GlobalFunctions::getValue( $args[3], $frame );
+			$sep = GlobalFunctions::getValue( $args[3], $frame ) ?? '';
 
 			if ( $sep === '\n' ) {
 				$sep = "\r\n";
@@ -133,7 +134,7 @@ class ComplexArrayMap extends ResultPrinter {
 	 * @param $array_name
 	 * @param $map_key
 	 * @param $map
-	 * @param $key_replace
+	 * @param string|false $key_replace
 	 * @return array|string
 	 *
 	 * @throws Exception
@@ -141,7 +142,7 @@ class ComplexArrayMap extends ResultPrinter {
 	private static function arrayMap( $array_name, $map_key, $map, $key_replace = false ) {
 		self::$buffer = '';
 
-		if ( empty( $array_name ) || empty( $map_key ) || empty( $map ) ) {
+		if ( GlobalFunctions::isBlank( $array_name ) || GlobalFunctions::isBlank( $map_key ) || GlobalFunctions::isBlank( $map ) ) {
 			return '';
 		}
 
@@ -160,7 +161,7 @@ class ComplexArrayMap extends ResultPrinter {
 	 * @param $map_key
 	 * @param $map
 	 * @param $array_name
-	 * @param bool $key_replace
+	 * @param string|false $key_replace
 	 * @return string
 	 *
 	 */
@@ -184,30 +185,19 @@ class ComplexArrayMap extends ResultPrinter {
 	}
 
 	/**
-	 * @param $matches
-	 * @return array|bool
+	 * @param array $matches
+	 * @return string
 	 *
 	 * @throws Exception
 	 */
 	public static function replaceCallback( $matches ) {
 		$value = self::getValueFromMatch( $matches[0] );
 
-		switch ( gettype( $value ) ) {
-			case 'integer':
-			case 'float':
-			case 'double':
-			case 'string':
-				return $value;
-				break;
-			default:
-				if ( self::$show ) {
-					return $matches[ 0 ];
-				}
-
-				break;
+		if ( is_string( $value ) || is_int( $value ) || is_float( $value ) ) {
+			return (string)$value;
 		}
 
-		return '';
+		return self::$show ? $matches[0] : '';
 	}
 
 	/**

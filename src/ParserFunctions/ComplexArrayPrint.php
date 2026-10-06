@@ -84,8 +84,8 @@ class ComplexArrayPrint extends ResultPrinter {
 
 		self::$array = [];
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
 		if ( $parser_behaviour === "true" ) {
@@ -118,7 +118,7 @@ class ComplexArrayPrint extends ResultPrinter {
 			return '';
 		}
 
-		if ( !empty( $options ) ) {
+		if ( !GlobalFunctions::isBlank( $options ) ) {
 			GlobalFunctions::serializeOptions( $options );
 			$result = self::applyOptions( $options );
 		} else {
@@ -141,10 +141,8 @@ class ComplexArrayPrint extends ResultPrinter {
 			case 'markup':
 			case 'wson':
 				return GlobalFunctions::arrayToMarkup( self::$array );
-				break;
 			default:
 				return self::createList();
-				break;
 		}
 	}
 

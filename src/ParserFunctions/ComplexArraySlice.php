@@ -61,42 +61,40 @@ class ComplexArraySlice extends ResultPrinter {
 	public static function getResult( Parser $parser, $new_array_name = '', $array_name = '', $offset = '', $length = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $new_array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array key' ) );
+		if ( GlobalFunctions::isBlank( $new_array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'New array key' );
 		}
 
 		if ( !GlobalFunctions::isValidArrayName( $new_array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
-		return self::arraySlice( $new_array_name, $array_name, $offset, $length );
+		$length = GlobalFunctions::isBlank( $length ) ? null : (int)$length;
+
+		return self::arraySlice( $new_array_name, $array_name, (int)$offset, $length );
 	}
 
 	/**
 	 * @param string $new_array_name
 	 * @param string $array_name
 	 * @param int $offset
-	 * @param int $length
+	 * @param int|null $length
 	 * @return array|string
 	 *
 	 * @throws Exception
 	 */
-	private static function arraySlice( $new_array_name, $array_name, $offset = 0, $length = 0 ) {
+	private static function arraySlice( $new_array_name, $array_name, $offset = 0, $length = null ) {
 		$array = GlobalFunctions::getArrayFromArrayName( $array_name );
 
 		if ( !$array ) {
 			return '';
 		}
 
-		if ( !empty( $length ) ) {
-			ComplexArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset, $length ) );
-		} else {
-			ComplexArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset ) );
-		}
+		ComplexArrays::$arrays[$new_array_name] = new ComplexArray( array_slice( $array, $offset, $length ) );
 
 		return '';
 	}

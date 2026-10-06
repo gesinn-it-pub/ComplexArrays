@@ -59,8 +59,8 @@ class ComplexArraySize extends ResultPrinter {
 	public static function getResult( Parser $parser, $array_name = '', $options = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
 		return self::arraySize( $array_name, $options );
@@ -71,7 +71,7 @@ class ComplexArraySize extends ResultPrinter {
 	 *
 	 * @param $name
 	 * @param string $options
-	 * @return array|string
+	 * @return array|int|string
 	 *
 	 * @throws Exception
 	 */

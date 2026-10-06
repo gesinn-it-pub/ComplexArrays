@@ -27,6 +27,7 @@ use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
 use Parser;
+use PPFrame;
 
 /**
  * Class ComplexArrayPushValue
@@ -53,8 +54,8 @@ class ComplexArrayPushValue extends ResultPrinter {
 	 * Define all allowed parameters.
 	 *
 	 * @param Parser $parser
-	 * @param string $frame
-	 * @param string $args
+	 * @param PPFrame $frame
+	 * @param array $args
 	 * @return array|bool|null
 	 *
 	 * @throws Exception
@@ -62,12 +63,12 @@ class ComplexArrayPushValue extends ResultPrinter {
 	public static function getResult( Parser $parser, $frame, $args ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( !isset( $args[0] ) || empty( $args[0] ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+		if ( GlobalFunctions::isBlank( $args[0] ?? null ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
-		if ( !isset( $args[1] ) || empty( $args[1] ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Value' ) );
+		if ( GlobalFunctions::isBlank( $args[1] ?? null ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
 		$noparse = GlobalFunctions::getValue( @$args[2], $frame );
@@ -75,7 +76,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 		$value = GlobalFunctions::getValue( @$args[1], $frame, $parser, $noparse );
 
 		if ( $value === null || $value === '' ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Value' ) );
+			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
 		return self::arrayPushValue( $array_name, $value );
@@ -94,7 +95,7 @@ class ComplexArrayPushValue extends ResultPrinter {
 		// If the array doesn't exist yet, create it
 		if ( !GlobalFunctions::arrayExists( $base_array ) ) {
 			if ( !GlobalFunctions::isValidArrayName( $base_array ) ) {
-				return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+				return GlobalFunctions::error( 'ca-invalid-name' );
 			}
 
 			ComplexArrays::$arrays[ $base_array ] = new ComplexArray();

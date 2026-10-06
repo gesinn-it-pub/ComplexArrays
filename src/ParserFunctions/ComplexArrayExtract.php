@@ -59,25 +59,25 @@ class ComplexArrayExtract extends ResultPrinter {
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $new_name = '', $array_name = '' ) {
-		if ( !$new_name ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array' ) );
+		if ( GlobalFunctions::isBlank( $new_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'New array' );
 		}
 
 		if ( !GlobalFunctions::isValidArrayName( $new_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
-		if ( !$array_name ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
 		return self::arrayExtract( $new_name, $array_name );
 	}
 
 	/**
-	 * @param $new_name
-	 * @param $subarray
-	 * @return array|bool
+	 * @param string $new_name
+	 * @param string $array_name
+	 * @return array|string
 	 *
 	 * @throws Exception
 	 */
@@ -85,7 +85,7 @@ class ComplexArrayExtract extends ResultPrinter {
 		// If no subarray is provided, show an error.
 		if ( !strpos( $array_name, "[" ) ||
 			!strpos( $array_name, "]" ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-subarray-not-provided' ) );
+			return GlobalFunctions::error( 'ca-subarray-not-provided' );
 		}
 
 		$array = GlobalFunctions::getArrayFromArrayName( $array_name );

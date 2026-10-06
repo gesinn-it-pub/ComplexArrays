@@ -64,19 +64,17 @@ class ComplexArrayAddValue extends ResultPrinter {
 	public static function getResult( Parser $parser, $name = '', $value = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+		if ( GlobalFunctions::isBlank( $name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
-		if ( empty( $value ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Value' ) );
+		if ( GlobalFunctions::isBlank( $value ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
 		if ( !strpos( $name, "[" ) ||
 			 !strpos( $name, "]" ) ) {
-			$ca_subarray_not_provided = wfMessage( 'ca-subarray-not-provided' );
-
-			return GlobalFunctions::error( $ca_subarray_not_provided );
+			return GlobalFunctions::error( 'ca-subarray-not-provided' );
 		}
 
 		return self::arrayAddValue( $name, $value );
@@ -102,7 +100,7 @@ class ComplexArrayAddValue extends ResultPrinter {
 		$keys = GlobalFunctions::getKeys( $array_name );
 
 		if ( !$keys ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
 		$array = GlobalFunctions::getArrayFromComplexArray( ComplexArrays::$arrays[ $base_array_name ] );
@@ -117,9 +115,9 @@ class ComplexArrayAddValue extends ResultPrinter {
 	/**
 	 * @param $path
 	 * @param array &$array
-	 * @param null $value
+	 * @param string $value
 	 */
-	private static function set( $path, &$array = [], $value = null ) {
+	private static function set( $path, &$array, $value ) {
 		$value = GlobalFunctions::markupToArray( $value );
 
 		$temp =& $array;

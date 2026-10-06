@@ -63,12 +63,12 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	public static function getResult( Parser $parser, $name = '', $template = '', $options = '', $new_delimiter = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+		if ( GlobalFunctions::isBlank( $name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
-		if ( empty( $template ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Template' ) );
+		if ( GlobalFunctions::isBlank( $template ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Template' );
 		}
 
 		$new_delimiter = str_replace( [ '\n', '\s' ], [ "\n", ' ' ], $new_delimiter );
@@ -97,7 +97,7 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	}
 
 	/**
-	 * @param $array
+	 * @param array $array
 	 * @param $template
 	 * @param $options
 	 * @param $new_delimiter
@@ -118,9 +118,9 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 	}
 
 	/**
-	 * @param $value
-	 * @param &$return
-	 * @param $template
+	 * @param array|string $value
+	 * @param string[] &$return
+	 * @param string $template
 	 */
 	private static function map( $value, &$return, $template ) {
 		$t = "{{" . $template;
@@ -133,6 +133,8 @@ class ComplexArrayMapTemplate extends ResultPrinter {
 
 					$subvalue = $json;
 				}
+
+				$subvalue = (string)$subvalue;
 
 				if ( is_numeric( $key ) ) {
 					$key += 1;

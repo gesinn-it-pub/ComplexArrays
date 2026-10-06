@@ -58,12 +58,12 @@ class ComplexArrayDefinedArrays extends ResultPrinter {
 	 * @return array|string
 	 */
 	public static function getResult( Parser $parser, $array_name = null ) {
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'New array' );
 		}
 
 		if ( !GlobalFunctions::isValidArrayName( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
 		self::arrayDefinedArrays( $array_name );

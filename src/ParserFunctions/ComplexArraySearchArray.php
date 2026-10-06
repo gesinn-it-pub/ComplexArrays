@@ -49,6 +49,9 @@ class ComplexArraySearchArray extends ResultPrinter {
 		return 'normal';
 	}
 
+	/**
+	 * @var array[]|string[]
+	 */
 	private static $found = [];
 
 	/**
@@ -63,29 +66,29 @@ class ComplexArraySearchArray extends ResultPrinter {
 	public static function getResult( Parser $parser, $new_array_name = '', $array_name = '', $value = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $new_array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'New array key' ) );
+		if ( GlobalFunctions::isBlank( $new_array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'New array key' );
 		}
 
 		if ( !GlobalFunctions::isValidArrayName( $new_array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
-		if ( empty( $value ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Value' ) );
+		if ( GlobalFunctions::isBlank( $value ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
 		return self::arraySearchArray( $new_array_name, $array_name, $value );
 	}
 
 	/**
-	 * @param $name
-	 * @param $value
-	 * @param $new_array
+	 * @param string $new_array
+	 * @param string $name
+	 * @param string $value
 	 * @return string
 	 *
 	 * @throws Exception
@@ -95,18 +98,19 @@ class ComplexArraySearchArray extends ResultPrinter {
 			return '';
 		}
 
-		self::findValues( $value, $name );
+		$found = self::findValues( $value, $name );
 
-		if ( count( self::$found ) > 0 ) {
-			ComplexArrays::$arrays[ $new_array ] = new ComplexArray( self::$found );
+		if ( $found !== [] ) {
+			ComplexArrays::$arrays[ $new_array ] = new ComplexArray( $found );
 		}
 
 		return '';
 	}
 
 	/**
-	 * @param $value
-	 * @param $key
+	 * @param string $value
+	 * @param string $key
+	 * @return string[]
 	 *
 	 * @throws Exception
 	 */
@@ -115,6 +119,8 @@ class ComplexArraySearchArray extends ResultPrinter {
 
 		self::$found = [];
 		self::i( $array, $value, $key );
+
+		return self::$found;
 	}
 
 	/**

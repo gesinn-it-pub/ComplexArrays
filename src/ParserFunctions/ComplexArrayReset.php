@@ -66,7 +66,7 @@ class ComplexArrayReset extends ResultPrinter {
 	 * @param string $array_name
 	 */
 	private static function arrayReset( $array_name = '' ) {
-		if ( empty( $array_name ) ) {
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
 			ComplexArrays::$arrays = [];
 		} else {
 			if ( isset( ComplexArrays::$arrays[$array_name] ) ) {

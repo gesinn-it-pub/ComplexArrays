@@ -37,20 +37,30 @@ class GlobalFunctions {
 	/**
 	 * Print an error message.
 	 *
-	 * @param string $message
+	 * @param string $key Message key
+	 * @param string ...$params Message parameters
 	 * @return array
 	 */
-	public static function error( $message ) {
-		$params = func_get_args();
-		array_shift( $params );
-
+	public static function error( string $key, ...$params ) {
 		$msgHtml = Html::rawElement(
 			'span',
 			[ 'class' => 'error' ],
-			wfMessage( $message, $params )->parse()
+			wfMessage( $key, $params )->parse()
 		);
 
 		return [ $msgHtml, 'noparse' => true, 'isHTML' => false ];
+	}
+
+	/**
+	 * Check whether a parser function argument was omitted or is empty.
+	 *
+	 * Unlike empty(), this does not treat the string "0" as blank.
+	 *
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public static function isBlank( $value ) {
+		return $value === null || $value === '' || $value === [];
 	}
 
 	/**
@@ -202,7 +212,6 @@ class GlobalFunctions {
 	 * Return the contents of a subarray based on the name (basearray[subarray][subarray]...).
 	 *
 	 * @param string $array_name
-	 * @param bool $unsafe
 	 * @return bool|array
 	 *
 	 * @throws Exception
@@ -224,7 +233,6 @@ class GlobalFunctions {
 	 * Get the subarray from an array name in the form of <base_array>[<sub1>][<sub2>][...]. Used by GlobalFunctions::getArrayFromArrayName().
 	 *
 	 * @param string $array_name
-	 * @param bool $unsafe
 	 * @return array|bool|mixed
 	 * @throws Exception
 	 */
@@ -408,15 +416,15 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param $arg
-	 * @param $frame
-	 * @param string $parser
-	 * @param string $noparse
-	 * @return string
+	 * @param mixed $arg
+	 * @param PPFrame $frame
+	 * @param mixed $parser Unused
+	 * @param string|null $noparse
+	 * @return string|null
 	 * @throws Exception
 	 */
 	public static function getValue( $arg, $frame, $parser = '', $noparse = '' ) {
-		if ( !isset( $arg ) || empty( $arg ) ) {
+		if ( self::isBlank( $arg ) ) {
 			return null;
 		}
 
@@ -463,8 +471,8 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param $arg
-	 * @param $frame
+	 * @param mixed $arg
+	 * @param PPFrame $frame
 	 * @param array $noparse_arguments
 	 * @return string
 	 */
@@ -484,8 +492,8 @@ class GlobalFunctions {
 	}
 
 	/**
-	 * @param $arg
-	 * @param $frame
+	 * @param mixed $arg
+	 * @param PPFrame $frame
 	 * @return string
 	 */
 	public static function getSFHValue( $arg, $frame ) {

@@ -49,17 +49,17 @@ class ComplexArraySort extends ResultPrinter {
 	}
 
 	/**
-	 * @var
+	 * @var string|null
 	 */
 	private static $key;
 
 	/**
-	 * @var
+	 * @var string
 	 */
 	private static $array_name;
 
 	/**
-	 * @var
+	 * @var array
 	 */
 	private static $array;
 
@@ -77,8 +77,8 @@ class ComplexArraySort extends ResultPrinter {
 	public static function getResult( Parser $parser, $array_name = '', $options = '', $key = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
 		return self::arraySort( $array_name, $options, $key );
@@ -103,24 +103,26 @@ class ComplexArraySort extends ResultPrinter {
 		// The key is static, so it must not survive from a previous call.
 		self::$key = $key !== '' ? $key : null;
 
-		if ( empty( $options ) ) {
+		if ( GlobalFunctions::isBlank( $options ) ) {
 			$result = self::sortArray( "sort" );
 		} else {
 			$result = self::sortArray( $options );
 		}
 
-		if ( $result === true ) {
+		if ( $result === null ) {
 			ComplexArrays::$arrays[$array_name] = new ComplexArray( self::$array );
 
 			return '';
 		}
 
-		return GlobalFunctions::error( $result );
+		$key = array_shift( $result );
+
+		return GlobalFunctions::error( $key, ...$result );
 	}
 
 	/**
 	 * @param $algo
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function sortArray( $algo ) {
 		switch ( $algo ) {
@@ -166,136 +168,102 @@ class ComplexArraySort extends ResultPrinter {
 	/**
 	 * Sort array using multisort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function multisort() {
 		if ( !array_multisort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'multisort' );
-
-			return $ca_sort_broken;
+			return [ 'ca-sort-broken', 'multisort' ];
 		}
 
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using asort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function asort() {
-		if ( !asort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'asort' );
+		asort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using arsort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function arsort() {
-		if ( !arsort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'arsort' );
+		arsort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using krsort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function krsort() {
-		if ( !krsort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'krsort' );
+		krsort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using natcasesort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function natcasesort() {
-		if ( !natcasesort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'natcasesort' );
+		natcasesort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using natsort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function natsort() {
-		if ( !natsort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'natsort' );
+		natsort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using rsort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function rsort() {
-		if ( !rsort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'rsort' );
+		rsort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using shuffle
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function shuffle() {
-		if ( !shuffle( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'shuffle' );
+		shuffle( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
 	 * Sort array using sort
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function sort() {
-		if ( !sort( self::$array ) ) {
-			$ca_sort_broken = wfMessage( 'ca-sort-broken', 'sort' );
+		sort( self::$array );
 
-			return $ca_sort_broken;
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
@@ -303,20 +271,20 @@ class ComplexArraySort extends ResultPrinter {
 	 *
 	 * @param $order
 	 *
-	 * @return bool|string
+	 * @return array|null The message key and parameters of an error, or null on success
 	 */
 	private static function keysort( $order ) {
 		if ( self::$key === null ) {
-			return wfMessage( 'ca-sort-missing-key' );
+			return [ 'ca-sort-missing-key' ];
 		}
 
 		foreach ( self::$array as $value ) {
 			if ( !isset( $value[ self::$key ] ) ) {
-				return wfMessage( 'ca-sort-invalid-key' );
+				return [ 'ca-sort-invalid-key' ];
 			}
 
 			if ( is_array( $value[ self::$key ] ) ) {
-				return wfMessage( 'ca-sort-array-too-deep' );
+				return [ 'ca-sort-array-too-deep' ];
 			}
 		}
 
@@ -337,7 +305,7 @@ class ComplexArraySort extends ResultPrinter {
 
 		ComplexArrays::$arrays[ self::$array_name ] = new ComplexArray( self::$array );
 
-		return true;
+		return null;
 	}
 
 	/**

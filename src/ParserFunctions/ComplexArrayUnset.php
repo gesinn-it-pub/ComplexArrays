@@ -61,8 +61,8 @@ class ComplexArrayUnset extends ResultPrinter {
 	public static function getResult( Parser $parser, $array_name = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
 		return self::arrayUnset( $array_name );

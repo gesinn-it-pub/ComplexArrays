@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 
 ### Added
 - GitHub Actions CI based on docker-compose-ci (MediaWiki 1.39 and 1.43)
-- Phan static analysis (`composer phan`, `make composer-phan`) with a baseline in `.phan/baseline.php` for existing findings; new findings fail CI
+- Phan static analysis (`composer phan`, `make composer-phan`); any finding fails CI
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
 - PHPUnit integration test harness (`tests/phpunit/integration`) and migrated tests for `#complexarraydefine`, `#complexarrayprint`, `#complexarrayreset`, `#complexarrayunset`, `#complexarrayunique`, `#complexarraysize`, `#complexarraypush`, `#complexarraypusharray`, `#complexarrayaddvalue`, `#complexarraymerge`, `#complexarrayslice`, `#complexarraydiff`, `#complexarrayarraymap`, `#complexarrayextract`, `#complexarraymaptemplate`, `#complexarraymap`, `#complexarrayparent`, `#complexarraysearch`, `#complexarraysearcharray`, `#complexarraysort`, `#complexarraydefinedarrays`, the wildcard operator and `ComplexArrayWrapper`; overall line coverage is above 90 %
 
@@ -21,6 +21,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `ExtensionFactory`, `Extension` and `ResultPrinterFactory` (including their `require_once`/`spl_autoload_register` loading), the obsolete MediaWiki/PHP version checks and the `SkipVersionControl` option
 
 ### Fixed
+- Parser function arguments with the value `0` are no longer treated as omitted (for example `{{#complexarraypush:list|0}}` was rejected with "Value must not be omitted")
 - Malformed `use` statements in `ComplexArrays\Hooks` (missing namespace separator) that pointed the parser function class imports at non-existent classes
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)
 - Null passed to `explode()` in `#complexarrayprint` (deprecation on PHP 8.1+)
@@ -32,7 +33,9 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 - `ComplexArrayWrapper::reset()` no longer leaves properties unset, which raised an "Undefined property" warning on the next `get()`
 
 ### Changed
-- Docblocks: import `Exception` where `@throws Exception` is documented and drop the stale `@extends ComplexArrays` annotations, which removes the corresponding Phan baseline entries
+- Docblocks: import `Exception` where `@throws Exception` is documented, drop the stale `@extends ComplexArrays` annotations and correct parameter, return and property types
+- `GlobalFunctions::error()` takes a message key and parameters instead of a `Message` object
+- `#complexarrayslice` casts offset and length to integers; an omitted length slices to the end, `0` yields an empty slice
 - Parser is no longer passed by reference in the function hook factories
 - Dev dependencies (codesniffer, minus-x, parallel-lint) updated to versions installable on PHP 8.1+
 

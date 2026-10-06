@@ -53,15 +53,15 @@ class ComplexArrayUnique extends ResultPrinter {
 	 *
 	 * @param Parser $parser
 	 * @param string $array_name
-	 * @return array|null|bool
+	 * @return array|string
 	 *
 	 * @throws Exception
 	 */
 	public static function getResult( Parser $parser, $array_name = '' ) {
 		GlobalFunctions::fetchSemanticArrays();
 
-		if ( empty( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Array key' ) );
+		if ( GlobalFunctions::isBlank( $array_name ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Array key' );
 		}
 
 		if ( !GlobalFunctions::arrayExists( $array_name ) ) {

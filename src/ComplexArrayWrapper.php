@@ -19,7 +19,7 @@ class ComplexArrayWrapper {
 	/**
 	 * Name of the current array
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	public $array_name;
 

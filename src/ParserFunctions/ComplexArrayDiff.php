@@ -79,13 +79,13 @@ class ComplexArrayDiff extends ResultPrinter {
 		self::parseFunctionArguments( $args );
 
 		if ( !GlobalFunctions::isValidArrayName( self::$new_array ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
 		$arrays = self::pushArrays( $args );
 
 		if ( count( $arrays ) < 2 ) {
-			return GlobalFunctions::error( wfMessage( 'ca-too-little-arrays' ) );
+			return GlobalFunctions::error( 'ca-too-little-arrays' );
 		}
 
 		foreach ( $arrays as $array ) {
@@ -94,7 +94,7 @@ class ComplexArrayDiff extends ResultPrinter {
 			}
 
 			if ( !self::isOneDimensionalArray( $array ) ) {
-				return GlobalFunctions::error( wfMessage( 'ca-diff-multidimensional' ) );
+				return GlobalFunctions::error( 'ca-diff-multidimensional' );
 			}
 		}
 

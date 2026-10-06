@@ -27,6 +27,7 @@ use ComplexArrays\GlobalFunctions;
 use ComplexArrays\ResultPrinter;
 use Exception;
 use Parser;
+use PPFrame;
 
 /**
  * Class ComplexArrayDefine
@@ -52,8 +53,8 @@ class ComplexArrayDefine extends ResultPrinter {
 	 * Define all allowed parameters.
 	 *
 	 * @param Parser $parser
-	 * @param string $frame
-	 * @param string $args
+	 * @param PPFrame $frame
+	 * @param array $args
 	 *
 	 * @throws Exception
 	 * @return array|string
@@ -62,8 +63,8 @@ class ComplexArrayDefine extends ResultPrinter {
 		GlobalFunctions::fetchSemanticArrays();
 
 		// Name
-		if ( !isset( $args[0] ) || empty( $args[0] ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+		if ( GlobalFunctions::isBlank( $args[0] ?? null ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
 		$array_name   = GlobalFunctions::getValue( @$args[0], $frame );
@@ -72,11 +73,11 @@ class ComplexArrayDefine extends ResultPrinter {
 		$sep          = GlobalFunctions::getValue( @$args[2], $frame );
 
 		if ( !GlobalFunctions::isValidArrayName( $array_name ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
 		// Define an empty array
-		if ( empty( $array_markup ) ) {
+		if ( GlobalFunctions::isBlank( $array_markup ) ) {
 			ComplexArrays::$arrays[ $array_name ] = new ComplexArray();
 		} else {
 			self::arrayDefine( $array_name, $array_markup, $sep );
@@ -97,7 +98,7 @@ class ComplexArrayDefine extends ResultPrinter {
 		$array = GlobalFunctions::markupToArray( $array_markup, $separator );
 
 		if ( !$array ) {
-			GlobalFunctions::error( wfMessage( 'ca-invalid-markup' ) );
+			GlobalFunctions::error( 'ca-invalid-markup' );
 			return;
 		}
 

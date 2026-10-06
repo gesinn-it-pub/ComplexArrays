@@ -105,11 +105,11 @@ class ComplexArrayArrayMap extends ResultPrinter {
 	 * @return string
 	 */
 	private static function arrayArrayMap( $value, $variable, $formula, $delimiter, $new_delimiter ) {
-		if ( empty( $value ) || empty( $variable ) || empty( $formula ) ) {
+		if ( GlobalFunctions::isBlank( $value ) || GlobalFunctions::isBlank( $variable ) || GlobalFunctions::isBlank( $formula ) ) {
 			return '';
 		}
 
-		if ( empty( $delimiter ) ) {
+		if ( $delimiter === null || $delimiter === '' ) {
 			$delimiter = ',';
 		}
 
@@ -124,10 +124,6 @@ class ComplexArrayArrayMap extends ResultPrinter {
 		self::$variable      = $variable;
 		self::$formula       = $formula;
 		self::$new_delimiter = $new_delimiter;
-
-		if ( empty( self::$array ) ) {
-			return '';
-		}
 
 		$haystack = self::iterate();
 

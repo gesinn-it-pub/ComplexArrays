@@ -48,7 +48,7 @@ class ComplexArraySearch extends ResultPrinter {
 	}
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private static $array_name = '';
 
@@ -64,11 +64,11 @@ class ComplexArraySearch extends ResultPrinter {
 		GlobalFunctions::fetchSemanticArrays();
 
 		if ( $array_name === '' ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Name' ) );
+			return GlobalFunctions::error( 'ca-omitted', 'Name' );
 		}
 
 		if ( $value === '' ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Value' ) );
+			return GlobalFunctions::error( 'ca-omitted', 'Value' );
 		}
 
 		return self::arraySearch( $array_name, $value );

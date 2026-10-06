@@ -52,16 +52,20 @@ class ComplexArrayParent extends ResultPrinter {
 	 *
 	 * @param Parser $parser
 	 * @param string|null $key
-	 * @return array|null
+	 * @return array|string
 	 */
 	public static function getResult( Parser $parser, $key = null ) {
-		if ( empty( $key ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-omitted', 'Key' ) );
+		if ( GlobalFunctions::isBlank( $key ) ) {
+			return GlobalFunctions::error( 'ca-omitted', 'Key' );
 		}
 
 		return self::arrayParent( $key );
 	}
 
+	/**
+	 * @param string $key
+	 * @return string
+	 */
 	private static function arrayParent( $key ) {
 		$regex = '/\[[^\[\]]+\]$/m';
 

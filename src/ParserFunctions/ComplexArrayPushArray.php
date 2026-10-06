@@ -77,11 +77,11 @@ class ComplexArrayPushArray extends ResultPrinter {
 		self::parseFunctionArguments( $args );
 
 		if ( !GlobalFunctions::isValidArrayName( self::$new_array ) ) {
-			return GlobalFunctions::error( wfMessage( 'ca-invalid-name' ) );
+			return GlobalFunctions::error( 'ca-invalid-name' );
 		}
 
 		if ( count( $args ) < 2 ) {
-			return GlobalFunctions::error( wfMessage( 'ca-too-little-arrays' ) );
+			return GlobalFunctions::error( 'ca-too-little-arrays' );
 		}
 
 		$arrays = self::iterate( $args );
