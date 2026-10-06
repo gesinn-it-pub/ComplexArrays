@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/) and
 ### Added
 - GitHub Actions CI based on docker-compose-ci (MediaWiki 1.39 and 1.43)
 - `requires` (MediaWiki >= 1.39, PHP >= 8.1) in `extension.json`
+- PHPUnit integration test harness (`tests/phpunit/integration`) and first migrated test (`#complexarraysize`)
 
 ### Fixed
 - Version check no longer passes a `Message` object to `Exception` (TypeError on PHP 8)
