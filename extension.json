@@ -5,7 +5,7 @@
     "Marijn van Wezel (Xxmarijnw)",
     "[https://www.gesinn.it gesinn.it GmbH & Co. KG] (Alexander Gesinn)"
   ],
-  "version": "5.5.5",
+  "version": "6.0.0",
   "url": "https://www.mediawiki.org/wiki/Extension:ComplexArrays",
   "descriptionmsg": "ca-description",
   "license-name": "GPL-2.0-or-later",
