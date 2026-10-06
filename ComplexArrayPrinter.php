@@ -21,8 +21,6 @@
 
 namespace SMW\Query\ResultPrinters;
 
-use Exception;
-
 /**
  * Class ComplexArrayPrinter
  *
