@@ -88,7 +88,7 @@ class ComplexArrayPrint extends ResultPrinter {
 		    self::$noparse = true;
 		    self::$nowiki  = true;
         } else {
-            $parser_behaviour_parts = explode(",", $parser_behaviour);
+            $parser_behaviour_parts = explode( ",", (string)$parser_behaviour );
             $parser_behaviour_parts = array_map("trim", $parser_behaviour_parts);
 
             self::$noparse = in_array( "noparse", $parser_behaviour_parts );

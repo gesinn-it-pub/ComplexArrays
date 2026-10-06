@@ -58,7 +58,7 @@ Map simple non-uniform two-dimensional list display mapping key
 !! end
 
 !! test
-Map simple non-uniform two-dimensional list display mapping key
+Map simple non-uniform two-dimensional list display mapping key (second)
 !! wikitext
 {{#complexarraydefine:example|[["a", "b"],["d"],["e", "f"]]}}
 {{#complexarraymap:example|@@@|Hello, @@@[1]!|<br/>|true}}

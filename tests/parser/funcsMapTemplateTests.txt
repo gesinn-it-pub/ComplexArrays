@@ -29,7 +29,7 @@ Map multidimensional array to template
 !! end
 
 !! test
-Map multidimensional array to template
+Map multidimensional array to template (second)
 !! wikitext
 {{#complexarraydefine:example|[["a", ["b"]],["b"],["c"]]}}
 {{#complexarraymaptemplate:example|Example}}

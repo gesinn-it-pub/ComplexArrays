@@ -43,7 +43,7 @@ class GlobalFunctions {
 		$msgHtml = Html::rawElement(
 			'span',
 			[ 'class' => 'error' ],
-			wfMessage( $message, $params )->toString()
+			wfMessage( $message, $params )->parse()
 		);
 
 		return [ $msgHtml, 'noparse' => true, 'isHTML' => false ];

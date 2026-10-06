@@ -25,7 +25,7 @@ Add item to one-dimensional list
 !! end
 
 !! test
-Add item to one-dimensional list
+Add item to one-dimensional list (second)
 !! wikitext
 {{#complexarraydefine:example|a,b,c}}
 {{#complexarrayaddvalue:example[2]|["c"]}}
@@ -80,3 +80,4 @@ Add item to non-existent array
 !! html
 <p><br />
 </p>
+!! end

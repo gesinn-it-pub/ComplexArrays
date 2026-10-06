@@ -29,10 +29,10 @@ class ExtensionFactory extends WSArrays {
 	private static $extension_dir = '';
 
 	/**
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @return bool
 	 */
-	public static function loadExtensions( Parser &$parser ) {
+	public static function loadExtensions( Parser $parser ) {
 		require_once "Extension.class.php";
 
 		self::$extension_dir = dirname( __DIR__ ) . '/extensions';
@@ -54,11 +54,11 @@ class ExtensionFactory extends WSArrays {
 	}
 
 	/**
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @param $extension
 	 * @return bool
 	 */
-	private static function loadExtension( Parser &$parser, $extension ) {
+	private static function loadExtension( Parser $parser, $extension ) {
 		$class_file = basename( $extension );
 		$class = pathinfo( $class_file, PATHINFO_FILENAME );
 
@@ -79,13 +79,13 @@ class ExtensionFactory extends WSArrays {
 	}
 
 	/**
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @param $class
 	 * @param $parser_name
 	 * @param array $parser_aliases
 	 * @param $parser_type
 	 */
-	private static function setHook( Parser &$parser, $class, $parser_name, array $parser_aliases = [], $parser_type = 'normal' ) {
+	private static function setHook( Parser $parser, $class, $parser_name, array $parser_aliases = [], $parser_type = 'normal' ) {
 		if ( $parser_type === 'sfh' ) {
 			$parser->setFunctionHook( $parser_name, [ $class, 'getResult' ], Parser::SFH_OBJECT_ARGS );
 		} else {

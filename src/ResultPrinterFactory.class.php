@@ -29,10 +29,10 @@ class ResultPrinterFactory extends WSArrays {
 	private static $result_printer_dir = '';
 
 	/**
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @return bool
 	 */
-	public static function loadResultPrinters( Parser &$parser ) {
+	public static function loadResultPrinters( Parser $parser ) {
 		require_once "ResultPrinter.class.php";
 
 		self::$result_printer_dir = __DIR__ . '/classes';
@@ -54,11 +54,11 @@ class ResultPrinterFactory extends WSArrays {
 	}
 
 	/**
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @param $extension
 	 * @return bool
 	 */
-	private static function loadResultPrinter( Parser &$parser, $extension ) {
+	private static function loadResultPrinter( Parser $parser, $extension ) {
 		$class_file = basename( $extension );
 		$class = pathinfo( $class_file, PATHINFO_FILENAME );
 		$class = explode( '.', $class )[0];
@@ -80,13 +80,13 @@ class ResultPrinterFactory extends WSArrays {
 	}
 
 	/**
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @param $class
 	 * @param $parser_name
 	 * @param array $parser_aliases
 	 * @param $parser_type
 	 */
-	private static function setHook( Parser &$parser, $class, $parser_name, array $parser_aliases = [], $parser_type = 'normal' ) {
+	private static function setHook( Parser $parser, $class, $parser_name, array $parser_aliases = [], $parser_type = 'normal' ) {
 		if ( $parser_type === 'sfh' ) {
 			$parser->setFunctionHook( $parser_name, [ $class, 'getResult' ], Parser::SFH_OBJECT_ARGS );
 		} else {

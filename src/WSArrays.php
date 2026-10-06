@@ -35,9 +35,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 if ( !@$GLOBALS['wfSkipVersionControl'] ) {
 	global $wgVersion;
-	if ( version_compare( $wgVersion, 1.27 ) < 0 ) {
+	if ( version_compare( $wgVersion, '1.27' ) < 0 ) {
 		if ( function_exists( 'wfMessage' ) ) {
-			$ca_unsupported_version = wfMessage( 'ca-unsopported-version', 'MediaWiki', $wgVersion, '1.27' );
+			$ca_unsupported_version = wfMessage( 'ca-unsopported-version', 'MediaWiki', $wgVersion, '1.27' )->text();
 		} else {
 			$ca_unsupported_version = "This version of MediaWiki is not supported by WSArrays (has version " . $wgVersion . ", requires at least version 1.27)";
 		}
@@ -45,9 +45,9 @@ if ( !@$GLOBALS['wfSkipVersionControl'] ) {
 		throw new Exception( $ca_unsupported_version );
 	}
 
-	if ( version_compare( PHP_VERSION, 5.3 ) < 0 ) {
+	if ( version_compare( PHP_VERSION, '5.3' ) < 0 ) {
 		if ( function_exists( 'wfMessage' ) ) {
-			$ca_unsupported_version = wfMessage( 'ca-unsopported-version', 'PHP', PHP_VERSION, '5.3' );
+			$ca_unsupported_version = wfMessage( 'ca-unsopported-version', 'PHP', PHP_VERSION, '5.3' )->text();
 		} else {
 			$ca_unsupported_version = "This version of PHP is not supported by WSArrays (has version " . PHP_VERSION . ", requires at least version 5.3)";
 		}
